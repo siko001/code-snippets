@@ -54,15 +54,33 @@ export default function Sidebar() {
             ]
         }
     };
-
-    const scrollToSection = (e, href) => {
-        e.preventDefault();
-        const sectionId = href.split('#')[1];
-        const element = document.getElementById(sectionId);
-        if (element) {
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-        setIsOpen(false);
+        const handleMenuClick = (e, href) => {
+            e.stopPropagation();
+            
+            const [path, hash] = href.split('#');
+            const currentPath = window.location.pathname.replace(/\/$/, '');
+            const targetPath = path.replace(/\/$/, '');
+            
+            // Close mobile menu
+            setIsOpen(false);
+            
+            if (currentPath.endsWith(targetPath) && hash) {
+                requestAnimationFrame(() => {
+                    const element = document.getElementById(hash);
+                    if (element) {
+                        // Get the exact position
+                        const headerOffset = 80;
+                        const elementPosition = element.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            } else {
+                window.location.href = href;
+            }
     };
 
     return (
@@ -100,19 +118,12 @@ export default function Sidebar() {
                                 <ul>
                                     {menuSections.server.items.map((item) => (
                                         <li key={item.href} className="mb-1">
-                                            <Link 
-                                                href={item.href}
-                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors"
-                                                onClick={(e) => {
-                                                    if (item.href.startsWith('#')) {
-                                                        scrollToSection(e, item.href);
-                                                    } else {
-                                                        setIsOpen(false);
-                                                    }
-                                                }}
+                                            <div 
+                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
+                                                onClick={(e) => handleMenuClick(e, item.href)}
                                             >
                                                 {item.name}
-                                            </Link>
+                                            </div>
                                         </li>
                                     ))}
                                 </ul>
@@ -123,23 +134,16 @@ export default function Sidebar() {
                             <h3 className="text-lg font-medium text-blue-500 mb-2">WordPress Snippets</h3>
                             <nav>
                                 <ul>
-                                    {menuSections.wordpress.items.map((item) => (
-                                        <li key={item.href} className="mb-1">
-                                            <Link 
-                                                href={item.href}
-                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors"
-                                                onClick={(e) => {
-                                                    if (item.href.startsWith('#')) {
-                                                        scrollToSection(e, item.href);
-                                                    } else {
-                                                        setIsOpen(false);
-                                                    }
-                                                }}
-                                            >
-                                                {item.name}
-                                            </Link>
-                                        </li>
-                                    ))}
+                                   {menuSections.wordpress.items.map((item) => (
+                                    <li key={item.href} className="mb-1">
+                                        <div 
+                                            className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
+                                            onClick={(e) => handleMenuClick(e, item.href)}
+                                        >
+                                            {item.name}
+                                        </div>
+                                    </li>
+                                ))} 
                                 </ul>
                             </nav>
                         </div>
