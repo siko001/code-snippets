@@ -123,7 +123,7 @@ export default function SearchReplace() {
 
     return (
         <div className="w-full bg-gray-800 p-4 rounded-lg mt-6">
-            <h3 id="wp-search-replace" className="text-blue-400 mb-4">Search & Replace</h3>
+            <h3 id="wp-search-replace"  className="text-xl font-semibold text-blue-400 mb-4">Search & Replace</h3>
 
             <CodeSnippet
                 code={snippet}

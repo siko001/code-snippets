@@ -37,7 +37,7 @@ export default function CreateUser() {
     return (
         <div className="w-full bg-gray-800 p-4 rounded-lg">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-create-user" className="text-blue-400">Create User</h3>
+                <h3 id="wp-create-user"  className="text-xl font-semibold text-blue-400 mb-4">Create User</h3>
                 <button
                     onClick={() => setShowMultipleUsers(!showMultipleUsers)}
                     className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"

@@ -49,7 +49,7 @@ export default function ZipOperations() {
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 id="zip-operations" className="text-xl font-semibold text-white mb-4">Zip/Unzip Operations</h3>
+            <h3 id="zip-operations" className="text-xl font-semibold text-blue-400 mb-4">Zip/Unzip Operations</h3>
             
             <div className="space-y-4">
                 <div className="flex space-x-2 mb-4">

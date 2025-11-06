@@ -63,7 +63,7 @@ export default function UpdateUser() {
 
     return (
         <div className="w-full bg-gray-800 p-4 rounded-lg mt-6">
-            <h3 id="wp-update-user" className="text-blue-400 mb-4">Update User</h3>
+            <h3 id="wp-update-user"  className="text-xl font-semibold text-blue-400 mb-4">Update User</h3>
 
             <CodeSnippet
                 code={snippet}

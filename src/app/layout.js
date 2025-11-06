@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
           <div className="min-h-screen">
             <Sidebar />
             <main className="p-4 sm:p-6 max-w-7xl mx-auto">
-              <div className="mt-16">
+              <div className="mt-4">
                 {children}
               </div>
             </main>

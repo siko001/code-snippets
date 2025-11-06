@@ -32,7 +32,7 @@ export default function ServerToMachineDownload() {
 
     return (
         <div className="w-full bg-gray-800 p-4 rounded-lg">
-            <h3 id="server-to-desktop" className="text-blue-400 mb-4">Server to Desktop</h3>
+            <h3 id="server-to-desktop" className="text-xl font-semibold text-blue-400 mb-4">Server to Desktop</h3>
             
             {/* Display the generated snippet */}
             <CodeSnippet 

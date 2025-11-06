@@ -49,7 +49,7 @@ export default function DeveloperTools() {
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
-            <h3 id="wp-dev-tools" className="text-xl font-semibold text-white mb-4">
+            <h3 id="wp-dev-tools"  className="text-xl font-semibold text-blue-400 mb-4">
                 Developer Tools
             </h3>
             

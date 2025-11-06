@@ -49,8 +49,8 @@ export default function CreateMultipleUsers() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 p-4 rounded-lg mt-4">
-            <h3 id="wp-create-multiple-users" className="text-blue-400 mb-4">Create Multiple Users</h3>
+        <div className="w-full bg-gray-800 rounded-lg mt-4">
+            <h3 id="wp-create-multiple-users"  className="text-xl font-semibold text-blue-400 mb-4">Create Multiple Users</h3>
 
             <CodeSnippet
                 code={snippet}

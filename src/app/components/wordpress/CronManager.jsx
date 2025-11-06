@@ -113,7 +113,7 @@ export default function CronManager() {
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-cron-manager" className="text-xl font-semibold text-white">
+                <h3 id="wp-cron-manager"  className="text-xl font-semibold text-blue-400 mb-4">
                     Cron Manager
                 </h3>
                 <div className="flex items-center space-x-2">

@@ -144,7 +144,7 @@ export default function PluginManager() {
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-plugin-manager" className="text-xl font-semibold text-white">Plugin Manager</h3>
+                <h3 id="wp-plugin-manager"  className="text-xl font-semibold text-blue-400 mb-4">Plugin Manager</h3>
                 <button
                     onClick={resetForm}
                     className="px-3 py-1 cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-md"
