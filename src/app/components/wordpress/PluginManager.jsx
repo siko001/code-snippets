@@ -1,0 +1,388 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import CodeSnippet from '../CodeSnippet';
+
+export default function PluginManager() {
+    const [formData, setFormData] = useState({
+        view: 'list', // 'list', 'single', 'bulk'
+        pluginAction: 'activate', // 'activate', 'deactivate', 'toggle', 'delete'
+        pluginName: '',
+        bulkAction: 'none', // 'all-active', 'all-inactive', 'all-update', 'all-delete'
+        networkWide: false,
+        skipPlugins: [],
+        skipPluginsInput: '',
+        force: false,
+    });
+
+    const resetForm = () => {
+        setFormData({
+            view: 'list',
+            pluginAction: 'activate',
+            pluginName: '',
+            bulkAction: 'none',
+            networkWide: false,
+            skipPlugins: [],
+            skipPluginsInput: '',
+            force: false,
+        });
+    };
+
+    const commonPlugins = [
+        'akismet',
+        'wordpress-seo',
+        'contact-form-7',
+        'woocommerce',
+        'elementor',
+        'jetpack',
+        'wpforms-lite',
+        'wordfence',
+        'wp-rocket',
+        'classic-editor',
+    ];
+
+    const generateCommand = () => {
+        let cmd = 'wp plugin';
+        
+        // Default list view
+        if (formData.view === 'list') {
+            return 'wp plugin list';
+        }
+        
+        // Single plugin action
+        if (formData.pluginName) {
+            if (formData.pluginAction === 'toggle') {
+                cmd += ' is-active ' + formData.pluginName + ' && wp plugin ';
+                cmd += '$(wp plugin is-active ' + formData.pluginName + ' && echo "deactivate" || echo "activate") ' + formData.pluginName;
+            } else {
+                cmd += ` ${formData.pluginAction} ${formData.pluginName}`;
+            }
+        } 
+        // Bulk actions
+        else if (formData.bulkAction !== 'none') {
+            switch(formData.bulkAction) {
+                case 'all-active':
+                    cmd += ' activate --all';
+                    break;
+                case 'all-inactive':
+                    cmd += ' deactivate --all';
+                    break;
+                case 'all-update':
+                    return 'wp plugin update --all';
+                case 'all-delete':
+                    return 'wp plugin delete --all';
+            }
+        }
+
+        // Add flags
+        if (formData.networkWide) cmd += ' --network';
+        if (formData.force) cmd += ' --force';
+        if (formData.skipPlugins.length > 0) {
+            cmd += ` --skip-plugins=${formData.skipPlugins.join(',')}`;
+        }
+
+        return cmd;
+    };
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: type === 'checkbox' ? checked : value
+        }));
+    };
+
+    const addSkipPlugin = (plugin) => {
+        if (plugin && !formData.skipPlugins.includes(plugin)) {
+            setFormData(prev => ({
+                ...prev,
+                skipPlugins: [...prev.skipPlugins, plugin],
+                skipPluginsInput: ''
+            }));
+        }
+    };
+
+    const removeSkipPlugin = (plugin) => {
+        setFormData(prev => ({
+            ...prev,
+            skipPlugins: prev.skipPlugins.filter(p => p !== plugin)
+        }));
+    };
+
+    const command = generateCommand();
+
+    return (
+        <div className="bg-gray-800 p-6 rounded-lg shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-white">Plugin Manager</h3>
+                <button
+                    onClick={resetForm}
+                    className="px-3 py-1 cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-md"
+                >
+                    Reset to List
+                </button>
+            </div>
+            
+            <div className="space-y-6">
+                {/* View Toggle */}
+                <div className="flex space-x-2 mb-6">
+                    <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, view: 'list' }))}
+                        className={`px-4 py-2  rounded-md ${
+                            formData.view === 'list' 
+                                ? 'bg-blue-600 text-white' 
+                                : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                        }`}
+                    >
+                        List Plugins
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, view: 'single' }))}
+                        className={`px-4 py-2 rounded-md ${
+                            formData.view === 'single' 
+                                ? 'bg-blue-600 text-white' 
+                                : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                        }`}
+                    >
+                        Single Plugin
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, view: 'bulk' }))}
+                        className={`px-4 py-2 rounded-md ${
+                            formData.view === 'bulk' 
+                                ? 'bg-blue-600 text-white' 
+                                : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                        }`}
+                    >
+                        Bulk Actions
+                    </button>
+                </div>
+                {/* Single Plugin Actions */}
+                <div className={`space-y-4 ${formData.view !== 'single' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium text-gray-300">Single Plugin</h4>
+                    
+                    <div className="flex flex-wrap gap-4">
+                        <div className="flex-1">
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Plugin Name
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    name="pluginName"
+                                    value={formData.pluginName}
+                                    onChange={handleChange}
+                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    placeholder="plugin-folder/plugin-file.php"
+                                />
+                                <select
+                                    name="pluginAction"
+                                    value={formData.pluginAction}
+                                    onChange={handleChange}
+                                    className="p-2 border border-gray-600 rounded-md cursor-pointer bg-gray-700 text-white"
+                                >
+                                    <option value="activate">Activate</option>
+                                    <option value="deactivate">Deactivate</option>
+                                    <option value="toggle">Toggle</option>
+                                    <option value="delete">Delete</option>
+                                </select>
+                            </div>
+                            <div className="mt-2 flex flex-wrap gap-1">
+                                {commonPlugins.map(plugin => (
+                                    <button
+                                        key={plugin}
+                                        type="button"
+                                        onClick={() => setFormData(prev => ({ ...prev, pluginName: plugin }))}
+                                        className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
+                                    >
+                                        {plugin}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Bulk Actions */}
+                <div className={`space-y-4 ${formData.view !== 'bulk' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium text-gray-300">Bulk Actions</h4>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({
+                                ...prev,
+                                pluginName: '',
+                                bulkAction: 'all-active'
+                            }))}
+                            className={`p-3 rounded-md text-left ${
+                                formData.bulkAction === 'all-active' 
+                                    ? 'bg-blue-600 text-white' 
+                                    : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                            }`}
+                        >
+                            <div className="font-medium">Activate All Plugins</div>
+                            <div className="text-xs opacity-75">wp plugin activate --all</div>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({
+                                ...prev,
+                                pluginName: '',
+                                bulkAction: 'all-inactive'
+                            }))}
+                            className={`p-3 rounded-md text-left ${
+                                formData.bulkAction === 'all-inactive' 
+                                    ? 'bg-yellow-600 text-white' 
+                                    : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                            }`}
+                        >
+                            <div className="font-medium">Deactivate All Plugins</div>
+                            <div className="text-xs opacity-75">wp plugin deactivate --all</div>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({
+                                ...prev,
+                                pluginName: '',
+                                bulkAction: 'all-update'
+                            }))}
+                            className={`p-3 rounded-md text-left ${
+                                formData.bulkAction === 'all-update' 
+                                    ? 'bg-green-600 text-white' 
+                                    : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                            }`}
+                        >
+                            <div className="font-medium">Update All Plugins</div>
+                            <div className="text-xs opacity-75">wp plugin update --all</div>
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={() => setFormData(prev => ({
+                                ...prev,
+                                pluginName: '',
+                                bulkAction: 'all-delete'
+                            }))}
+                            className={`p-3 rounded-md text-left ${
+                                formData.bulkAction === 'all-delete' 
+                                    ? 'bg-red-600 text-white' 
+                                    : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                            }`}
+                        >
+                            <div className="font-medium">Delete All Plugins</div>
+                            <div className="text-xs opacity-75">wp plugin delete --all</div>
+                            <div className="text-xs text-red-200 mt-1">⚠️ This will delete all plugin files</div>
+                        </button>
+                    </div>
+                </div>
+
+                {/* Advanced Options */}
+                <div className="space-y-4">
+                    <h4 className="text-lg font-medium text-gray-300">Advanced Options</h4>
+                    
+                    <div className="space-y-3">
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="networkWide"
+                                name="networkWide"
+                                checked={formData.networkWide}
+                                onChange={handleChange}
+                                className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
+                            />
+                            <label htmlFor="networkWide" className="ml-2 text-sm text-gray-300">
+                                Network-wide (Multisite only)
+                            </label>
+                        </div>
+
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                id="force"
+                                name="force"
+                                checked={formData.force}
+                                onChange={handleChange}
+                                className="h-4 w-4 text-red-600 rounded border-red-500 focus:ring-red-500"
+                            />
+                            <label htmlFor="force" className="ml-2 text-sm text-red-400">
+                                Force operation
+                            </label>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Skip Plugins (comma-separated)
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={formData.skipPluginsInput}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        skipPluginsInput: e.target.value
+                                    }))}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' || e.key === ',') {
+                                            e.preventDefault();
+                                            addSkipPlugin(formData.skipPluginsInput);
+                                        }
+                                    }}
+                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    placeholder="plugin-1,plugin-2"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => addSkipPlugin(formData.skipPluginsInput)}
+                                    className="px-3 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer rounded-md"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                {formData.skipPlugins.map(plugin => (
+                                    <span 
+                                        key={plugin} 
+                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-700 text-gray-200"
+                                    >
+                                        {plugin}
+                                        <button 
+                                            type="button" 
+                                            onClick={() => removeSkipPlugin(plugin)}
+                                            className="ml-1.5 inline-flex items-center justify-center w-4 h-4 text-gray-400 hover:text-white"
+                                        >
+                                            ×
+                                        </button>
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Generated Command */}
+                <div className="mt-6">
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="text-md font-medium text-gray-300">WP-CLI Command:</h4>
+                        <button
+                            type="button"
+                            onClick={() => {
+                                navigator.clipboard.writeText(command);
+                                // Optional: Add a toast or visual feedback here
+                            }}
+                            className="text-sm text-blue-400 hover:text-blue-300"
+                        >
+                            Copy to Clipboard
+                        </button>
+                    </div>
+                    <CodeSnippet code={command} language="bash" />
+                </div>
+            </div>
+        </div>
+    );
+}

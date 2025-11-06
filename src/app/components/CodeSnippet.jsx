@@ -23,7 +23,7 @@ export default function CodeSnippet({ code, className = '', copyButton = true })
             {copyButton && (
                 <button 
                     onClick={copyToClipboard}
-                    className="absolute top-[50%] translate-y-[-50%] right-2 px-3 py-1 text-sm rounded bg-blue-600 hover:bg-blue-700 text-white"
+                    className="absolute top-[50%] cursor-pointer translate-y-[-50%] right-2 px-3 py-1 text-sm rounded bg-blue-600 hover:bg-blue-700 text-white"
                     title="Copy to clipboard"
                 >
                     Copy
