@@ -39,6 +39,8 @@ export default function Sidebar() {
             items: [
                 { name: 'Server to Machine', href: '/server/#server-to-desktop' },
                 { name: 'Machine to Server', href: '/server/#machine-to-server' },
+                { name: 'File Operations', href: '/server/#file-operations' },
+                { name: 'Zip Operations', href: '/server/#zip-operations' },
             ]
         },
         wordpress: {

@@ -2,6 +2,8 @@
 
 import MachineToServer from './MachineToServer';
 import ServerToMachineDownload from './ServerToMachineDownload';
+import ZipOperations from './ZipOperations';
+import FileOperations from './FileOperations';
 
 export default function ServerSnippets() {
     return (
@@ -10,6 +12,8 @@ export default function ServerSnippets() {
             <div className="w-full max-w-4xl mx-auto space-y-6">
                 <ServerToMachineDownload />
                 <MachineToServer />
+                <ZipOperations />
+                <FileOperations />
             </div>
         </div>
     );
