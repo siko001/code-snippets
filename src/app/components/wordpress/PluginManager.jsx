@@ -194,59 +194,62 @@ export default function PluginManager() {
                 <div className={`space-y-4 ${formData.view !== 'single' ? 'hidden' : ''}`}>
                     <h4 className="text-lg font-medium text-gray-300">Single Plugin</h4>
                     
-                    <div className="flex flex-wrap gap-4">
-                        <div className="flex-1  overflow-scroll">
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                    <div className="flex flex-col ">
+                          <div>
+                              <label className="block text-sm font-medium text-gray-300 mb-1">
                                 Plugin Name
                             </label>
                             <div className="flex gap-2 overflow-hidden">
-                                <input
-                                    type="text"
-                                    name="pluginName"
-                                    value={formData.pluginName}
-                                    onChange={handleChange}
-                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-                                    placeholder="plugin-folder/plugin-file.php"
-                                />
-                                <select
-                                    name="pluginAction"
-                                    value={formData.pluginAction}
-                                    onChange={handleChange}
-                                    className="p-2 border border-gray-600 rounded-md cursor-pointer bg-gray-700 text-white"
-                                >
-                                    <option value="update">Update</option>
-                                    <option value="activate">Activate</option>
-                                    <option value="deactivate">Deactivate</option>
-                                    <option value="toggle">Toggle</option>
-                                    <option value="delete">Delete</option>
-                                </select>
+                                    <input
+                                        type="text"
+                                        name="pluginName"
+                                        value={formData.pluginName}
+                                        onChange={handleChange}
+                                        className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                        placeholder="plugin-folder/plugin-file.php"
+                                    />
+                                    <select
+                                        name="pluginAction"
+                                        value={formData.pluginAction}
+                                        onChange={handleChange}
+                                        className="p-2 border border-gray-600 rounded-md cursor-pointer bg-gray-700 text-white"
+                                    >
+                                        <option value="update">Update</option>
+                                        <option value="activate">Activate</option>
+                                        <option value="deactivate">Deactivate</option>
+                                        <option value="toggle">Toggle</option>
+                                        <option value="delete">Delete</option>
+                                    </select>
                             </div>
-                            <div className="mt-2 w-full ">
-                                <div className="relative w-full">
-                                    <div className="flex overflow-x-auto py-2 -mx-1">
-                                        <div className="flex gap-1 px-1">
-                                            {uniquePlugins.map(plugin => {
-                                            // Extract the main plugin name for display
-                                            const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
-                                            return (
-                                                <button
-                                                    key={plugin}
-                                                    type="button"
-                                                    onClick={() => setFormData(prev => ({
-                                                        ...prev,
-                                                        pluginName: plugin,
-                                                        view: 'single'
-                                                    }))}
-                                                    className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
-                                                    title={plugin}
-                                                >
-                                                    {displayName}
-                                                </button>
-                                            );
-                                        })}
+                          </div>
+                       <div className="flex-1  overflow-scroll">    
+                                <div className="mt-2 w-full ">
+                                    <div className="relative w-full">
+                                        <div className="flex overflow-x-auto py-2 -mx-1">
+                                            <div className="flex gap-1 px-1">
+                                                {uniquePlugins.map(plugin => {
+                                                // Extract the main plugin name for display
+                                                const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+                                                return (
+                                                    <button
+                                                        key={plugin}
+                                                        type="button"
+                                                        onClick={() => setFormData(prev => ({
+                                                            ...prev,
+                                                            pluginName: plugin,
+                                                            view: 'single'
+                                                        }))}
+                                                        className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
+                                                        title={plugin}
+                                                    >
+                                                        {displayName}
+                                                    </button>
+                                                );
+                                            })}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                             
                             </div>
                         </div>
                     </div>
