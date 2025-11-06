@@ -37,14 +37,14 @@ export default function Sidebar() {
         server: {
             title: 'Server Snippets',
             items: [
-                { name: 'Server to Machine', href: '/#server-to-desktop' },
-                { name: 'Machine to Server', href: '/#machine-to-server' },
+                { name: 'Server to Machine', href: '/server/#server-to-desktop' },
+                { name: 'Machine to Server', href: '/server/#machine-to-server' },
             ]
         },
         wordpress: {
             title: 'WordPress Snippets',
             items: [
-                { name: 'Create User', href: '/wordpress#wp-create-user' },
+                { name: 'Create User', href: '/wordpress/#wp-create-user' },
                 // Add more WordPress snippets here as needed
             ]
         }
