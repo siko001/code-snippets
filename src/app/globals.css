@@ -30,3 +30,40 @@ input[type='checkbox'],button,select {
     @apply cursor-pointer;
 }
 
+/* Plugin list container */
+.plugin-scroll-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.plugin-scroll-container > div {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.5rem 0;
+    width: max-content;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #4b5563 transparent;
+}
+
+.plugin-scroll-container > div::-webkit-scrollbar {
+    height: 4px;
+}
+
+.plugin-scroll-container > div::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.plugin-scroll-container > div::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+    border-radius: 2px;
+}
+
+/* Hide scrollbar when not scrolling */
+.plugin-scroll-container:not(:hover) > div::-webkit-scrollbar-thumb {
+    background-color: transparent;
+}
+

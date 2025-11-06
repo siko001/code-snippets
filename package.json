@@ -20,6 +20,7 @@
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "tailwindcss": "^4"
   }
 }

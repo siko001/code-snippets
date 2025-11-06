@@ -6,7 +6,7 @@ import CodeSnippet from '../CodeSnippet';
 export default function PluginManager() {
     const [formData, setFormData] = useState({
         view: 'list', // 'list', 'single', 'bulk'
-        pluginAction: 'activate', // 'activate', 'deactivate', 'toggle', 'delete'
+        pluginAction: 'update', // 'update', 'activate', 'deactivate', 'toggle', 'delete'
         pluginName: '',
         bulkAction: 'none', // 'all-active', 'all-inactive', 'all-update', 'all-delete'
         networkWide: false,
@@ -29,17 +29,47 @@ export default function PluginManager() {
     };
 
     const commonPlugins = [
-        'akismet',
-        'wordpress-seo',
-        'contact-form-7',
-        'woocommerce',
-        'elementor',
-        'jetpack',
-        'wpforms-lite',
-        'wordfence',
-        'wp-rocket',
-        'classic-editor',
+        'akismet/akismet',
+        'wordpress-seo/wp-seo',
+        'contact-form-7/wp-contact-form-7',
+        'woocommerce/woocommerce',
+        'elementor/elementor',
+        'jetpack/jetpack',
+        'wpforms-lite/wpforms',
+        'wordfence/wordfence',
+        'wp-rocket/wp-rocket',
+        'advanced-custom-fields-pro/acf',
+        'metabox-io/meta-box',
+        'gravityforms/gravityforms',
+        'js_composer/js_composer',
+        'js_composer_theme/js_composer',
+        'wp-bakery-page-builder/js_composer',
+        'better-wp-security/better-wp-security',
+        'ithemes-security-pro/ithemes-security-pro',
+        'classic-editor/classic-editor',
+        'wp-mail-smtp/wp_mail_smtp',
+        'litespeed-cache/litespeed-cache',
+        'autoptimize/autoptimize',
+        'redirection/redirection',
+        'duplicate-post/duplicate-post',
+        'wp-super-cache/wp-cache',
+        'wp-super-minify/wp-super-minify',
+        'wp-optimize/wp-optimize',
+        'wpforms-lite/wpforms',
+        'wpforms-pro/wpforms',
+        'all-in-one-seo-pack/all_in_one_seo_pack',
+        'seo-by-rank-math/rank-math',
+        'wp-fastest-cache/wpFastestCache',
+        'wp-file-manager/file_folder_manager',
+        'wp-super-cache/wp-cache',
+        'wp-super-minify/wp-super-minify',
+        'wp-optimize/wp-optimize',
+        'wpforms-lite/wpforms',
+        'wpforms-pro/wpforms',
     ];
+
+    // Remove duplicates while preserving order
+    const uniquePlugins = [...new Set(commonPlugins)];
 
     const generateCommand = () => {
         let cmd = 'wp plugin';
@@ -165,11 +195,11 @@ export default function PluginManager() {
                     <h4 className="text-lg font-medium text-gray-300">Single Plugin</h4>
                     
                     <div className="flex flex-wrap gap-4">
-                        <div className="flex-1">
+                        <div className="flex-1  overflow-scroll">
                             <label className="block text-sm font-medium text-gray-300 mb-1">
                                 Plugin Name
                             </label>
-                            <div className="flex gap-2">
+                            <div className="flex gap-2 overflow-hidden">
                                 <input
                                     type="text"
                                     name="pluginName"
@@ -184,23 +214,39 @@ export default function PluginManager() {
                                     onChange={handleChange}
                                     className="p-2 border border-gray-600 rounded-md cursor-pointer bg-gray-700 text-white"
                                 >
+                                    <option value="update">Update</option>
                                     <option value="activate">Activate</option>
                                     <option value="deactivate">Deactivate</option>
                                     <option value="toggle">Toggle</option>
                                     <option value="delete">Delete</option>
                                 </select>
                             </div>
-                            <div className="mt-2 flex flex-wrap gap-1">
-                                {commonPlugins.map(plugin => (
-                                    <button
-                                        key={plugin}
-                                        type="button"
-                                        onClick={() => setFormData(prev => ({ ...prev, pluginName: plugin }))}
-                                        className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
-                                    >
-                                        {plugin}
-                                    </button>
-                                ))}
+                            <div className="mt-2 w-full ">
+                                <div className="relative w-full">
+                                    <div className="flex overflow-x-auto py-2 -mx-1">
+                                        <div className="flex gap-1 px-1">
+                                            {uniquePlugins.map(plugin => {
+                                            // Extract the main plugin name for display
+                                            const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+                                            return (
+                                                <button
+                                                    key={plugin}
+                                                    type="button"
+                                                    onClick={() => setFormData(prev => ({
+                                                        ...prev,
+                                                        pluginName: plugin,
+                                                        view: 'single'
+                                                    }))}
+                                                    className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
+                                                    title={plugin}
+                                                >
+                                                    {displayName}
+                                                </button>
+                                            );
+                                        })}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
