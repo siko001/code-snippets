@@ -14,6 +14,8 @@ export default function Sidebar() {
         // Set active section based on current path
         if (pathname.includes('wordpress')) {
             setActiveSection('wordpress');
+        } else if (pathname.includes('git')) {
+            setActiveSection('git');
         } else {
             setActiveSection('server');
         }
@@ -41,6 +43,18 @@ export default function Sidebar() {
                 { name: 'Machine to Server', href: '/server/#machine-to-server' },
                 { name: 'File Operations', href: '/server/#file-operations' },
                 { name: 'Zip Operations', href: '/server/#zip-operations' },
+            ]
+        },
+        git: {
+            title: 'Git Commands',
+            items: [
+                { name: 'Repository', href: '/git/#git-repo' },
+                { name: 'Branching', href: '/git/#git-branch' },
+                { name: 'Commits', href: '/git/#git-commit' },
+                { name: 'Push, Pull & Fetch', href: '/git/#git-remote' },
+                { name: 'Stashing', href: '/git/#git-stash' },
+                { name: 'Undo Changes', href: '/git/#git-undo' },
+                { name: 'View History', href: '/git/#git-history' },
             ]
         },
         wordpress: {
@@ -113,7 +127,7 @@ export default function Sidebar() {
                 </button>
                 
                 {isOpen && (
-                    <div className="absolute right-0 top-12 w-72 bg-gray-800 rounded-md shadow-lg overflow-hidden">
+                    <div className="absolute right-0 top-12 max-h-[calc(100vh-10rem)] w-72 bg-gray-800 rounded-md shadow-lg overflow-scroll">
                         <div className="p-4">
                             <h3 className="text-lg font-medium text-blue-500 mb-2">Server Snippets</h3>
                             <nav className="mb-4">
@@ -132,6 +146,25 @@ export default function Sidebar() {
                             </nav>
                             
                             <div className="border-t border-gray-700 my-3"></div>
+                            
+                               <h3 className="text-lg font-medium text-blue-500 mb-2">Git Snippets</h3>
+                            <nav className="mb-4">
+                                <ul>
+                                    {menuSections.git.items.map((item) => (
+                                        <li key={item.href} className="mb-1">
+                                            <div 
+                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
+                                                onClick={(e) => handleMenuClick(e, item.href)}
+                                            >
+                                                {item.name}
+                                            </div>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </nav>
+                            
+                            <div className="border-t border-gray-700 my-3"></div>
+                            
                             
                             <h3 className="text-lg font-medium text-blue-500 mb-2">WordPress Snippets</h3>
                             <nav>
