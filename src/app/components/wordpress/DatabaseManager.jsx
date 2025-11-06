@@ -142,7 +142,7 @@ export default function DatabaseManager() {
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
-            <h3 className="text-xl font-semibold mb-4 text-white">Database Manager</h3>
+            <h3 id="wp-database-manager" className="text-xl font-semibold mb-4 text-white">Database Manager</h3>
             
             {/* Tabs */}
             <div className="flex border-b border-gray-700 mb-6">
