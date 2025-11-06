@@ -1,6 +1,7 @@
 'use client';
 import CreateUser from './CreateUser';
 import UpdateUser from './UpdateUser';
+import SearchReplace from './SearchReplace';
 export default function WordPressSnippets() {
     return (
         <div className="w-full">
@@ -8,6 +9,7 @@ export default function WordPressSnippets() {
             <div className="w-full max-w-4xl mx-auto">
                 <CreateUser />
                 <UpdateUser />
+                <SearchReplace />
             </div>
         </div>
     );

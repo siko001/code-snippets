@@ -46,6 +46,7 @@ export default function Sidebar() {
             items: [
                 { name: 'Create User', href: '/wordpress/#wp-create-user' },
                 { name: 'Update User', href: '/wordpress/#wp-update-user' },
+                { name: 'Search & Replace', href: '/wordpress/#wp-search-replace' },
                 // Add more WordPress snippets here as needed
             ]
         }
