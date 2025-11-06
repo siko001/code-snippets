@@ -50,6 +50,7 @@ export default function Sidebar() {
                 { name: 'Database Manager', href: '/wordpress/#wp-database-manager' },
                 { name: 'Plugin Manager', href: '/wordpress/#wp-plugin-manager' },
                 { name: 'Cron Manager', href: '/wordpress/#wp-cron-manager' },
+                { name: 'Developer Tools', href: '/wordpress/#wp-dev-tools' },
             ]
         }
     };
