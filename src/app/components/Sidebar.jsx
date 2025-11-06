@@ -7,8 +7,20 @@ import { usePathname } from 'next/navigation';
 export default function Sidebar() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeSection, setActiveSection] = useState('server');
+    const [expandedSections, setExpandedSections] = useState({
+        server: true,
+        git: false,
+        wordpress: false
+    });
     const menuRef = useRef(null);
     const pathname = usePathname();
+    
+    const toggleSection = (section) => {
+        setExpandedSections(prev => ({
+            ...prev,
+            [section]: !prev[section]
+        }));
+    };
 
     useEffect(() => {
         // Set active section based on current path
@@ -105,7 +117,16 @@ export default function Sidebar() {
                 <button 
                     className="p-2 bg-gray-800 rounded-md text-white hover:bg-gray-700 transition-colors z-50 cursor-pointer"
                     aria-label="Menu"
-                    onClick={() => setIsOpen(!isOpen)}
+                    onClick={() => {
+                        setIsOpen(!isOpen);
+                        // Auto-expand current section when opening menu
+                        if (!isOpen) {
+                            setExpandedSections(prev => ({
+                                ...prev,
+                                [activeSection]: true
+                            }));
+                        }
+                    }}
                     type="button"
                     style={{ position: 'fixed', top: '1rem', right: '1rem' }}
                 >
@@ -127,60 +148,45 @@ export default function Sidebar() {
                 </button>
                 
                 {isOpen && (
-                    <div className="absolute right-0 top-12 max-h-[calc(100vh-10rem)] w-72 bg-gray-800 rounded-md shadow-lg overflow-scroll">
-                        <div className="p-4">
-                            <h3 className="text-lg font-medium text-blue-500 mb-2">Server Snippets</h3>
-                            <nav className="mb-4">
-                                <ul>
-                                    {menuSections.server.items.map((item) => (
-                                        <li key={item.href} className="mb-1">
-                                            <div 
-                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
-                                                onClick={(e) => handleMenuClick(e, item.href)}
-                                            >
-                                                {item.name}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-                            
-                            <div className="border-t border-gray-700 my-3"></div>
-                            
-                               <h3 className="text-lg font-medium text-blue-500 mb-2">Git Snippets</h3>
-                            <nav className="mb-4">
-                                <ul>
-                                    {menuSections.git.items.map((item) => (
-                                        <li key={item.href} className="mb-1">
-                                            <div 
-                                                className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
-                                                onClick={(e) => handleMenuClick(e, item.href)}
-                                            >
-                                                {item.name}
-                                            </div>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </nav>
-                            
-                            <div className="border-t border-gray-700 my-3"></div>
-                            
-                            
-                            <h3 className="text-lg font-medium text-blue-500 mb-2">WordPress Snippets</h3>
-                            <nav>
-                                <ul>
-                                   {menuSections.wordpress.items.map((item) => (
-                                    <li key={item.href} className="mb-1">
-                                        <div 
-                                            className="block px-4 py-2 text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
-                                            onClick={(e) => handleMenuClick(e, item.href)}
+                    <div className="absolute right-0 top-12 max-h-[calc(100vh-10rem)] w-72 bg-gray-800 rounded-md shadow-lg overflow-y-auto">
+                        <div className="p-2">
+                            {Object.entries(menuSections).map(([key, section]) => (
+                                <div key={key} className="mb-2">
+                                    <button
+                                        className={`w-full flex justify-between items-center px-4 py-3 text-left text-blue-600 hover:bg-gray-700 rounded-md transition-colors ${activeSection === key ? 'bg-gray-700' : ''}`}
+                                        onClick={() => toggleSection(key)}
+                                    >
+                                        <span className="font-medium">{section.title}</span>
+                                        <svg
+                                            className={`w-5 h-5 transition-transform duration-200 ${expandedSections[key] ? 'transform rotate-180' : ''}`}
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
                                         >
-                                            {item.name}
-                                        </div>
-                                    </li>
-                                ))} 
-                                </ul>
-                            </nav>
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                                        </svg>
+                                    </button>
+                                    
+                                    <div 
+                                        className={`overflow-hidden transition-all duration-200 ease-in-out ${expandedSections[key] ? 'max-h-96' : 'max-h-0'}`}
+                                    >
+                                        <nav className="py-2 pl-4">
+                                            <ul>
+                                                {section.items.map((item) => (
+                                                    <li key={item.href} className="mb-1">
+                                                        <div 
+                                                            className="block px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
+                                                            onClick={(e) => handleMenuClick(e, item.href)}
+                                                        >
+                                                            {item.name}
+                                                        </div>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 )}
