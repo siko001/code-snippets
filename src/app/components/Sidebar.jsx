@@ -49,6 +49,7 @@ export default function Sidebar() {
                 { name: 'Search & Replace', href: '/wordpress/#wp-search-replace' },
                 { name: 'Database Manager', href: '/wordpress/#wp-database-manager' },
                 { name: 'Plugin Manager', href: '/wordpress/#wp-plugin-manager' },
+                { name: 'Cron Manager', href: '/wordpress/#wp-cron-manager' },
             ]
         }
     };

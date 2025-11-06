@@ -4,6 +4,7 @@ import UpdateUser from './UpdateUser';
 import SearchReplace from './SearchReplace';
 import DatabaseManager from './DatabaseManager';
 import PluginManager from './PluginManager';
+import CronManager from './CronManager';
 
 export default function WordPressSnippets() {
     return (
@@ -25,6 +26,11 @@ export default function WordPressSnippets() {
                 <div className="space-y-8">
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2">Plugin Management</h3>
                     <PluginManager />
+                </div>
+
+                <div className="space-y-8">
+                    <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2">Cron Management</h3>
+                    <CronManager />
                 </div>
             </div>
         </div>
