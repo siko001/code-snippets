@@ -1,6 +1,28 @@
 'use client';
+import { useEffect } from 'react';
 
 const RepositoryOperations = ({ handleInputChange, inputValues, setInputValues }) => {
+    useEffect(() => {
+        if (typeof inputValues.setCommand === 'function') {
+            const { operation, repository, directory } = inputValues;
+            let command = '';
+            let hasValidCommand = false;
+            
+            if (operation === 'clone') {
+                command = `git clone ${repository || '[repository-url]'}${directory ? ` ${directory}` : ''}`;
+                hasValidCommand = !!repository?.trim();
+            } else if (operation === 'init') {
+                command = `git init${directory ? ` ${directory}` : ''}`;
+                hasValidCommand = true;
+            }
+            
+            // Always show the command, but pass whether it's copyable
+            inputValues.setCommand({
+                command,
+                isCopyable: hasValidCommand
+            });
+        }
+    }, [inputValues, inputValues.operation, inputValues.repository, inputValues.directory]);
     const handleOperationChange = (operation) => {
         setInputValues(prev => ({
             ...prev,
