@@ -147,9 +147,14 @@ export default function Sidebar() {
                     </svg>
                 </button>
                 
-                {isOpen && (
-                    <div className="absolute right-0 top-12 max-h-[calc(100vh-10rem)] w-72 bg-gray-800 rounded-md shadow-lg overflow-y-auto">
-                        <div className="p-2">
+                <div 
+                    className={`absolute right-0 top-12 w-72 bg-gray-800 rounded-md shadow-lg overflow-hidden transition-all duration-700 ease-in-out ${isOpen ? 'max-h-[calc(100vh-10rem)]' : 'max-h-0'}`}
+                    style={{
+                        transitionProperty: 'max-height',
+                        willChange: 'max-height',
+                    }}
+                >
+                    <div className="overflow-y-auto max-h-[calc(100vh-15rem)] p-2">
                             {Object.entries(menuSections).map(([key, section]) => (
                                 <div key={key} className="mb-2">
                                     <button
@@ -187,9 +192,8 @@ export default function Sidebar() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
                     </div>
-                )}
+                </div>
             </div>
         </div>
     );
