@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import CodeSnippet from '../CodeSnippet';
+import CreateMultipleUsers from './CreateMultipleUsers';
 
 export default function CreateUser() {
+    const [showMultipleUsers, setShowMultipleUsers] = useState(false);
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -34,7 +36,15 @@ export default function CreateUser() {
 
     return (
         <div className="w-full bg-gray-800 p-4 rounded-lg">
-            <h3 id="wp-create-user" className="text-blue-400 mb-4">Create User</h3>
+            <div className="flex justify-between items-center mb-4">
+                <h3 id="wp-create-user" className="text-blue-400">Create User</h3>
+                <button
+                    onClick={() => setShowMultipleUsers(!showMultipleUsers)}
+                    className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"
+                >
+                    {showMultipleUsers ? 'Single User' : 'Multiple Users?'}
+                </button>
+            </div>
             
             <CodeSnippet 
                 code={snippet} 
@@ -135,6 +145,8 @@ export default function CreateUser() {
                     </div>
                 </div>
             </div>
+            
+            {showMultipleUsers && <CreateMultipleUsers />}
         </div>
     );
 }

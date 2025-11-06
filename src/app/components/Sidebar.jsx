@@ -45,6 +45,7 @@ export default function Sidebar() {
             title: 'WordPress Snippets',
             items: [
                 { name: 'Create User', href: '/wordpress/#wp-create-user' },
+                { name: 'Update User', href: '/wordpress/#wp-update-user' },
                 // Add more WordPress snippets here as needed
             ]
         }
