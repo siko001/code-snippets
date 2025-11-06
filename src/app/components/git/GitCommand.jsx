@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import CodeSnippet from '../CodeSnippet';
 
 export default function GitCommand({
@@ -10,9 +10,7 @@ export default function GitCommand({
     initialValues = {},
     onValuesChange
 }) {
-    const [displayCommand, setDisplayCommand] = useState(initialCommand);
-    const [canCopy, setCanCopy] = useState(false);
-    const commandRef = useRef(initialCommand);
+    const [command, setCommand] = useState(initialCommand);
     const [inputValues, setInputValues] = useState(initialValues);
 
     // Notify parent of value changes
@@ -22,18 +20,26 @@ export default function GitCommand({
         }
     }, [inputValues, onValuesChange]);
 
-    // Handle command updates from children
-    const handleCommandUpdate = useCallback((cmd) => {
-        if (typeof cmd === 'object' && cmd !== null) {
-            commandRef.current = cmd.command || '';
-            setDisplayCommand(cmd.command || '');
-            setCanCopy(!!cmd.isCopyable);
+    // Update command when input values or initialCommand changes
+    useEffect(() => {
+        let updatedCommand = '';
+        
+        if (typeof initialCommand === 'function') {
+            // If initialCommand is a function, call it with the current input values
+            updatedCommand = initialCommand(inputValues);
         } else {
-            commandRef.current = cmd || '';
-            setDisplayCommand(cmd || '');
-            setCanCopy(!!cmd);
+            // Otherwise treat it as a template string
+            updatedCommand = initialCommand;
+            Object.entries(inputValues).forEach(([key, value]) => {
+                updatedCommand = updatedCommand.replace(
+                    new RegExp(`\\{${key}\\}`,"g"), 
+                    value || `[${key}]`
+                );
+            });
         }
-    }, []);
+
+        setCommand(updatedCommand);
+    }, [inputValues, initialCommand]);
 
     const handleInputChange = useCallback((key, value) => {
         setInputValues(prev => {
@@ -73,11 +79,11 @@ export default function GitCommand({
     }, [initialCommand, inputValues]);
 
     // Always show the command section if there's a command
-    const commandSection = displayCommand ? (
+    const commandSection = command ? (
         <CodeSnippet
-            code={displayCommand}
+            code={command}
             className="mb-4"
-            copyButton={canCopy}
+            copyButton={true}  // Always show copy button when there's a command
         />
     ) : null;
 
@@ -90,7 +96,7 @@ export default function GitCommand({
                     handleInputChange,
                     inputValues: {
                         ...inputValues,
-                        setCommand: handleCommandUpdate
+                        setCommand: (cmd) => setCommand(cmd || '')
                     },
                     setInputValues: handleSetInputValues
                 })}

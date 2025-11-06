@@ -295,7 +295,7 @@ export default function GitSnippets() {
                             return cmd.trim();
                         }}
                         initialValues={{
-                            stashOperation: 'push',
+                            stashOperation: 'none',
                             message: '',
                             stashRef: '',
                             includeIndex: false
