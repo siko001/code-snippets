@@ -48,8 +48,11 @@ const ComposerCommands = () => {
 
     return (
         <div className="space-y-6">
+            <h3 className="text-xl font-semibold text-blue-400 mb-4">
+                Managment
+            </h3>
             {/* Command Selector */}
-            <div className="flex flex-wrap gap-2 p-1 bg-gray-800 rounded-lg">
+            <div className="flex flex-wrap gap-2  bg-gray-800 rounded-lg">
                 {Object.entries(COMMAND_TYPES).map(([key, value]) => (
                     <button
                         key={key}

@@ -28,6 +28,9 @@ const ComposerInstall = () => {
 
     return (
         <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-blue-400 mb-4">
+                Installation
+            </h3>
             {commands.map((cmd, index) => (
                 <div key={index} className="mb-4">
                     <CodeSnippet 

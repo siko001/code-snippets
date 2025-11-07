@@ -71,6 +71,16 @@ export default function Sidebar() {
                 { name: 'View History', href: '/git/#git-history' },
             ]
         },
+        
+        composer: {
+            title: 'Composer Snippets',
+            items: [
+                { name: 'Management', href: '/composer/#composer-management' },
+                { name: 'Timeout', href: '/composer/#composer-timeout' },
+                { name: 'Install', href: '/composer/#composer-install' },
+            ]
+        },
+        
         wordpress: {
             title: 'WordPress Snippets',
             items: [
