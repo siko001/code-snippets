@@ -55,6 +55,8 @@ export default function Sidebar() {
                 { name: 'Machine to Server', href: '/server/#machine-to-server' },
                 { name: 'File Operations', href: '/server/#file-operations' },
                 { name: 'Zip Operations', href: '/server/#zip-operations' },
+                { name: 'SSH Key Management', href: '/server/#ssh-key-management' },
+                { name: 'SSH Agent Management', href: '/server/#ssh-agent-management' },
             ]
         },
         git: {

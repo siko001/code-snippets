@@ -21,7 +21,7 @@ const SSHAgentManagement = () => {
     return (
         <div className="space-y-4">
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-white">SSH Agent Management</h3>
+                <h3 id='ssh-agent-management' className="text-lg font-semibold text-blue-400">Agent Management</h3>
                 
                 <div className="space-y-4">
                     <div className="flex items-center">
