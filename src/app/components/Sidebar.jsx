@@ -90,6 +90,15 @@ export default function Sidebar() {
             ]
         },
         
+        shell: {
+            title: 'Shell Commands',
+            items: [
+                { name: 'Network', href: '/shell/#shell-network' },
+                { name: 'Shell Config', href: '/shell/#shell-config' },
+            ]
+        },
+        
+        
         wordpress: {
             title: 'WordPress Snippets',
             items: [
