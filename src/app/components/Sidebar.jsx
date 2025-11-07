@@ -98,6 +98,13 @@ export default function Sidebar() {
             ]
         },
         
+        lando: {
+            title: 'Lando',
+            items: [
+                { name: 'Basic Commands', href: '/lando/#lando-basic' },
+                { name: 'Configuration', href: '/lando/#lando-config' },
+            ]
+        },
         
         wordpress: {
             title: 'WordPress Snippets',
