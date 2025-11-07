@@ -17,10 +17,10 @@ export default function SqlPage() {
                         <ConnectionCommands />
                     </div>
 
-                    <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
+                    <h3 id="sql-databases"  className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Database Management
                     </h3>
-                    <div id="sql-databases" className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
                         <DatabaseCommands />
                     </div>
 

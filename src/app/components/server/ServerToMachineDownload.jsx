@@ -51,7 +51,7 @@ export default function ServerToMachineDownload() {
                         type="text" 
                         value={formData.port}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="22"
                     />
                 </div>
@@ -64,7 +64,7 @@ export default function ServerToMachineDownload() {
                         type="text" 
                         value={formData.username}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="username"
                     />
                 </div>
@@ -77,7 +77,7 @@ export default function ServerToMachineDownload() {
                         id='ip' 
                         value={formData.ip}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="123.456.789.0"
                     />
                 </div>
@@ -90,7 +90,7 @@ export default function ServerToMachineDownload() {
                         type="text" 
                         value={formData.serverLocation}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/file/"
                     />
                     <div className="text-xs mt-1 text-gray-400">Without prefixed ~/</div>
@@ -104,7 +104,7 @@ export default function ServerToMachineDownload() {
                         type="text" 
                         value={formData.fileName}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="filename.ext"
                     />
                     <div className="text-xs mt-1 text-gray-400">Include extension</div>
@@ -118,7 +118,7 @@ export default function ServerToMachineDownload() {
                         type="text" 
                         value={formData.machineLocation}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/save/"
                     />
                     <div className="text-xs mt-1 text-gray-400">Without prefixed ~/</div>

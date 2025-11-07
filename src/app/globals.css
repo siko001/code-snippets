@@ -27,7 +27,15 @@ body {
 
 
 input[type='checkbox'],button,select {
-    @apply cursor-pointer;
+    @apply cursor-pointer transition-colors duration-200 ease-in-out;
+}
+
+input[type='text'],input[type='number'],select{
+  @apply focus:ring-blue-500 focus:border-blue-500 focus:outline-none hover:border-blue-300 border  border-transparent duration-200 transition-colors ease-in-out;
+}
+
+button {
+  @apply focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
 }
 
 /* Plugin list container */

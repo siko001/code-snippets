@@ -54,7 +54,7 @@ export default function MachineToServer() {
                         type="text" 
                         value={formData.port}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="22"
                     />
                 </div>
@@ -67,7 +67,7 @@ export default function MachineToServer() {
                         type="text" 
                         value={formData.username}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="username"
                     />
                 </div>
@@ -80,7 +80,7 @@ export default function MachineToServer() {
                         id='ip' 
                         value={formData.ip}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="123.456.789.0"
                     />
                 </div>
@@ -93,7 +93,7 @@ export default function MachineToServer() {
                         type="text" 
                         value={formData.localPath}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/local/folder/"
                     />
                     <div className="text-xs mt-1 text-gray-400">Local directory path (e.g., Downloads/)</div>
@@ -107,7 +107,7 @@ export default function MachineToServer() {
                         type="text" 
                         value={formData.fileName}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="file.ext or folder/"
                     />
                     <div className="text-xs mt-1 text-gray-400">File name or folder to upload</div>
@@ -121,7 +121,7 @@ export default function MachineToServer() {
                         type="text" 
                         value={formData.serverPath}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white" 
+                        className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="~/path/on/server/"
                     />
                     <div className="text-xs mt-1 text-gray-400">Destination path on server</div>
