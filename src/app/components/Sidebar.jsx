@@ -81,6 +81,15 @@ export default function Sidebar() {
             ]
         },
         
+        sql: {
+            title: 'SQL Snippets',
+            items: [
+                { name: 'Connection', href: '/sql/#sql-connection' },
+                { name: 'Databases', href: '/sql/#sql-databases' },
+                { name: 'Tables', href: '/sql/#sql-tables' },
+            ]
+        },
+        
         wordpress: {
             title: 'WordPress Snippets',
             items: [
