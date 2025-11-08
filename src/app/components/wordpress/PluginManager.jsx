@@ -159,7 +159,7 @@ export default function PluginManager() {
                     <button
                         type="button"
                         onClick={() => setFormData(prev => ({ ...prev, view: 'list' }))}
-                        className={`px-4 py-2  rounded-md ${
+                        className={`px-4 py-2 rounded-md ${
                             formData.view === 'list' 
                                 ? 'bg-blue-600 text-white' 
                                 : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
@@ -228,24 +228,24 @@ export default function PluginManager() {
                                         <div className="flex overflow-x-auto py-2 -mx-1">
                                             <div className="flex gap-1 px-1">
                                                 {uniquePlugins.map(plugin => {
-                                                // Extract the main plugin name for display
-                                                const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
-                                                return (
-                                                    <button
-                                                        key={plugin}
-                                                        type="button"
-                                                        onClick={() => setFormData(prev => ({
-                                                            ...prev,
-                                                            pluginName: plugin,
-                                                            view: 'single'
-                                                        }))}
-                                                        className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
-                                                        title={plugin}
-                                                    >
-                                                        {displayName}
-                                                    </button>
-                                                );
-                                            })}
+                                                    // Extract the main plugin name for display
+                                                    const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
+                                                    return (
+                                                        <button
+                                                            key={plugin}
+                                                            type="button"
+                                                            onClick={() => setFormData(prev => ({
+                                                                ...prev,
+                                                                pluginName: plugin,
+                                                                view: 'single'
+                                                            }))}
+                                                            className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
+                                                            title={plugin}
+                                                        >
+                                                            {displayName}
+                                                        </button>
+                                                    );
+                                                })}
                                             </div>
                                         </div>
                                     </div>
@@ -331,105 +331,94 @@ export default function PluginManager() {
                     </div>
                 </div>
 
-                {/* Advanced Options */}
-                <div className="space-y-4">
-                    <h4 className="text-lg font-medium text-gray-300">Advanced Options</h4>
-                    
-                    <div className="space-y-3">
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="networkWide"
-                                name="networkWide"
-                                checked={formData.networkWide}
-                                onChange={handleChange}
-                                className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
-                            />
-                            <label htmlFor="networkWide" className="ml-2 text-sm text-gray-300">
-                                Network-wide (Multisite only)
-                            </label>
-                        </div>
-
-                        <div className="flex items-center">
-                            <input
-                                type="checkbox"
-                                id="force"
-                                name="force"
-                                checked={formData.force}
-                                onChange={handleChange}
-                                className="h-4 w-4 text-red-600 rounded border-red-500 focus:ring-red-500"
-                            />
-                            <label htmlFor="force" className="ml-2 text-sm text-red-400">
-                                Force operation
-                            </label>
+                {/* Options - Only show when in bulk actions view */}
+                {formData.view === 'bulk' && (
+                    <div className="space-y-4 mt-6">
+                        <div className="flex flex-col md:flex-row md:items-center gap-4">
+                            <div className="flex-1">
+                                <label className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="networkWide"
+                                        checked={formData.networkWide}
+                                        onChange={handleChange}
+                                        className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm text-gray-300">Network Wide (Multisite)</span>
+                                </label>
+                            </div>
+                            <div className="flex-1">
+                                <label className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        name="force"
+                                        checked={formData.force}
+                                        onChange={handleChange}
+                                        className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
+                                    />
+                                    <span className="text-sm text-gray-300">Force</span>
+                                </label>
+                            </div>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Skip Plugins (comma-separated)
+                                Skip Plugins (comma separated)
                             </label>
                             <div className="flex gap-2">
                                 <input
                                     type="text"
+                                    name="skipPluginsInput"
                                     value={formData.skipPluginsInput}
-                                    onChange={(e) => setFormData(prev => ({
-                                        ...prev,
-                                        skipPluginsInput: e.target.value
-                                    }))}
+                                    onChange={handleChange}
                                     onKeyDown={(e) => {
-                                        if (e.key === 'Enter' || e.key === ',') {
+                                        if (e.key === 'Enter' && formData.skipPluginsInput) {
                                             e.preventDefault();
                                             addSkipPlugin(formData.skipPluginsInput);
                                         }
                                     }}
                                     className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-                                    placeholder="plugin-1,plugin-2"
+                                    placeholder="plugin-folder/plugin-file.php"
                                 />
                                 <button
                                     type="button"
-                                    onClick={() => addSkipPlugin(formData.skipPluginsInput)}
-                                    className="px-3 bg-blue-600 hover:bg-blue-700 text-white cursor-pointer rounded-md"
+                                    onClick={() => formData.skipPluginsInput && addSkipPlugin(formData.skipPluginsInput)}
+                                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
                                 >
                                     Add
                                 </button>
                             </div>
-                            <div className="mt-2 flex flex-wrap gap-2">
-                                {formData.skipPlugins.map(plugin => (
-                                    <span 
-                                        key={plugin} 
-                                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-700 text-gray-200"
-                                    >
-                                        {plugin}
-                                        <button 
-                                            type="button" 
-                                            onClick={() => removeSkipPlugin(plugin)}
-                                            className="ml-1.5 inline-flex items-center justify-center w-4 h-4 text-gray-400 hover:text-white"
+                            {formData.skipPlugins.length > 0 && (
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {formData.skipPlugins.map(plugin => (
+                                        <span 
+                                            key={plugin} 
+                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900 text-blue-100"
                                         >
-                                            ×
-                                        </button>
-                                    </span>
-                                ))}
-                            </div>
+                                            {plugin}
+                                            <button
+                                                type="button"
+                                                onClick={() => removeSkipPlugin(plugin)}
+                                                className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full text-blue-400 hover:bg-blue-800 hover:text-blue-200"
+                                            >
+                                                ×
+                                            </button>
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
                         </div>
                     </div>
-                </div>
+                )}
 
                 {/* Generated Command */}
                 <div className="mt-6">
-                    <div className="flex justify-between items-center mb-2">
-                        <h4 className="text-md font-medium text-gray-300">WP-CLI Command:</h4>
-                        <button
-                            type="button"
-                            onClick={() => {
-                                navigator.clipboard.writeText(command);
-                                // Optional: Add a toast or visual feedback here
-                            }}
-                            className="text-sm text-blue-400 hover:text-blue-300"
-                        >
-                            Copy to Clipboard
-                        </button>
-                    </div>
-                    <CodeSnippet code={command} language="bash" />
+                    <h4 className="text-md font-medium text-gray-300 mb-2">WP-CLI Command:</h4>
+                    <CodeSnippet 
+                        code={command} 
+                        language="bash"
+                        className="mt-2"
+                    />
                 </div>
             </div>
         </div>
