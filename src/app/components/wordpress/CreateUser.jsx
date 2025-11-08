@@ -35,9 +35,9 @@ export default function CreateUser() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 p-4 rounded-lg">
+        <div className="w-full component-wrapper p-6  rounded-lg">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-create-user"  className="text-xl font-semibold text-blue-400 mb-4">Create User</h3>
+                <h3 id="wp-create-user"  className="text-xl font-semibold !text-blue-400 mb-4">Create User</h3>
                 <button
                     onClick={() => setShowMultipleUsers(!showMultipleUsers)}
                     className="text-sm bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded transition-colors"
@@ -74,7 +74,7 @@ export default function CreateUser() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
+                        className="w-full p-2 rounded-md text-white"
                         placeholder="user@example.com"
                     />
                 </div>
@@ -140,7 +140,7 @@ export default function CreateUser() {
                         className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
                         placeholder="Leave empty for auto-generated password"
                     />
-                    <div className="text-xs mt-1 text-gray-400">
+                    <div className="text-xs mt-1 description">
                         {!formData.password ? 'A password will be generated if left empty' : 'Using custom password'}
                     </div>
                 </div>

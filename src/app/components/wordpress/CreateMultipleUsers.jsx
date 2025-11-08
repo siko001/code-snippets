@@ -49,7 +49,7 @@ export default function CreateMultipleUsers() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 rounded-lg mt-4">
+        <div className="w-full component-bg rounded-lg mt-4">
             <h3 id="wp-create-multiple-users"  className="text-xl font-semibold text-blue-400 mb-4">Create Multiple Users</h3>
 
             <CodeSnippet
@@ -155,7 +155,7 @@ export default function CreateMultipleUsers() {
                             onChange={toggleRandomPassword}
                             className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
                         />
-                        <label htmlFor="useRandomPassword" className="ml-2 text-sm text-gray-300">
+                        <label htmlFor="useRandomPassword" className="ml-2 text-sm description">
                             Use random password for each user
                         </label>
                     </div>

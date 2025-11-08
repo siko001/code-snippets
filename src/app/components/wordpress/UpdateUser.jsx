@@ -62,8 +62,8 @@ export default function UpdateUser() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 p-4 rounded-lg mt-6">
-            <h3 id="wp-update-user"  className="text-xl font-semibold text-blue-400 mb-4">Update User</h3>
+        <div className="w-full component-wrapper p-6 rounded-lg mt-6">
+            <h3 id="wp-update-user"  className="text-xl font-semibold !text-blue-400 mb-4">Update User</h3>
 
             <CodeSnippet
                 code={snippet}
@@ -239,13 +239,13 @@ export default function UpdateUser() {
                     <button
                         type="button"
                         onClick={toggleAdvanced}
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center"
+                        className="text-sm  focus:!ring-0 !shadow-none !bg-transparent text-blue-400 hover:text-blue-300 flex items-center"
                     >
                         {formData.showAdvanced ? '▼' : '▶'} Advanced Options
                     </button>
                     
                     {formData.showAdvanced && (
-                        <div className="mt-2 p-3 bg-gray-700 rounded-md">
+                        <div className="mt-2 p-3 dark:bg-gray-700 bg-gray-100 rounded-md">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <div className="flex items-center">

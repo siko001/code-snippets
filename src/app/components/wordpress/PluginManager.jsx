@@ -142,9 +142,9 @@ export default function PluginManager() {
     const command = generateCommand();
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-xl">
+        <div className="component-wrapper p-6 rounded-lg shadow-xl">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-plugin-manager"  className="text-xl font-semibold text-blue-400 mb-4">Plugin Manager</h3>
+                <h3 id="wp-plugin-manager"  className="text-xl font-semibold !text-blue-400 mb-4">Plugin Manager</h3>
                 <button
                     onClick={resetForm}
                     className="px-3 py-1 cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-md"
@@ -192,7 +192,7 @@ export default function PluginManager() {
                 </div>
                 {/* Single Plugin Actions */}
                 <div className={`space-y-4 ${formData.view !== 'single' ? 'hidden' : ''}`}>
-                    <h4 className="text-lg font-medium text-gray-300">Single Plugin</h4>
+                    <h4 className="text-lg font-medium description">Single Plugin</h4>
                     
                     <div className="flex flex-col ">
                           <div>
@@ -225,8 +225,8 @@ export default function PluginManager() {
                        <div className="flex-1  overflow-scroll">    
                                 <div className="mt-2 w-full ">
                                     <div className="relative w-full">
-                                        <div className="flex overflow-x-auto py-2 -mx-1">
-                                            <div className="flex gap-1 px-1">
+                                        <div className="flex overflow-x-auto tab-bg p-1.5 gap-1  rounded py-2 ">
+                                            <div className="flex gap-2 ">
                                                 {uniquePlugins.map(plugin => {
                                                     // Extract the main plugin name for display
                                                     const displayName = plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase());
@@ -239,7 +239,7 @@ export default function PluginManager() {
                                                                 pluginName: plugin,
                                                                 view: 'single'
                                                             }))}
-                                                            className="px-3 py-1.5 text-xs bg-gray-700 hover:bg-blue-600 text-gray-300 rounded-md whitespace-nowrap transition-colors"
+                                                            className="px-3 py-1.5 text-xs bg-gray-700 focus:!text-white focus:!bg-blue-600 dark:!text-gray-300 rounded-md whitespace-nowrap transition-colors"
                                                             title={plugin}
                                                         >
                                                             {displayName}
@@ -269,7 +269,7 @@ export default function PluginManager() {
                             }))}
                             className={`p-3 rounded-md text-left ${
                                 formData.bulkAction === 'all-active' 
-                                    ? 'bg-blue-600 text-white' 
+                                    ? '!bg-blue-600 !text-white' 
                                     : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
                             }`}
                         >
@@ -286,7 +286,7 @@ export default function PluginManager() {
                             }))}
                             className={`p-3 rounded-md text-left ${
                                 formData.bulkAction === 'all-inactive' 
-                                    ? 'bg-yellow-600 text-white' 
+                                    ? 'dark:!bg-yellow-600 !bg-yellow-500 focus:!ring-yellow-400 focus:ring-yellow-600 !text-white' 
                                     : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
                             }`}
                         >
@@ -303,7 +303,7 @@ export default function PluginManager() {
                             }))}
                             className={`p-3 rounded-md text-left ${
                                 formData.bulkAction === 'all-update' 
-                                    ? 'bg-green-600 text-white' 
+                                    ? 'dark:!bg-green-600 !bg-green-500 focus:!ring-green-400 focus:ring-green-600 !text-white' 
                                     : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
                             }`}
                         >
@@ -320,13 +320,13 @@ export default function PluginManager() {
                             }))}
                             className={`p-3 rounded-md text-left ${
                                 formData.bulkAction === 'all-delete' 
-                                    ? 'bg-red-600 text-white' 
+                                    ? '!bg-red-600 focus:!ring-red-400 focus:ring-red-600 !text-white' 
                                     : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
                             }`}
                         >
                             <div className="font-medium">Delete All Plugins</div>
                             <div className="text-xs opacity-75">wp plugin delete --all</div>
-                            <div className="text-xs text-red-200 mt-1">⚠️ This will delete all plugin files</div>
+                            <div className="text-xs text-red-300 mt-1">⚠️ This will delete all plugin files</div>
                         </button>
                     </div>
                 </div>
@@ -344,7 +344,7 @@ export default function PluginManager() {
                                         onChange={handleChange}
                                         className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
                                     />
-                                    <span className="text-sm text-gray-300">Network Wide (Multisite)</span>
+                                    <span className="text-sm description">Network Wide (Multisite)</span>
                                 </label>
                             </div>
                             <div className="flex-1">
@@ -356,7 +356,7 @@ export default function PluginManager() {
                                         onChange={handleChange}
                                         className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
                                     />
-                                    <span className="text-sm text-gray-300">Force</span>
+                                    <span className="text-sm description">Force</span>
                                 </label>
                             </div>
                         </div>
@@ -377,7 +377,7 @@ export default function PluginManager() {
                                             addSkipPlugin(formData.skipPluginsInput);
                                         }
                                     }}
-                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 "
                                     placeholder="plugin-folder/plugin-file.php"
                                 />
                                 <button
@@ -413,7 +413,7 @@ export default function PluginManager() {
 
                 {/* Generated Command */}
                 <div className="mt-6">
-                    <h4 className="text-md font-medium text-gray-300 mb-2">WP-CLI Command:</h4>
+                    <h4 className="text-md font-medium description mb-2">WP-CLI Command:</h4>
                     <CodeSnippet 
                         code={command} 
                         language="bash"

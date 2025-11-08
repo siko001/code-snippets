@@ -122,8 +122,8 @@ export default function SearchReplace() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 p-4 rounded-lg mt-6">
-            <h3 id="wp-search-replace"  className="text-xl font-semibold text-blue-400 mb-4">Search & Replace</h3>
+        <div className="w-full component-wrapper p-6 rounded-lg mt-6">
+            <h3 id="wp-search-replace"  className="text-xl font-semibold !text-blue-400 mb-4">Search & Replace</h3>
 
             <CodeSnippet
                 code={snippet}
@@ -203,7 +203,7 @@ export default function SearchReplace() {
 
                     <div className="flex flex-wrap gap-4">
                         <div className="flex items-center space-x-2">
-                            <span className="text-sm text-gray-300">Search Mode:</span>
+                            <span className="text-sm description">Search Mode:</span>
                             <div className="inline-flex rounded-md shadow-sm" role="group">
                                 <button
                                     type="button"
@@ -266,13 +266,13 @@ export default function SearchReplace() {
                     <button
                         type="button"
                         onClick={toggleAdvanced}
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center"
+                        className="text-sm focus:!outline-0 focus:!border-0 focus:!ring-0 !shadow-none !bg-transparent text-blue-400 hover:text-blue-300 flex items-center"
                     >
                         {formData.showAdvanced ? '▼' : '▶'} Advanced Options
                     </button>
                     
                     {formData.showAdvanced && (
-                        <div className="mt-2 p-3 bg-gray-700 rounded-md space-y-4">
+                        <div className="mt-2 p-3 dark:bg-gray-700 bg-gray-50 rounded-md space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
                                     <label htmlFor="previewRows" className="block text-sm font-medium text-gray-300 mb-1">
@@ -327,14 +327,14 @@ export default function SearchReplace() {
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {formData.skipColumnsList.map(column => (
-                                        <span key={column} className="inline-flex items-center bg-gray-600 text-white px-2 py-1 rounded text-sm">
+                                        <span key={column} className="inline-flex items-center items-center dark:bg-gray-600 bg-gray-50 dark:text-white text-gray-600 px-2 py-1 rounded text-sm">
                                             {column}
                                             <button 
                                                 type="button" 
                                                 onClick={() => removeSkipColumn(column)}
-                                                className="ml-1 text-gray-300 hover:text-white"
+                                                className="ml-1 text-gray-300 !bg-red-500 grid place-items-center rounded-full h-4 w-4 hover:!text-white"
                                             >
-                                                ×
+                                               <span className="text-xs text-white relative -left-[0.5px] -top-[0.5px]"> × </span>
                                             </button>
                                         </span>
                                     ))}
@@ -379,14 +379,14 @@ export default function SearchReplace() {
                 </div>
             </div>
 
-            <div className="mt-4 p-3 bg-gray-700 rounded-md">
-                <h4 className="text-sm font-medium text-gray-300 mb-2">Usage Tips:</h4>
-                <ul className="text-xs text-gray-400 space-y-1 list-disc pl-5">
-                    <li>Always run with <code className="bg-gray-800 px-1 rounded">--dry-run</code> first to preview changes</li>
+            <div className="mt-4 p-3 dark:bg-gray-700 bg-gray-100 rounded-md">
+                <h4 className="text-sm font-medium description mb-2">Usage Tips:</h4>
+                <ul className="text-xs dark:text-gray-400 text-gray-700 space-y-1 list-disc pl-5">
+                    <li>Always run with <code className="dark:bg-gray-800 bg-gray-300 px-1 rounded">--dry-run</code> first to preview changes</li>
                     <li>For URLs, include the protocol (http:// or https://)</li>
-                    <li>The <code className="bg-gray-800 px-1 rounded">guid</code> column is skipped by default as it should not be modified in most cases</li>
+                    <li>The <code className="dark:bg-gray-800  bg-gray-300 px-1 rounded">guid</code> column is skipped by default as it should not be modified in most cases</li>
                     <li>Use regex for complex search patterns (enable the regex option)</li>
-                    <li>For large databases, consider using <code className="bg-gray-800 px-1 rounded">--preview</code> with a row limit</li>
+                    <li>For large databases, consider using <code className="dark:bg-gray-800  bg-gray-300 px-1 rounded">--preview</code> with a row limit</li>
                 </ul>
             </div>
         </div>

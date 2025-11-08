@@ -141,20 +141,21 @@ export default function DatabaseManager() {
         'wfreversecache', 'wfSNIPCache', 'wfstatus', 'wfthrottlelog', 'wfvulnscanners', 'wfwebhooks'    ];
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
-            <h3 id="wp-database-manager"  className="text-xl font-semibold text-blue-400 mb-4">Database Manager</h3>
+        <div className="component-wrapper p-6 rounded-lg shadow-xl mb-8">
+            <h3 id="wp-database-manager"  className="text-xl font-semibold !text-blue-400 mb-4">Database Manager</h3>
             
             {/* Tabs */}
-            <div className="flex border-b border-gray-700 mb-6">
+            <div className="flex  tab-bg p-1.5 flex  gap-2 rounded-lg items-center overflow-x-auto mb-6">
                 <button
                     onClick={() => setActiveTab('export')}
-                    className={`py-2 px-4 font-medium ${activeTab === 'export' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                    className={`py-2 px-4 rounded-md shadow-md font-medium ${activeTab === 'export' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                 >
                     Export Database
                 </button>
+                
                 <button
                     onClick={() => setActiveTab('import')}
-                    className={`py-2 px-4 font-medium ${activeTab === 'import' ? 'text-blue-400 border-b-2 border-blue-400' : 'text-gray-400 hover:text-white'}`}
+                    className={`py-2 px-4 rounded-md shadow-md font-medium ${activeTab === 'import' ? 'bg-blue-600 text-white' : 'text-gray-400 hover:text-white'}`}
                 >
                     Import Database
                 </button>
@@ -219,7 +220,7 @@ export default function DatabaseManager() {
                                                 }));
                                             }
                                         }}
-                                        className="text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
+                                        className="text-xs bg-gray-700 focus:!bg-blue-600 focus:!text-white hover:bg-gray-600 text-gray-300 px-2 py-1 rounded"
                                     >
                                         {table}
                                     </button>
@@ -253,7 +254,7 @@ export default function DatabaseManager() {
                                 </div>
                             ) : (
                                 <div>
-                                    <p className="text-gray-300">Drag & drop your SQL file here</p>
+                                    <p className="description">Drag & drop your SQL file here</p>
                                     <p className="text-sm text-gray-500 mt-2">or click to browse files</p>
                                 </div>
                             )}

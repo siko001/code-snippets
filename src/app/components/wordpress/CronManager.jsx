@@ -144,35 +144,35 @@ export default function CronManager() {
     }, [newCron, view, scheduleCronEvent, newCronArgs]);
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
+        <div className="component-wrapper p-6 rounded-lg shadow-xl mb-8">
             <div className="flex justify-between items-center mb-4">
-                <h3 id="wp-cron-manager"  className="text-xl font-semibold text-blue-400 mb-4">
+                <h3 id="wp-cron-manager"  className="text-xl font-semibold !text-blue-400 mb-4">
                     Cron Manager
                 </h3>
                 <div className="flex items-center space-x-2">
-                    <div className="flex space-x-1 bg-gray-700 p-1 rounded-md">
+                    <div className="flex space-x-1 bg-gray-700 p-1.5 tab-bg rounded-md">
                         <button
                             onClick={() => setView('run')}
-                            className={`px-3 py-1 text-sm rounded ${view === 'run' ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-600'}`}
+                            className={`px-3 py-1 text-sm rounded ${view === 'run' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-blue-600'}`}
                         >
                             Run
                         </button>
                         <button
                             onClick={() => setView('schedule')}
-                            className={`px-3 py-1 text-sm rounded ${view === 'schedule' ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-600'}`}
+                            className={`px-3 py-1 text-sm rounded ${view === 'schedule' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-blue-600'}`}
                         >
                             Schedule
                         </button>
                         <button
                             onClick={() => setView('list')}
-                            className={`px-3 py-1 text-sm rounded ${view === 'list' ? 'bg-gray-600 text-white' : 'text-gray-300 hover:bg-gray-600'}`}
+                            className={`px-3 py-1 text-sm rounded ${view === 'list' ? 'bg-blue-600 text-white' : 'text-gray-300 hover:bg-blue-600'}`}
                         >
                             List
                         </button>
                     </div>
                     <button
                         onClick={resetForm}
-                        className="px-3 py-1 cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-md"
+                        className="px-3 py-1 cursor-pointer text-sm bg-gray-700 hover:bg-gray-600 focus:!bg-blue-600 focus:!text-white text-gray-300 rounded-md"
                     >
                         Reset
                     </button>
@@ -183,20 +183,20 @@ export default function CronManager() {
                 {/* List Cron Events */}
                 <div className={view !== 'list' ? 'hidden' : ''}>
                     <h4 className="text-lg font-medium text-gray-300 mb-2">Scheduled Cron Events</h4>
-                    <div className="bg-gray-900 rounded-lg p-4 overflow-x-auto">
+                    <div className="dark:bg-gray-900 bg-gray-200 rounded-lg p-4 overflow-x-auto">
                         <table className="min-w-full divide-y divide-gray-700">
                             <thead>
                                 <tr>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Hook</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Next Run</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Schedule</th>
-                                    <th className="px-4 py-2 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">Actions</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium description uppercase tracking-wider">Hook</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium description uppercase tracking-wider">Next Run</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium description uppercase tracking-wider">Schedule</th>
+                                    <th className="px-4 py-2 text-left text-xs font-medium description uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-700">
                                 {cronEvents.map((event, index) => (
-                                    <tr key={index} className="hover:bg-gray-700">
-                                        <td className="px-4 py-2 text-sm text-gray-300">
+                                    <tr key={index} className="dark:hover:bg-gray-700 hover:bg-gray-100 duration-200 transition-colors ease">
+                                        <td className="px-4 py-2 text-sm description">
                                             <span className="font-mono">{event.hook}</span>
                                             {event.args && event.args.length > 0 && (
                                                 <span className="text-xs text-gray-400 ml-2">
@@ -204,22 +204,22 @@ export default function CronManager() {
                                                 </span>
                                             )}
                                         </td>
-                                        <td className="px-4 py-2 text-sm text-gray-300">
+                                        <td className="px-4 py-2 text-sm description">
                                             {new Date(event.next_run).toLocaleString()}
                                         </td>
-                                        <td className="px-4 py-2 text-sm text-gray-300">
+                                        <td className="px-4 py-2 text-sm description">
                                             {event.schedule}
                                         </td>
-                                        <td className="px-4 py-2 text-sm text-gray-300 space-x-2">
+                                        <td className="px-4 py-2 text-sm description space-x-2">
                                             <button
                                                 onClick={() => handleRunEvent(event.hook, event.args)}
-                                                className="px-2 py-1 text-xs bg-blue-600 hover:bg-blue-700 text-white rounded"
+                                                className="px-2 py-1 text-xs bg-blue-600 hover:!bg-blue-700 text-white rounded"
                                             >
                                                 Run Now
                                             </button>
                                             <button
                                                 onClick={() => handleDeleteEvent(event.hook, event.args)}
-                                                className="px-2 py-1 text-xs bg-red-600 hover:bg-red-700 text-white rounded"
+                                                className="px-2 py-1 text-xs !bg-red-600 hover:!bg-red-700  !text-white rounded"
                                             >
                                                 Delete
                                             </button>
@@ -232,8 +232,8 @@ export default function CronManager() {
                 </div>
 
                 {/* Run Cron Event */}
-                <div className={`bg-gray-900 rounded-lg p-4 ${view !== 'run' ? 'hidden' : ''}`}>
-                    <h4 className="text-lg font-medium text-gray-300 mb-4">Run Cron Event</h4>
+                <div className={`dark:bg-gray-900 bg-gray-100 rounded-lg p-4 ${view !== 'run' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium description mb-4">Run Cron Event</h4>
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -263,8 +263,8 @@ export default function CronManager() {
                 </div>
 
                 {/* Schedule New Cron Event */}
-                <div className={`bg-gray-900 rounded-lg p-4 ${view !== 'schedule' ? 'hidden' : ''}`}>
-                    <h4 className="text-lg font-medium text-gray-300 mb-4">Schedule New Cron Event</h4>
+                <div className={`dark:bg-gray-900 bg-gray-100 rounded-lg p-4 ${view !== 'schedule' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium description mb-4">Schedule New Cron Event</h4>
                     <div className="space-y-4">
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -312,7 +312,7 @@ export default function CronManager() {
                 {/* Generated Command */}
                 {output && (
                     <div className="mt-6">
-                        <h4 className="text-lg font-medium text-gray-300 mb-2">Generated Command</h4>
+                        <h4 className="text-lg font-medium description mb-2">Generated Command</h4>
                         <CodeSnippet code={output} language="bash" />
                     </div>
                 )}

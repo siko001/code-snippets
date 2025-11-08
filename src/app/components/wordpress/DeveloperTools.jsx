@@ -73,15 +73,15 @@ export default function DeveloperTools() {
     };
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
-            <h3 id="wp-dev-tools"  className="text-xl font-semibold text-blue-400 mb-4">
+        <div className="component-wrapper p-6 rounded-lg shadow-xl mb-8">
+            <h3 id="wp-dev-tools"  className="text-xl font-semibold !text-blue-400 mb-4">
                 Developer Tools
             </h3>
             
             {/* Tabs */}
             <div className="relative mb-6">
-                <div className="flex space-x-1 overflow-x-auto pb-2 -mx-1 scrollbar-hide">
-                    <div className="flex space-x-1 px-1">
+                <div className="flex tab-bg space-x-1 overflow-x-auto pb-2 p-1.5 rounded-lg scrollbar-hide">
+                    <div className="flex gap-2 px-1">
                         {[
                             { id: 'theme', label: 'Theme Management' },
                             { id: 'transient', label: 'Transients' },
@@ -168,7 +168,7 @@ export default function DeveloperTools() {
                 {activeTab === 'rewrite' && (
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <h4 className="text-lg font-medium text-gray-300">Rewrite Rules</h4>
+                            <h4 className="text-lg font-medium description">Rewrite Rules</h4>
                             <p className="text-sm text-gray-400">
                                 Manage WordPress rewrite rules and permalinks
                             </p>
@@ -178,15 +178,19 @@ export default function DeveloperTools() {
                                 onClick={() => setOutput('wp rewrite list')}
                                 className={`px-4 py-2 rounded-md ${
                                     output === 'wp rewrite list'
-                                        ? 'bg-blue-700 text-white'
-                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                        ? '!bg-blue-700 !text-white'
+                                        : ''
                                 }`}
                             >
                                 List Rewrite Rules
                             </button>
                             <button
-                                onClick={() => setOutput('wp rewrite flush')}
-                                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
+                                onClick={() => setOutput('wp rewrite flush')}        
+                                 className={`px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md ${
+                                    output === 'wp rewrite flush'
+                                        ? '!bg-blue-700 !text-white'
+                                        : ''
+                                }`}
                             >
                                 Flush Rewrite Rules
                             </button>
@@ -245,7 +249,7 @@ export default function DeveloperTools() {
                                         checked={translationAction === 'list'}
                                         onChange={(e) => setTranslationAction(e.target.value)}
                                     />
-                                    <span className="ml-2 text-sm text-gray-300">List Translations</span>
+                                    <span className="ml-2 text-sm description">List Translations</span>
                                 </label>
                                 <label className="inline-flex items-center">
                                     <input
@@ -256,7 +260,7 @@ export default function DeveloperTools() {
                                         checked={translationAction === 'update'}
                                         onChange={(e) => setTranslationAction(e.target.value)}
                                     />
-                                    <span className="ml-2 text-sm text-gray-300">Update Translations</span>
+                                    <span className="ml-2 text-sm description">Update Translations</span>
                                 </label>
                             </div>
 
@@ -286,7 +290,7 @@ export default function DeveloperTools() {
                                                 onChange={(e) => setUseDryRun(e.target.checked)}
                                                 className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
                                             />
-                                            <span className="text-sm text-gray-300">Dry Run (--dry-run)</span>
+                                            <span className="text-sm description">Dry Run (--dry-run)</span>
                                         </label>
                                         {useDryRun && (
                                             <p className="text-yellow-400 text-sm p-2 bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded-md">
@@ -305,7 +309,7 @@ export default function DeveloperTools() {
                                     onChange={(e) => setUseJsonFormatTranslations(e.target.checked)}
                                     className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
                                 />
-                                <label htmlFor="jsonFormatTranslations" className="text-sm text-gray-300">
+                                <label htmlFor="jsonFormatTranslations" className="text-sm description">
                                     Use JSON Format
                                 </label>
                             </div>
@@ -318,7 +322,7 @@ export default function DeveloperTools() {
                     <div className="space-y-4">
                         <div className="flex items-center justify-between">
                             <div>
-                                <h4 className="text-lg font-medium text-gray-300">Maintenance Mode</h4>
+                                <h4 className="text-lg font-medium description">Maintenance Mode</h4>
                                 <p className="text-sm text-gray-400">
                                     {maintenanceMode 
                                         ? 'Maintenance mode is currently ACTIVE' 
@@ -328,8 +332,8 @@ export default function DeveloperTools() {
                             <button
                                 onClick={toggleMaintenanceMode}
                                 className={`px-4 py-2 rounded-md ${maintenanceMode 
-                                    ? 'bg-green-600 hover:bg-green-700' 
-                                    : 'bg-red-600 hover:bg-red-700'} text-white`}
+                                    ? '!bg-green-600 hover:!bg-green-700' 
+                                    : '!bg-red-600 hover:!bg-red-700'} !text-white`}
                             >
                                 {maintenanceMode ? 'Deactivate' : 'Activate'}
                             </button>
@@ -341,8 +345,8 @@ export default function DeveloperTools() {
                                     : 'Site is currently live and accessible to visitors.'}
                             </p>
                             {maintenanceMode && (
-                                <div className="p-3 bg-gray-800 rounded-md">
-                                    <p className="text-yellow-400 text-sm">
+                                <div className="p-3 dark:bg-gray-800 bg-gray-200 rounded-md">
+                                    <p className="text-yellow-500 text-sm">
                                         Note: Don't forget to turn off maintenance mode when you're done!
                                     </p>
                                 </div>
@@ -353,7 +357,7 @@ export default function DeveloperTools() {
 
                 {/* Command Output */}
                 <div className="mt-6">
-                    <h4 className="text-md font-medium text-gray-300 mb-2">Command Output</h4>
+                    <h4 className="text-md font-medium description mb-2">Command Output</h4>
                     <CodeSnippet code={output} language="bash" />
                 </div>
             </div>
