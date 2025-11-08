@@ -88,7 +88,7 @@ export default function GitCommand({
     ) : null;
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+        <div className="component-wrapper p-6 rounded-lg shadow-lg">
             <h3 id={id} className="text-xl font-semibold text-blue-400 mb-4">{title}</h3>
 
             <div className="space-y-4">

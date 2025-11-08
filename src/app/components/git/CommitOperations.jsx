@@ -54,7 +54,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 <h4 className="text-lg font-medium text-gray-300">Stage Changes</h4>
                 <div className="flex flex-wrap gap-2">
                    
-                      <label className={`px-3 py-1 rounded text-sm ${!inputValues.stageOption ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'} cursor-pointer`}>
+                      <label className={`px-3 py-1 rounded text-sm ${!inputValues.stageOption ? 'bg-blue-600 !text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'} duration-200 ease-in-out  cursor-pointer`}>
                         <input
                             type="radio"
                             name="stageOption"
@@ -65,7 +65,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                         />
                         None
                     </label>
-                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'all' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'} cursor-pointer`}>
+                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'all' ?  'bg-blue-600 !text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'} duration-200 ease-in-out cursor-pointer`}>
                         <input
                             type="radio"
                             name="stageOption"
@@ -76,7 +76,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                         />
                         Stage All
                     </label>
-                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'update' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'} cursor-pointer`}>
+                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'update' ?'bg-blue-600 !text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'} duration-200 ease-in-out cursor-pointer`}>
                         <input
                             type="radio"
                             name="stageOption"
@@ -87,7 +87,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                         />
                         Stage Tracked
                     </label>
-                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'patch' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'} cursor-pointer`}>
+                    <label className={`px-3 py-1 rounded text-sm ${inputValues.stageOption === 'patch' ? 'bg-blue-600 !text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'} duration-200 ease-in-out cursor-pointer`}>
                         <input
                             type="radio"
                             name="stageOption"

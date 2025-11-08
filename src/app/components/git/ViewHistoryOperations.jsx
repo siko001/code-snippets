@@ -119,7 +119,7 @@ const ViewHistoryOperations = ({ handleInputChange, inputValues, setInputValues 
                                         type="date"
                                         value={inputValues.since || ''}
                                         onChange={(e) => handleInputChange('since', e.target.value)}
-                                        className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                                        className="w-full p-2 rounded   border border-gray-600"
                                     />
                                 </div>
                                 <div>
@@ -128,7 +128,7 @@ const ViewHistoryOperations = ({ handleInputChange, inputValues, setInputValues 
                                         type="date"
                                         value={inputValues.until || ''}
                                         onChange={(e) => handleInputChange('until', e.target.value)}
-                                        className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                                        className="w-full p-2 rounded border border-gray-600"
                                     />
                                 </div>
                             </div>

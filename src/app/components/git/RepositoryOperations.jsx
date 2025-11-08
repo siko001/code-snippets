@@ -33,7 +33,7 @@ const RepositoryOperations = ({ handleInputChange, inputValues, setInputValues }
                     onClick={() => handleOperationChange('clone')}
                     className={`px-3 py-1 rounded text-sm ${
                         inputValues.operation === 'clone' 
-                            ? 'bg-blue-600 text-white' 
+                            ? 'bg-blue-600 !text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     }`}
                 >
@@ -44,7 +44,7 @@ const RepositoryOperations = ({ handleInputChange, inputValues, setInputValues }
                     onClick={() => handleOperationChange('init')}
                     className={`px-3 py-1 rounded text-sm ${
                         inputValues.operation === 'init' 
-                            ? 'bg-blue-600 text-white' 
+                            ? 'bg-blue-600 !text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                     }`}
                 >

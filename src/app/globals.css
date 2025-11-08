@@ -1,32 +1,32 @@
 @import "tailwindcss";
-
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  
-  
   
   /* Components */
   --component-bg: #ffffff;
   --component-text-color: #171717;
   --component-description-color: var(--color-gray-500);
+    
+    /* Variants */
+  --button-bg-color: var(--color-gray-200);
+  --button-text-color: var(--color-gray-700);
+  --button-hover-bg-color: var(--color-gray-600);
+  --button-hover-text-color: var(--color-gray-100);
   
+    /* Unselected */
   --unselected-hover-bg: var(--color-gray-200);
   --unselected-hover-text-color: var(--color-blue-600);
   --component-tab-bg: var(--color-gray-100);
   
+  /* Inputs */
   --component-input-label: var(--color-gray-500);
   --component-input-bg: #ededed;
   --component-input-color: #171717;
   --component-input-placeholder: #ededed;
-  
-  
+
   /* Code */
   --code-bg-color: var(--color-gray-700);
-  
-  /* Variants */
-  --variants-bg-color: #171717;
-  --variants-hover-bg: #ededed;
 }
 
 @theme inline {
@@ -45,11 +45,13 @@
   --component-text-color: var(--color-gray-100);
   --component-description-color: var(--color-gray-400);
   
-  
   --unselected-hover-bg: var(--color-gray-200);
   --unselected-hover-text-color: var(--color-blue-600);
   
-  
+  --button-bg-color: var(--color-gray-700);
+  --button-text-color: var(--color-gray-100);
+  --button-hover-bg-color: var(--color-gray-600);
+  --button-hover-text-color: var(--color-gray-100);
   
   
   --component-tab-bg: var(--color-gray-700);
@@ -59,10 +61,24 @@
   --component-input-placeholder: #ededed;
   
      /* Code */
-  --code-bg-color: var(--color-gray-900);
-  
-    
+  --code-bg-color: var(--color-gray-900); 
   }
+}
+/* Scrollbar styles for all elements */
+::-webkit-scrollbar {
+  height:1px;
+  width: 1px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100%;
+  @apply bg-blue-700;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  @apply bg-blue-900;
 }
 
 body {
@@ -72,6 +88,7 @@ body {
 }
 
 
+/* Components */
 .component-wrapper {
   background: var(--component-bg);
   color: var(--component-text-color);
@@ -82,11 +99,39 @@ body {
      color: var(--component-text-color);
 }
 
+h3{
+  color: var(--component-text-color);
+}
+
+/* Variants */
 .tab-bg{
     background: var(--component-tab-bg);
     color: var(--component-text-color);
 }
 
+.unselected-hover:hover{
+   background: var(--unselected-hover-bg);
+   color: var(--unselected-hover-text-color);
+}
+
+button {
+  background: var(--button-bg-color);
+  color: var(--button-text-color);
+  @apply  focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
+}
+
+button:hover{
+    @apply bg-gray-300 dark:bg-gray-600 ;
+}
+
+button.bg-blue-600{
+ background: var(--color-blue-600);
+ color:white
+}
+
+
+
+/* Inputs */
 .description{
     color: var(--component-description-color);
 }
@@ -95,50 +140,38 @@ label{
     color: var(--component-input-label);
 }
 
-input[type='text'],input[type='number'],select{
+input[type='text'],input[type='number'],select,input[type="date"]{
     @apply bg-[var(--component-input-bg)] text-[var(--component-input-color)] placeholder-[var(--component-input-placeholder)];
 }
-
-.code-snippet{
-    @apply bg-[var(--code-bg-color)] text-[var(--code-text-color)];
-}
-
-.unselected-hover:hover{
-   background: var(--unselected-hover-bg);
-   color: var(--unselected-hover-text-color);
-}
-
-
-
-
-
-h3{
-  color: var(--component-text-color);
-}
-
-
-
-
-
-
-
-
-
-
-
 
 
 input[type='checkbox'],button,select {
     @apply cursor-pointer transition-colors duration-200 ease-in-out;
 }
 
-input[type='text'],input[type='number'],select{
+input[type='text'],input[type='number'],select,input[type="date"]{
   @apply focus:ring-blue-500 focus:border-blue-500 focus:outline-none hover:border-blue-300 border  border-transparent duration-200 transition-colors ease-in-out;
 }
 
-button {
-  @apply focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
+
+/* Code */
+.code-snippet{
+    @apply bg-[var(--code-bg-color)] text-[var(--code-text-color)];
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Plugin list container */
 .plugin-scroll-container {
@@ -181,21 +214,3 @@ button {
 
 
 
-
-
-/* Scrollbar styles for all elements */
-::-webkit-scrollbar {
-  height:1px;
-  width: 1px;
-}
-
-
-::-webkit-scrollbar-thumb {
-  border-radius: 100%;
-  @apply bg-blue-700;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-  @apply bg-blue-900;
-}
