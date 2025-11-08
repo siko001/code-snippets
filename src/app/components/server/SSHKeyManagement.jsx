@@ -47,11 +47,11 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
     };
 
     return (
-        <div className="space-y-4">
+        <div className=" space-y-4">
             
-            <h3 id='ssh-key-management' className="text-lg font-semibold text-blue-400">Key Management</h3>
+            <h3 id='ssh-key-management' className="text-lg font-semibold !text-blue-400">Key Management</h3>
             {/* Tabs */}
-            <div className="flex space-x-2  bg-gray-800 rounded-lg">
+            <div className="flex space-x-2 p-1.5 tab-bg rounded-lg">
                 {Object.entries(TABS).map(([key, value]) => (
                     <button
                         key={key}
@@ -68,7 +68,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             </div>
 
             {/* Tab Content */}
-            <div className=" bg-gray-800 rounded-lg">
+            <div className=" component-bg rounded-lg">
                 {activeTab === TABS.GENERATE_KEY && (
                     <div className="space-y-4 mb-4">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -140,7 +140,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                             <div className="flex-1 min-w-[200px]">
                                 <label className="block text-gray-300 mb-2">SSH Key Path:</label>
                                 <div className="flex">
-                                    <span className="inline-flex items-center px-3 rounded-l bg-gray-600 text-gray-300 text-sm">
+                                    <span className="inline-flex items-center px-3 rounded-l dark:bg-gray-600 bg-gray-300 dark:text-gray-300 text-gray-700 text-sm">
                                         ~/
                                     </span>
                                     <input
@@ -181,9 +181,9 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             </div>
 
             {/* Usage Tips */}
-            <div className="p-4 bg-gray-800 rounded-lg">
+            <div className="p-4 dark:bg-gray-800 bg-gray-100 rounded-lg">
                 <h4 className="text-blue-400 text-sm font-medium mb-2">When to use these commands:</h4>
-                <ul className="list-disc pl-5 space-y-1 text-xs text-gray-300">
+                <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li><span className="font-medium">Remove Host Key:</span> When getting "Host key verification failed" errors</li>
                     <li><span className="font-medium">Generate SSH Key:</span> When setting up a new server or need new SSH keys</li>
                     <li><span className="font-medium">Install OpenSSH:</span> If you get "ssh: command not found" errors</li>

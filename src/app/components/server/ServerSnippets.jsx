@@ -42,7 +42,7 @@ export default function ServerSnippets() {
                 <div className="space-y-8">
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2">SSH Key Management</h3>
                     <div className="space-y-6">
-                        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                        <div className="component-wrapper p-6 rounded-lg shadow-lg">
                             <SSHKeyManagement 
                                 inputValues={sshValues}
                                 handleInputChange={handleSshInputChange}

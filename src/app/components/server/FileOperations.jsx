@@ -36,8 +36,8 @@ export default function FileOperations() {
     const isFormComplete = !!source && !!destination;
 
     return (
-        <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
-            <h3 id="file-operations"  className="text-xl font-semibold text-blue-400 mb-4">File Operations</h3>
+        <div className="component-wrapper p-6 rounded-lg shadow-lg">
+            <h3 id="file-operations"  className="text-xl font-semibold !text-blue-400 mb-4">File Operations</h3>
             
             <div className="space-y-4">
                 <div className="flex flex-wrap gap-2 mb-4">
