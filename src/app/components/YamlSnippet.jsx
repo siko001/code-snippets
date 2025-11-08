@@ -3,31 +3,56 @@
 import { useState, useEffect } from 'react';
 import { useNotification } from '../contexts/NotificationContext';
 
-// Helper function to syntax highlight YAML
-const highlightYaml = (yaml) => {
-    if (!yaml) return '';
+// Helper function to parse YAML into tokens for syntax highlighting
+const parseYaml = (yaml) => {
+    if (!yaml) return [];
     
-    // Key-value pairs with quotes
-    let highlighted = yaml
-        .replace(/([\w-]+):/g, '<span style="color: #7dd3fc">$1</span>:')
-        .replace(/: (['"])(.*?)\1/g, ': <span style="color: #86efac">$1$2$1</span>')
-        .replace(/: (true|false|null|\d+)/g, ': <span style="color: #d8b4fe">$1</span>')
-        .replace(/(#.*$)/gm, '<span style="color: #9ca3af">$1</span>');
-    
-    // Indentation
-    highlighted = highlighted.replace(/^(\s+)/gm, (match) => 
-        match.replace(/ /g, '<span style="display: inline-block; width: 1rem;"></span>')
-    );
-    
-    return highlighted;
+    return yaml.split('\n').map((line, i) => {
+        // Match key-value pairs
+        const keyMatch = line.match(/^(\s*)([\w-]+):/);
+        const valueMatch = line.match(/:\s*(['"]?)(.*?)(['"]?)$/);
+        const commentMatch = line.match(/(#.*)$/);
+        
+        const parts = [];
+        
+        // Add indentation
+        if (keyMatch && keyMatch[1]) {
+            const spaces = keyMatch[1].length;
+            parts.push({ type: 'indent', value: ' '.repeat(spaces) });
+        }
+        
+        // Add key
+        if (keyMatch && keyMatch[2]) {
+            parts.push({ type: 'key', value: keyMatch[2] + ':' });
+        }
+        
+        // Add value
+        if (valueMatch && valueMatch[2]) {
+            const quote = valueMatch[1] || '';
+            parts.push({ 
+                type: 'value', 
+                value: valueMatch[2],
+                quoted: !!valueMatch[1],
+                isBoolean: ['true', 'false'].includes(valueMatch[2].toLowerCase()),
+                isNumber: !isNaN(valueMatch[2]) && valueMatch[2].trim() !== ''
+            });
+        }
+        
+        // Add comment
+        if (commentMatch) {
+            parts.push({ type: 'comment', value: commentMatch[1] });
+        }
+        
+        return { line: i + 1, parts };
+    });
 };
 
 export default function YamlSnippet({ code, className = '', copyButton = true }) {
     const { showNotification } = useNotification();
-    const [highlightedCode, setHighlightedCode] = useState('');
+    const [parsedYaml, setParsedYaml] = useState([]);
 
     useEffect(() => {
-        setHighlightedCode(highlightYaml(code));
+        setParsedYaml(parseYaml(code));
     }, [code]);
 
     const copyToClipboard = async () => {
@@ -57,10 +82,50 @@ export default function YamlSnippet({ code, className = '', copyButton = true })
                         fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
                         color: '#e5e7eb',
                         display: 'block',
-                        whiteSpace: 'pre'
+                        whiteSpace: 'pre',
+                        lineHeight: '1.5'
                     }}
-                    dangerouslySetInnerHTML={{ __html: highlightedCode || code }}
-                />
+                >
+                    {parsedYaml.map((line, i) => (
+                        <div key={i} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {line.parts.map((part, j) => {
+                                let style = { color: '#e5e7eb' };
+                                
+                                switch(part.type) {
+                                    case 'key':
+                                        style.color = '#7dd3fc';
+                                        break;
+                                    case 'value':
+                                        if (part.quoted) {
+                                            style.color = '#86efac';
+                                        } else if (part.isBoolean) {
+                                            style.color = '#d8b4fe';
+                                        } else if (part.isNumber) {
+                                            style.color = '#fca5a5';
+                                        } else {
+                                            style.color = '#e5e7eb';
+                                        }
+                                        break;
+                                    case 'comment':
+                                        style.color = '#9ca3af';
+                                        break;
+                                    case 'indent':
+                                        return (
+                                            <span key={j} style={{ display: 'inline-block', width: `${part.value.length * 0.5}rem` }} />
+                                        );
+                                    default:
+                                        break;
+                                }
+                                
+                                return (
+                                    <span key={j} style={style}>
+                                        {part.value}
+                                    </span>
+                                );
+                            })}
+                        </div>
+                    ))}
+                </code>
                 {copyButton && (
                     <button 
                         onClick={copyToClipboard}
