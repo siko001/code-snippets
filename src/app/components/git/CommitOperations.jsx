@@ -51,7 +51,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
     return (
         <div className="space-y-4">
             <div className="space-y-4">
-                <h4 className="text-lg font-medium text-gray-300">Stage Changes</h4>
+                <h4 className="text-lg font-medium description">Stage Changes</h4>
                 <div className="flex flex-wrap gap-2">
                    
                       <label className={`px-3 py-1 rounded text-sm ${!inputValues.stageOption ? 'bg-blue-600 !text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600'} duration-200 ease-in-out  cursor-pointer`}>
@@ -113,7 +113,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
             </div>
 
             <div className="border-t border-gray-700 pt-4 mt-4">
-                <h4 className="text-lg font-medium text-gray-300 mb-2">Commit Changes</h4>
+                <h4 className="text-lg font-medium description mb-2">Commit Changes</h4>
                 <div className="space-y-4">
                     <div>
                         <label className="block text-gray-300 mb-2">Commit message:</label>
@@ -133,7 +133,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                                 onChange={handleAmendChange}
                                 className="rounded border-gray-600 text-blue-500"
                             />
-                            <span className="text-gray-300">Amend previous commit</span>
+                            <span className="description text-sm">Amend previous commit</span>
                         </label>
                         {inputValues.amend && (
                             <div className="flex items-center space-x-2">
@@ -143,7 +143,7 @@ const CommitOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                                     onChange={(e) => handleInputChange('noEdit', e.target.checked ? '--no-edit' : '')}
                                     className="rounded border-gray-600 text-blue-500"
                                 />
-                                <span className="text-gray-300">Keep previous message</span>
+                                <span className="description text-sm">Keep previous message</span>
                             </div>
                         )}
                     </div>

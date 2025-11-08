@@ -28,7 +28,7 @@ const RemoteOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 {/* Remote Selection */}
                 <div className="space-y-2">
                     <div className="flex items-center space-x-2">
-                        <span className="text-gray-300 text-sm">Remote:</span>
+                        <span className="text-gray-400 dark:text-gray-300 text-sm">Remote:</span>
                         <input
                             type="text"
                             name="remote"
@@ -69,7 +69,7 @@ const RemoteOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 {inputValues.operation !== 'fetch' && (
                     <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                            <span className="text-gray-300 text-sm">Branch:</span>
+                            <span className="text-gray-400 dark:text-gray-300 text-sm">Branch:</span>
                             <input
                                 type="text"
                                 name="branch"
@@ -99,7 +99,7 @@ const RemoteOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                         </label>
                         {inputValues.setUpstream && (
                             <div className="flex items-center space-x-2">
-                                <span className="text-gray-300 text-sm">as</span>
+                                <span className="text-gray-600 dark:text-gray-300 text-sm">as</span>
                                 <input
                                     type="text"
                                     name="upstreamBranch"

@@ -135,7 +135,7 @@ const ViewHistoryOperations = ({ handleInputChange, inputValues, setInputValues 
                         </div>
 
                         <div className="space-y-2">
-                            <p className="text-sm text-gray-300">Display Options:</p>
+                            <p className="text-sm description">Display Options:</p>
                             <div className="flex flex-wrap gap-2">
                                 <button
                                     type="button"
