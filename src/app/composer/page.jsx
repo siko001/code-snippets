@@ -14,14 +14,14 @@ export default function ComposerPage() {
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Composer Commands
                     </h3>
-                    <div id="composer-management" className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div id="composer-management" className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ComposerCommands />
                     </div>
 
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Composer Timeout Solution
                     </h3>   
-                    <div id="composer-timeout" className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div id="composer-timeout" className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ComposerTimeout />
                     </div>
 
@@ -29,7 +29,7 @@ export default function ComposerPage() {
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Composer Installation
                     </h3>
-                    <div id="composer-install" className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div id="composer-install" className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ComposerInstall />
                     </div>
                 </div>

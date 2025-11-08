@@ -28,7 +28,7 @@ const ComposerInstall = () => {
 
     return (
         <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-blue-400 mb-4">
+            <h3 className="text-xl font-semibold !text-blue-400 mb-4">
                 Installation
             </h3>
             {commands.map((cmd, index) => (
@@ -42,14 +42,14 @@ const ComposerInstall = () => {
                 </div>
             ))}
             
-            <div className="p-3  border border-gray-900 rounded text-sm mt-6">
-                <p className="text-blue-300 font-medium mb-2">Verification:</p>
+            <div className="p-3 border border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700  rounded text-sm mt-6">
+                <p className="dark:text-blue-300 text-blue-400 font-medium mb-2">Verification:</p>
                 <CodeSnippet 
                     code="composer --version"
                     className="mb-2"
                     copyButton={true}
                 />
-                <p className="text-xs text-gray-400">
+                <p className="text-xs description">
                     Run this command to verify Composer is installed correctly.
                 </p>
             </div>

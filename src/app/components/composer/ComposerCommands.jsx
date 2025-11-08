@@ -48,11 +48,11 @@ const ComposerCommands = () => {
 
     return (
         <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-blue-400 mb-4">
+            <h3 className="text-xl font-semibold !text-blue-400 mb-4">
                 Managment
             </h3>
             {/* Command Selector */}
-            <div className="flex flex-wrap gap-2  bg-gray-800 rounded-lg">
+            <div className="flex flex-wrap gap-2  tab-bg p-1.5 rounded-lg">
                 {Object.entries(COMMAND_TYPES).map(([key, value]) => (
                     <button
                         key={key}
@@ -70,20 +70,20 @@ const ComposerCommands = () => {
 
             {/* Command Display */}
             <div className="space-y-4">
-                <div className=" bg-gray-800 rounded-lg">
+                <div className=" rounded-lg">
                     <CodeSnippet 
                         code={getCommand()}
                         className="mb-2"
                         copyButton={true}
                         disabled={isPackageRequired && !packageName}
                     />
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs description">
                         {commandDescription[activeCommand]}
                     </p>
                 </div>
 
                 {/* Package Options */}
-                <div className=" bg-gray-800 rounded-lg">
+                <div className="  rounded-lg">
                     {isPackageRequired && (
                         <div className="mb-4">
                             <label className="block text-gray-300 text-sm mb-1">

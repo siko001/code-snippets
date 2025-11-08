@@ -54,7 +54,7 @@
   --button-hover-text-color: var(--color-gray-100);
   
   
-  --component-tab-bg: var(--color-gray-700);
+  --component-tab-bg: var(--color-gray-900);
   --component-input-label: var(--color-gray-200);
   --component-input-bg: var(--color-gray-700);
   --component-input-color: var(--color-gray-100);
@@ -108,6 +108,7 @@ h3{
 .tab-bg{
     background: var(--component-tab-bg);
     color: var(--component-text-color);
+    @apply shadow-md ;
 }
 
 .unselected-hover:hover{
@@ -118,7 +119,7 @@ h3{
 button {
   background: var(--button-bg-color);
   color: var(--button-text-color);
-  @apply  focus:ring-1 focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
+  @apply  focus:ring-1 shadow-md  focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
 }
 
 button:hover{
