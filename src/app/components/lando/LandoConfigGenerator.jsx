@@ -3,47 +3,159 @@
 import { useState } from 'react';
 import YamlSnippet from '../YamlSnippet';
 
-export default function LandoConfigGenerator() {
-    const [config, setConfig] = useState({
-        name: 'mysite',
-        php: '8.3',
-        via: 'nginx',
-        webroot: '.',
-        xdebug: false,
-        databaseType: 'mariadb',
-        includePma: true
-    });
-
-    const generateConfig = () => {
-        const pmaSection = config.includePma ? `
+const RECIPES = {
+    wordpress: {
+        name: 'WordPress',
+        description: 'Standard WordPress setup with PHP, web server, and database',
+        defaultWebroot: '.',
+        defaultVia: 'nginx',
+        services: (config) => {
+            const pmaSection = config.includePma ? `
   pma:
     type: phpmyadmin
     hosts:
       - database` : '';
+            
+            return `  database:
+    type: ${config.databaseType}${pmaSection}`;
+        },
+        tooling: `  wp:
+    service: appserver
+    description: Run wp-cli commands
+    cmd: wp`
+    },
+    drupal9: {
+        name: 'Drupal 9/10',
+        description: 'Drupal 9/10 with Drush and Composer support',
+        defaultWebroot: 'web',
+        defaultVia: 'apache',
+        services: (config) => {
+            return `  database:
+    type: ${config.databaseType}`;
+        },
+        tooling: `  drush:
+    service: appserver
+    cmd: /app/vendor/bin/drush
+  composer:
+    service: appserver
+    cmd: /usr/local/bin/composer`
+    },
+    laravel: {
+        name: 'Laravel',
+        description: 'Laravel with Node.js and Composer',
+        defaultWebroot: 'public',
+        defaultVia: 'nginx',
+        services: (config) => {
+            return `  database:
+    type: ${config.databaseType}
+  node:
+    type: node:18`;
+        },
+        tooling: `  artisan:
+    service: appserver
+    cmd: php artisan
+  composer:
+    service: appserver
+    cmd: /usr/local/bin/composer`
+    },
+    custom: {
+        name: 'Custom',
+        description: 'Custom configuration',
+        defaultWebroot: '.',
+        defaultVia: 'nginx',
+        services: () => '',
+        tooling: ''
+    }
+};
 
-        return `name: ${config.name}
-recipe: wordpress
-config:
+export default function LandoConfigGenerator() {
+    const [config, setConfig] = useState({
+        name: 'mysite',
+        recipe: 'wordpress',
+        php: '8.3',
+        via: RECIPES.wordpress.defaultVia,
+        webroot: RECIPES.wordpress.defaultWebroot,
+        xdebug: false,
+        databaseType: 'mariadb',
+        includePma: true,
+        customConfig: '',
+        customServices: '',
+        customTooling: ''
+    });
+
+    const currentRecipe = RECIPES[config.recipe] || RECIPES.wordpress;
+
+    const generateConfig = () => {
+        const services = typeof currentRecipe.services === 'function' 
+            ? currentRecipe.services(config)
+            : currentRecipe.services || '';
+            
+        const tooling = currentRecipe.tooling || '';
+
+        let yamlConfig = `name: ${config.name}
+recipe: ${config.recipe}
+`;
+
+        // Add main config
+        yamlConfig += `config:
   php: '${config.php}'
   via: ${config.via}
   webroot: ${config.webroot}
   xdebug: ${config.xdebug ? 'true' : 'false'}
-services:
-  database:
-    type: ${config.databaseType}${pmaSection}
-tooling:
-  wp:
-    service: appserver
-    description: Run wp-cli commands
-    cmd: wp`;
+`;
+
+        // Add custom config if any
+        if (config.customConfig) {
+            yamlConfig += `  # Custom Configuration
+${config.customConfig}
+`;
+        }
+
+        // Add services
+        yamlConfig += `services:${services}
+`;
+
+        // Add custom services if any
+        if (config.customServices) {
+            yamlConfig += `  # Custom Services
+${config.customServices}
+`;
+        }
+
+        // Add tooling
+        if (tooling) {
+            yamlConfig += `tooling:${tooling}
+`;
+        }
+
+        // Add custom tooling if any
+        if (config.customTooling) {
+            yamlConfig += `  # Custom Tooling
+${config.customTooling}
+`;
+        }
+
+        return yamlConfig;
     };
 
     const handleInputChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setConfig(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
+        
+        setConfig(prev => {
+            const newConfig = {
+                ...prev,
+                [name]: type === 'checkbox' ? checked : value
+            };
+            
+            // Update dependent fields when recipe changes
+            if (name === 'recipe' && RECIPES[value]) {
+                const recipe = RECIPES[value];
+                newConfig.via = recipe.defaultVia;
+                newConfig.webroot = recipe.defaultWebroot;
+            }
+            
+            return newConfig;
+        });
     };
 
     return (
@@ -59,6 +171,23 @@ tooling:
                         className="w-full p-2 rounded-md bg-gray-700 text-white"
                         placeholder="e.g., mysite"
                     />
+                </div>
+                
+                <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-1">Recipe</label>
+                    <select
+                        name="recipe"
+                        value={config.recipe}
+                        onChange={handleInputChange}
+                        className="w-full p-2 rounded-md bg-gray-700 text-white"
+                    >
+                        {Object.entries(RECIPES).map(([value, { name }]) => (
+                            <option key={value} value={value}>{name}</option>
+                        ))}
+                    </select>
+                    <p className="text-xs text-gray-400 mt-1">
+                        {currentRecipe.description}
+                    </p>
                 </div>
                 
                 <div>
@@ -87,6 +216,7 @@ tooling:
                     >
                         <option value="nginx">Nginx</option>
                         <option value="apache">Apache</option>
+                        <option value="apache:2.4">Apache 2.4</option>
                     </select>
                 </div>
 
@@ -139,10 +269,10 @@ tooling:
                     value={config.webroot}
                     onChange={handleInputChange}
                     className="w-full p-2 rounded-md bg-gray-700 text-white"
-                    placeholder="e.g., web"
+                    placeholder={currentRecipe.defaultWebroot}
                 />
                 <p className="text-xs text-gray-400 mt-1">
-                    Relative path to your web root directory (e.g., '.', 'web', 'docroot')
+                    Relative path to your web root directory (e.g., '{currentRecipe.defaultWebroot}', 'web', 'public')
                 </p>
             </div>
 
