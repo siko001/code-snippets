@@ -12,14 +12,14 @@ export default function ShellPage() {
                     <h3 id="shell-network" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Network Utilities
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <NetworkCommands />
                     </div>
 
                     <h3 id="shell-config" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Shell Configuration
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ShellConfigCommands />
                     </div>
                 </div>

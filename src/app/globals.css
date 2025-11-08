@@ -3,6 +3,30 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  
+  
+  
+  /* Components */
+  --component-bg: #ffffff;
+  --component-text-color: #171717;
+  --component-description-color: var(--color-gray-500);
+  
+  --unselected-hover-bg: var(--color-gray-200);
+  --unselected-hover-text-color: var(--color-blue-600);
+  --component-tab-bg: var(--color-gray-100);
+  
+  --component-input-label: var(--color-gray-500);
+  --component-input-bg: #ededed;
+  --component-input-color: #171717;
+  --component-input-placeholder: #ededed;
+  
+  
+  /* Code */
+  --code-bg-color: var(--color-gray-700);
+  
+  /* Variants */
+  --variants-bg-color: #171717;
+  --variants-hover-bg: #ededed;
 }
 
 @theme inline {
@@ -16,6 +40,28 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --component-bg: var(--color-gray-800);
+    
+  --component-text-color: var(--color-gray-100);
+  --component-description-color: var(--color-gray-400);
+  
+  
+  --unselected-hover-bg: var(--color-gray-200);
+  --unselected-hover-text-color: var(--color-blue-600);
+  
+  
+  
+  
+  --component-tab-bg: var(--color-gray-700);
+  --component-input-label: var(--color-gray-200);
+  --component-input-bg: var(--color-gray-700);
+  --component-input-color: var(--color-gray-100);
+  --component-input-placeholder: #ededed;
+  
+     /* Code */
+  --code-bg-color: var(--color-gray-900);
+  
+    
   }
 }
 
@@ -24,6 +70,62 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+.component-wrapper {
+  background: var(--component-bg);
+  color: var(--component-text-color);
+}
+
+.component-bg{
+    background: var(--component-bg);
+     color: var(--component-text-color);
+}
+
+.tab-bg{
+    background: var(--component-tab-bg);
+    color: var(--component-text-color);
+}
+
+.description{
+    color: var(--component-description-color);
+}
+
+label{
+    color: var(--component-input-label);
+}
+
+input[type='text'],input[type='number'],select{
+    @apply bg-[var(--component-input-bg)] text-[var(--component-input-color)] placeholder-[var(--component-input-placeholder)];
+}
+
+.code-snippet{
+    @apply bg-[var(--code-bg-color)] text-[var(--code-text-color)];
+}
+
+.unselected-hover:hover{
+   background: var(--unselected-hover-bg);
+   color: var(--unselected-hover-text-color);
+}
+
+
+
+
+
+h3{
+  color: var(--component-text-color);
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 input[type='checkbox'],button,select {
@@ -75,3 +177,25 @@ button {
     background-color: transparent;
 }
 
+
+
+
+
+
+
+/* Scrollbar styles for all elements */
+::-webkit-scrollbar {
+  height:1px;
+  width: 1px;
+}
+
+
+::-webkit-scrollbar-thumb {
+  border-radius: 100%;
+  @apply bg-blue-700;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+  @apply bg-blue-900;
+}

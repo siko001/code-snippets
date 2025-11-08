@@ -27,7 +27,7 @@ export default function NetworkCommands() {
             command: `lsof -i :${port}`,
             input: (
                 <div className="mt-2">
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Port Number</label>
+                    <label className="block text-sm font-medium  mb-1">Port Number</label>
                     <input
                         type="text"
                         value={port}
@@ -67,16 +67,16 @@ export default function NetworkCommands() {
     const activeCommand = commands[activeTab];
 
     return (
-        <div className="space-y-4">
-            <div className="flex space-x-1 p-1 bg-gray-700 rounded-lg">
+        <div className="w-full">
+            <div className="flex space-x-2 overflow-x-auto p-1.5 tab-bg rounded-lg mb-4 shadow-sm dark:shadow-none">
                 {tabs.map((tab) => (
                     <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${
+                        className={`px-4 py-2 text-sm whitespace-nowrap font-medium rounded-md transition-colors ${
                             activeTab === tab.id
-                                ? 'bg-gray-800 text-white'
-                                : 'text-gray-300 hover:text-white hover:bg-gray-600'
+                                ? 'bg-blue-600 text-white !cursor-default shadow-md'
+                                : 'text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-white hover:bg-gray-200 dark:hover:bg-gray-600'
                         }`}
                     >
                         {tab.label}
@@ -84,9 +84,9 @@ export default function NetworkCommands() {
                 ))}
             </div>
 
-            <div className="p-4 bg-gray-800 rounded-lg">
-                <h4 className="text-lg font-medium text-white mb-2">{activeCommand.title}</h4>
-                <p className="text-gray-300 text-sm mb-3">{activeCommand.description}</p>
+            <div className="p-4 component-bg rounded-lg">
+                <h4 className="text-lg font-medium  mb-2">{activeCommand.title}</h4>
+                <div className="text-sm  description mb-3">{activeCommand.description}</div>
                 {activeCommand.input}
                 <div className="mt-4">
                     <CodeSnippet code={activeCommand.command} language="bash" />

@@ -16,7 +16,7 @@ export default function CodeSnippet({ code, className = '', copyButton = true })
     };
 
     return (
-        <div className={`bg-gray-900 p-2 rounded relative ${className}`}>
+        <div className={`code-snippet p-2 rounded relative ${className}`}>
             <code className="text-green-400 block pr-16 overflow-x-auto">
                 {code}
             </code>
