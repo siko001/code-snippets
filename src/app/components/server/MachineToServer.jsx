@@ -34,7 +34,7 @@ export default function MachineToServer() {
     const snippet = generateSnippet();
 
     return (
-  <div className="w-full component-wrapper p-4 rounded-lg">
+  <div className="w-full component-wrapper p-6 rounded-lg">
             <h3 id="machine-to-server" className="text-xl font-semibold !text-blue-400 mb-4">Machine to Server</h3>
             
             {/* Display the generated snippet */}
