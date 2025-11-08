@@ -315,7 +315,7 @@ export default function Sidebar() {
                 </button>
                 
                 <div 
-                    className={`absolute right-0 top-12 w-72 bg-gray-800 rounded-md shadow-lg overflow-hidden transition-all duration-700 ease-in-out ${isOpen ? 'max-h-[calc(100vh-10rem)]' : 'max-h-0'}`}
+                    className={`absolute right-0 top-12 w-72 component-wrapper rounded-md shadow-lg overflow-hidden transition-all duration-700 ease-in-out ${isOpen ? 'max-h-[calc(100vh-10rem)]' : 'max-h-0'}`}
                     style={{
                         transitionProperty: 'max-height',
                         willChange: 'max-height',
@@ -325,7 +325,7 @@ export default function Sidebar() {
                             {Object.entries(menuSections).map(([key, section]) => (
                                 <div key={key} className="mb-2">
                                     <button
-                                        className={`w-full flex justify-between items-center px-4 py-3 text-left text-blue-600 hover:bg-gray-700 rounded-md transition-colors ${activeSection === key ? 'bg-gray-700' : ''}`}
+                                        className={`w-full flex justify-between items-center px-4 py-3 text-left text-blue-600 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md transition-colors ${activeSection === key ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
                                         onClick={() => toggleSection(key)}
                                     >
                                         <span className="font-medium">{section.title}</span>
@@ -351,7 +351,7 @@ export default function Sidebar() {
                                                                 (item.href.includes('#') && item.href.split('#')[1] === activeItem) || 
                                                                 (!item.href.includes('#') && pathname === item.href)
                                                                     ? 'bg-blue-900 text-white' 
-                                                                    : 'text-gray-300 hover:bg-gray-700'
+                                                                    : 'text-gray-600 dark:text-gray-300 dark:hover:bg-gray-700 hover:bg-gray-200'
                                                             }`}
                                                             onClick={(e) => handleMenuClick(e, item.href)}
                                                         >
