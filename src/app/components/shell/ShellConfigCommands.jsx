@@ -76,6 +76,7 @@ export default function ShellConfigCommands() {
 
     return (
         <div className="space-y-4 comp">
+            <h3  className="text-xl font-semibold !text-blue-400 mb-4">Commands</h3>
             <div className="flex space-x-2 overflow-x-auto p-1.5 tab-bg rounded-lg">
                 {tabs.map((tab) => (
                     <button

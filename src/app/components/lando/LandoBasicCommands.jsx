@@ -65,8 +65,9 @@ export default function LandoBasicCommands() {
 
     return (
         <div className="space-y-4">
+            <h3  className="text-xl font-semibold !text-blue-400 mb-4">Commands</h3>
             {/* Main Tabs */}
-            <div className="flex flex-wrap gap-1 p-1 bg-gray-700 rounded-lg">
+            <div className="flex flex-wrap gap-1 p-1.5 tab-bg rounded-lg">
                 {Object.entries(commandGroups).map(([id, group]) => (
                     <button
                         key={id}
@@ -86,7 +87,8 @@ export default function LandoBasicCommands() {
                 ))}
             </div>
 
-            <div className="p-4 bg-gray-800 rounded-lg space-y-4">
+            <div className="py-4 rounded-lg space-y-4">
+                
                 <div className="flex flex-wrap gap-2">
                     {activeGroup.commands.map((cmd, index) => (
                         <button
@@ -94,7 +96,7 @@ export default function LandoBasicCommands() {
                             onClick={() => setSelectedCommand(index)}
                             className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
                                 selectedCommand === index
-                                    ? 'bg-blue-700 text-white shadow-md'
+                                    ? '!bg-blue-700 !text-white shadow-md'
                                     : 'bg-gray-700 text-gray-300 hover:bg-gray-600 hover:text-white'
                             }`}
                             title={cmd.desc}
@@ -112,7 +114,7 @@ export default function LandoBasicCommands() {
                     />
                 </div>
                 
-                <p className="text-sm text-gray-400 mt-2">
+                <p className="text-sm description mt-2">
                     {activeCmd.desc}
                 </p>
             </div>

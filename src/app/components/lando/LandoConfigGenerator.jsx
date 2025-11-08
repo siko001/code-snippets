@@ -160,9 +160,10 @@ ${config.customTooling}
 
     return (
         <div className="space-y-6">
+            <h3  className="text-xl font-semibold !text-blue-400 mb-4">Config</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Project Name</label>
+                    <label className="block text-sm font-medium description mb-1">Project Name</label>
                     <input
                         type="text"
                         name="name"
@@ -174,7 +175,7 @@ ${config.customTooling}
                 </div>
                 
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Recipe</label>
+                    <label className="block text-sm font-medium description mb-1">Recipe</label>
                     <select
                         name="recipe"
                         value={config.recipe}
@@ -185,13 +186,13 @@ ${config.customTooling}
                             <option key={value} value={value}>{name}</option>
                         ))}
                     </select>
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs description mt-1">
                         {currentRecipe.description}
                     </p>
                 </div>
                 
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">PHP Version</label>
+                    <label className="block text-sm font-medium description mb-1">PHP Version</label>
                     <select
                         name="php"
                         value={config.php}
@@ -207,7 +208,7 @@ ${config.customTooling}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Web Server</label>
+                    <label className="block text-sm font-medium description mb-1">Web Server</label>
                     <select
                         name="via"
                         value={config.via}
@@ -221,7 +222,7 @@ ${config.customTooling}
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-1">Database</label>
+                    <label className="block text-sm font-medium description mb-1">Database</label>
                     <select
                         name="databaseType"
                         value={config.databaseType}
@@ -244,7 +245,7 @@ ${config.customTooling}
                         onChange={handleInputChange}
                         className="rounded bg-gray-700 border-gray-600"
                     />
-                    <span className="text-sm text-gray-300">Enable Xdebug</span>
+                    <span className="text-sm description">Enable Xdebug</span>
                 </label>
 
                 <label className="flex items-center space-x-2">
@@ -255,13 +256,13 @@ ${config.customTooling}
                         onChange={handleInputChange}
                         className="rounded bg-gray-700 border-gray-600"
                     />
-                    <span className="text-sm text-gray-300">Include phpMyAdmin</span>
+                    <span className="text-sm description">Include phpMyAdmin</span>
                 </label>
             </div>
 
             <div>
                 <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-medium text-gray-300">Webroot</span>
+                    <span className="text-sm font-medium description">Webroot</span>
                 </div>
                 <input
                     type="text"
@@ -278,19 +279,19 @@ ${config.customTooling}
 
             <div className="mt-6">
                 <h4 className="text-lg font-medium text-white mb-2">Lando Configuration</h4>
-                <p className="text-gray-300 text-sm mb-3">
-                    Save this as <code className="bg-gray-700 px-1 py-0.5 rounded">.lando.yml</code> in your project root
+                <p className="description text-sm mb-3">
+                    Save this as <code className="dark:bg-gray-700 bg-gray-200 px-1 py-0.5 rounded">.lando.yml</code> in your project root
                 </p>
                 <YamlSnippet code={generateConfig()} />
             </div>
 
             <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-4 mt-6">
-                <h4 className="text-md font-medium text-blue-300 mb-2">After saving the configuration:</h4>
+                <h4 className="text-md font-medium dark:text-blue-300 text-blue-500 mb-2">After saving the configuration:</h4>
                 <div className="space-y-2">
-                    <p className="text-sm text-blue-200">1. Run <code className="bg-blue-900/50 px-1.5 py-0.5 rounded">lando start</code> to start your environment</p>
-                    <p className="text-sm text-blue-200">2. Access your site at <code className="bg-blue-900/50 px-1.5 py-0.5 rounded">https://{config.name}.lndo.site</code></p>
+                    <p className="text-sm dark:text-blue-200 text-blue-500">1. Run <code className="dark:bg-blue-900/50 bg-blue-300 px-1.5 py-0.5 rounded">lando start</code> to start your environment</p>
+                    <p className="text-sm dark:text-blue-200 text-blue-500">2. Access your site at <code className="dark:bg-blue-900/50 bg-blue-300 px-1.5 py-0.5 rounded">https://{config.name}.lndo.site</code></p>
                     {config.includePma && (
-                        <p className="text-sm text-blue-200">3. Access phpMyAdmin at <code className="bg-blue-900/50 px-1.5 py-0.5 rounded">https://pma.{config.name}.lndo.site</code></p>
+                        <p className="text-sm dark:text-blue-200 text-blue-500">3. Access phpMyAdmin at <code className="dark:bg-blue-900/50 bg-blue-300 px-1.5 py-0.5 rounded">https://pma.{config.name}.lndo.site</code></p>
                     )}
                 </div>
             </div>

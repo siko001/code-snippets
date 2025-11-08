@@ -7,7 +7,7 @@ const ComposerTimeout = () => {
     
     return (
         <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-blue-400 mb-4">
+            <h3 className="text-xl font-semibold !text-blue-400 mb-4">
                 Solution
             </h3>
             <div>

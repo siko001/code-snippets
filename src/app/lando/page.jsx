@@ -12,14 +12,14 @@ export default function LandoPage() {
                     <h3 id="lando-basic" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Basic Commands
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <LandoBasicCommands />
                     </div>
 
                     <h3 id="lando-config" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Lando Configuration
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <LandoConfigGenerator />
                     </div>
                 </div>

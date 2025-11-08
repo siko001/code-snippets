@@ -68,6 +68,7 @@ export default function NetworkCommands() {
 
     return (
         <div className="w-full">
+            <h3  className="text-xl font-semibold !text-blue-400 mb-4">Network</h3>
             <div className="flex space-x-2 overflow-x-auto p-1.5 tab-bg rounded-lg mb-4 shadow-sm dark:shadow-none">
                 {tabs.map((tab) => (
                     <button

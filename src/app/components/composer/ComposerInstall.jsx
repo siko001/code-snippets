@@ -38,7 +38,7 @@ const ComposerInstall = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className="text-xs text-gray-400">{cmd.description}</p>
+                    <p className="text-xs description">{cmd.description}</p>
                 </div>
             ))}
             
