@@ -4,7 +4,7 @@
   --foreground: #171717;
   
   /* Components */
-  --component-bg: #ffffff;
+  --component-bg: var(--color-gray-50);
   --component-text-color: #171717;
   --component-description-color: var(--color-gray-500);
     
@@ -92,6 +92,7 @@ body {
 .component-wrapper {
   background: var(--component-bg);
   color: var(--component-text-color);
+  @apply shadow-2xl shadow-gray-500 dark:shadow-gray-800;
 }
 
 .component-bg{

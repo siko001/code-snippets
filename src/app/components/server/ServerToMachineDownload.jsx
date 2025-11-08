@@ -31,8 +31,8 @@ export default function ServerToMachineDownload() {
     const snippet = generateSnippet();
 
     return (
-        <div className="w-full bg-gray-800 p-4 rounded-lg">
-            <h3 id="server-to-desktop" className="text-xl font-semibold text-blue-400 mb-4">Server to Desktop</h3>
+        <div className="w-full component-wrapper p-4 rounded-lg">
+            <h3 id="server-to-desktop" className="text-xl font-semibold !text-blue-400 mb-4">Server to Desktop</h3>
             
             {/* Display the generated snippet */}
             <CodeSnippet 
