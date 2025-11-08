@@ -168,11 +168,11 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                 </div>
 
                 {activeTab === TABS.INSTALL_SSH && (
-                    <div className="mt-4 p-3 bg-gray-700 rounded text-sm">
-                        <p className="text-yellow-300 font-medium mb-1">Note:</p>
-                        <p className="text-gray-300">
+                    <div className="mt-4 p-3 dark:bg-gray-700 bg-gray-100 rounded text-sm">
+                        <p className="dark:text-yellow-300 text-yellow-500 font-medium mb-1">Note:</p>
+                        <p className="dark:text-gray-300 text-gray-500">
                             For Debian/Ubuntu, use: 
-                            <code className="bg-gray-600 px-2 py-1 rounded ml-1">
+                            <code className="dark:bg-gray-600 bg-gray-200 px-2 py-1 rounded ml-1">
                                 apt-get install -y openssh-client
                             </code>
                         </p>
@@ -181,7 +181,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             </div>
 
             {/* Usage Tips */}
-            <div className="p-4 dark:bg-gray-800 bg-gray-100 rounded-lg">
+            <div className="p-4 dark:bg-gray-900 bg-gray-100 rounded-lg">
                 <h4 className="text-blue-400 text-sm font-medium mb-2">When to use these commands:</h4>
                 <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li><span className="font-medium">Remove Host Key:</span> When getting "Host key verification failed" errors</li>

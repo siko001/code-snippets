@@ -145,15 +145,15 @@ const TableCommands = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className={`text-xs ${['drop', 'truncate'].includes(action) ? 'text-red-400' : 'text-gray-400'}`}>
+                    <p className={`text-xs ${['drop', 'truncate'].includes(action) ? 'text-red-400' : 'description'}`}>
                         {getDescription()}
                     </p>
                 </div>
 
                 {['drop', 'truncate'].includes(action) && (
                     <div className="p-3 bg-red-900/20 border border-red-800 rounded text-sm">
-                        <p className="text-red-300 font-medium mb-1">Warning:</p>
-                        <p className="text-xs text-red-300">
+                        <p className="dark:text-red-300 text-red-500 font-medium mb-1">Warning:</p>
+                        <p className="text-xs dark:text-red-300 text-red-500">
                             This action {action === 'drop' ? 'will permanently delete the table and all its data' : 'will remove all records from the table'}. 
                             This cannot be undone.
                         </p>
@@ -162,8 +162,8 @@ const TableCommands = () => {
 
                 {action === 'create' && (
                     <div className="p-3 bg-blue-900/20 border border-blue-800 rounded text-sm">
-                        <p className="text-blue-300 font-medium mb-1">Common Column Types:</p>
-                        <ul className="list-disc pl-5 space-y-1 text-xs text-blue-300">
+                        <p className="dark:text-blue-300 text-blue-500 font-medium mb-1">Common Column Types:</p>
+                        <ul className="list-disc pl-5 space-y-1 text-xs dark:text-blue-300 text-blue-500 ">
                             <li><code>INT</code> - Integer</li>
                             <li><code>VARCHAR(n)</code> - Variable string (max n characters)</li>
                             <li><code>TEXT</code> - Long text</li>

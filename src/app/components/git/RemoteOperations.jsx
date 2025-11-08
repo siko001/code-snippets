@@ -23,7 +23,7 @@ const RemoteOperations = ({ handleInputChange, inputValues, setInputValues }) =>
     return (
         <div className="space-y-4">
             <div className="space-y-4">
-                <h4 className="text-lg font-medium text-gray-300">Remote Operations</h4>
+                <h4 className="text-lg font-medium description">Remote Operations</h4>
                 
                 {/* Remote Selection */}
                 <div className="space-y-2">

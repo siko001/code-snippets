@@ -13,21 +13,21 @@ export default function SqlPage() {
                     <h3 id="sql-connection" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Database Connection
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ConnectionCommands />
                     </div>
 
                     <h3 id="sql-databases"  className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Database Management
                     </h3>
-                    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <DatabaseCommands />
                     </div>
 
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
                         Table Operations
                     </h3>
-                    <div id="sql-tables" className="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <div id="sql-tables" className="component-wrapper p-6 rounded-lg shadow-lg">
                         <TableCommands />
                     </div>
                 </div>

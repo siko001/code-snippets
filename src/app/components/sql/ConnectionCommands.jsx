@@ -80,7 +80,7 @@ const ConnectionCommands = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className="text-xs text-gray-400">Connect to MySQL server</p>
+                    <p className="text-xs description">Connect to MySQL server</p>
                 </div>
 
                 <div>
@@ -89,7 +89,7 @@ const ConnectionCommands = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className="text-xs text-gray-400">Remove password for user (run in MySQL shell)</p>
+                    <p className="text-xs description">Remove password for user (run in MySQL shell)</p>
                 </div>
             </div>
         </div>
