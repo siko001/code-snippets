@@ -6,39 +6,64 @@ import CodeSnippet from '../CodeSnippet';
 export default function DeveloperTools() {
     const [activeTab, setActiveTab] = useState('theme');
     const [themes, setThemes] = useState([]);
-    const [selectedTheme, setSelectedTheme] = useState('');
+    const [selectedTheme, setSelectedTheme] = useState('list');
     const [transients, setTransients] = useState([]);
-    const [selectedTransient, setSelectedTransient] = useState('');
+    const [selectedTransient, setSelectedTransient] = useState('list');
     const [rewriteRules, setRewriteRules] = useState('');
     const [sites, setSites] = useState([]);
-    const [selectedSite, setSelectedSite] = useState('');
+    const [selectedSite, setSelectedSite] = useState('list');
     const [maintenanceMode, setMaintenanceMode] = useState(false);
     const [output, setOutput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [translationAction, setTranslationAction] = useState('list');
     const [language, setLanguage] = useState('');
 
-    // Set default command based on active tab
-    useEffect(() => {
-        if (activeTab === 'theme') {
-            setOutput('wp theme list --format=json');
-        } else if (activeTab === 'transient') {
-            setOutput('wp transient list');
-        } else if (activeTab === 'rewrite') {
-            setOutput('wp rewrite list');
-        } else if (activeTab === 'multisite') {
-            setOutput('wp site list');
-        } else if (activeTab === 'maintenance') {
-            setOutput('wp maintenance-mode status');
-        } else if (activeTab === 'translations') {
-            setOutput('wp language core list --format=json');
-        }
-    }, [activeTab]);
+    const [useJsonFormatTheme, setUseJsonFormatTheme] = useState(true);
+    const [useJsonFormatTranslations, setUseJsonFormatTranslations] = useState(true);
+    const [useDryRun, setUseDryRun] = useState(false);
 
-    const executeCommand = (command) => {
+    // Update command when selection changes
+    useEffect(() => {
+        let command = '';
+        
+        if (activeTab === 'theme') {
+            if (selectedTheme === 'list') {
+                command = `wp theme list${useJsonFormatTheme ? ' --format=json' : ''}`;
+            } else if (selectedTheme === 'update') {
+                command = 'wp theme update --all';
+            } else if (selectedTheme === 'status') {
+                command = 'wp theme status';
+            }
+        } else if (activeTab === 'transient') {
+            if (selectedTransient === 'list') {
+                command = 'wp transient list';
+            } else if (selectedTransient === 'delete-expired') {
+                command = 'wp transient delete --expired';
+            } else if (selectedTransient === 'delete-all') {
+                command = 'wp transient delete --all';
+            } else {
+                command = 'wp transient list';
+            }
+        } else if (activeTab === 'rewrite') {
+            command = 'wp rewrite list';
+        } else if (activeTab === 'multisite') {
+            if (selectedSite === 'list') {
+                command = 'wp site list';
+            } else if (selectedSite === 'create') {
+                command = 'wp site create --slug=newsite --title="New Site"';
+            } else if (selectedSite === 'status') {
+                command = 'wp site status';
+            }
+        } else if (activeTab === 'maintenance') {
+            command = 'wp maintenance-mode status';
+        } else if (activeTab === 'translations') {
+            command = 'wp language core list';
+            if (useJsonFormatTranslations) command += ' --format=json';
+            if (useDryRun) command += ' --dry-run';
+        }
+        
         setOutput(command);
-        // In a real app, you would execute the command here
-    };
+    }, [activeTab, selectedTheme, selectedTransient, selectedSite, maintenanceMode, translationAction, language, useJsonFormatTheme, useJsonFormatTranslations, useDryRun]);
 
     const toggleMaintenanceMode = () => {
         const newMode = !maintenanceMode;
@@ -82,38 +107,40 @@ export default function DeveloperTools() {
             </div>
 
             {/* Tab Content */}
-            <div className="bg-gray-900 p-4 rounded-b-lg rounded-tr-lg">
+            <div className="0 p-4 rounded-b-lg rounded-tr-lg">
                 {/* Theme Management */}
                 {activeTab === 'theme' && (
                     <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Select Theme Action
-                            </label>
-                            <select
-                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-                                value={selectedTheme}
-                                onChange={(e) => setSelectedTheme(e.target.value)}
-                            >
-                                <option value="">Select an action...</option>
-                                <option value="list">List All Themes</option>
-                                <option value="update">Update All Themes</option>
-                                <option value="status">Show Active Theme</option>
-                            </select>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">
+                                    Select Theme Action
+                                </label>
+                                <select
+                                    className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    value={selectedTheme}
+                                    onChange={(e) => setSelectedTheme(e.target.value)}
+                                >
+                                    <option value="list">List All Themes</option>
+                                    <option value="update">Update All Themes</option>
+                                    <option value="status">Show Active Theme</option>
+                                </select>
+                            </div>
+                            {selectedTheme === 'list' && (
+                                <div className="flex items-center">
+                                    <input
+                                        type="checkbox"
+                                        id="jsonFormatTheme"
+                                        checked={useJsonFormatTheme}
+                                        onChange={(e) => setUseJsonFormatTheme(e.target.checked)}
+                                        className="h-4 w-4 text-blue-600 rounded border-gray-600 bg-gray-700 focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="jsonFormatTheme" className="ml-2 text-sm text-gray-300">
+                                        Use JSON Format
+                                    </label>
+                                </div>
+                            )}
                         </div>
-                        <button
-                            onClick={() => {
-                                let command = 'wp theme';
-                                if (selectedTheme === 'list') command += ' list --format=json';
-                                else if (selectedTheme === 'update') command += ' update --all';
-                                else if (selectedTheme === 'status') command += ' status';
-                                executeCommand(command);
-                            }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                            disabled={!selectedTheme}
-                        >
-                            Execute
-                        </button>
                     </div>
                 )}
 
@@ -129,25 +156,11 @@ export default function DeveloperTools() {
                                 value={selectedTransient}
                                 onChange={(e) => setSelectedTransient(e.target.value)}
                             >
-                                <option value="">Select an action...</option>
                                 <option value="list">List All Transients</option>
                                 <option value="delete-expired">Delete Expired Transients</option>
                                 <option value="delete-all">Delete All Transients</option>
                             </select>
                         </div>
-                        <button
-                            onClick={() => {
-                                let command = 'wp transient';
-                                if (selectedTransient === 'list') command += ' list';
-                                else if (selectedTransient === 'delete-expired') command += ' delete --expired';
-                                else if (selectedTransient === 'delete-all') command += ' delete --all';
-                                executeCommand(command);
-                            }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                            disabled={!selectedTransient}
-                        >
-                            Execute
-                        </button>
                     </div>
                 )}
 
@@ -162,13 +175,17 @@ export default function DeveloperTools() {
                         </div>
                         <div className="space-x-2">
                             <button
-                                onClick={() => executeCommand('wp rewrite list')}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                                onClick={() => setOutput('wp rewrite list')}
+                                className={`px-4 py-2 rounded-md ${
+                                    output === 'wp rewrite list'
+                                        ? 'bg-blue-700 text-white'
+                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                }`}
                             >
                                 List Rewrite Rules
                             </button>
                             <button
-                                onClick={() => executeCommand('wp rewrite flush')}
+                                onClick={() => setOutput('wp rewrite flush')}
                                 className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
                             >
                                 Flush Rewrite Rules
@@ -180,34 +197,37 @@ export default function DeveloperTools() {
                 {/* Multisite */}
                 {activeTab === 'multisite' && (
                     <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Multisite Actions
-                            </label>
-                            <select
-                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white mb-4"
-                                value={selectedSite}
-                                onChange={(e) => setSelectedSite(e.target.value)}
-                            >
-                                <option value="">Select an action...</option>
-                                <option value="list">List All Sites</option>
-                                <option value="create">Create New Site</option>
-                                <option value="status">Show Network Info</option>
-                            </select>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-300 mb-1">
+                                    Multisite Actions
+                                </label>
+                                <select
+                                    className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    value={selectedSite}
+                                    onChange={(e) => setSelectedSite(e.target.value)}
+                                >
+                                    <option value="list">List All Sites</option>
+                                    <option value="create">Create New Site</option>
+                                    <option value="status">Show Network Info</option>
+                                </select>
+                            </div>
+                            {selectedSite === 'create' && (
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-1">
+                                            Site Slug
+                                        </label>
+                                        <input
+                                            type="text"
+                                            placeholder="newsite"
+                                            className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                            onChange={(e) => setOutput(`wp site create --slug=${e.target.value || 'newsite'} --title="${e.target.value ? e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1) : 'New Site'}"`)}
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
-                        <button
-                            onClick={() => {
-                                let command = 'wp site';
-                                if (selectedSite === 'list') command += ' list';
-                                else if (selectedSite === 'create') command += ' create --slug=newsite --title="New Site"';
-                                else if (selectedSite === 'status') command += ' status';
-                                executeCommand(command);
-                            }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                            disabled={!selectedSite}
-                        >
-                            Execute
-                        </button>
                     </div>
                 )}
 
@@ -215,77 +235,80 @@ export default function DeveloperTools() {
                 {activeTab === 'translations' && (
                     <div className="space-y-4">
                         <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Translation Action
-                            </label>
-                            <div className="flex space-x-4 mb-4">
+                            <div className="flex items-center space-x-4 mb-4">
                                 <label className="inline-flex items-center">
                                     <input
                                         type="radio"
-                                        className="form-radio text-blue-600"
+                                        className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
                                         name="translationAction"
                                         value="list"
                                         checked={translationAction === 'list'}
                                         onChange={(e) => setTranslationAction(e.target.value)}
                                     />
-                                    <span className="ml-2 text-gray-300">List Translations</span>
+                                    <span className="ml-2 text-sm text-gray-300">List Translations</span>
                                 </label>
                                 <label className="inline-flex items-center">
                                     <input
                                         type="radio"
-                                        className="form-radio text-blue-600"
+                                        className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
                                         name="translationAction"
                                         value="update"
                                         checked={translationAction === 'update'}
                                         onChange={(e) => setTranslationAction(e.target.value)}
                                     />
-                                    <span className="ml-2 text-gray-300">Update Translations</span>
+                                    <span className="ml-2 text-sm text-gray-300">Update Translations</span>
                                 </label>
                             </div>
 
                             {translationAction === 'update' && (
-                                <div className="mb-4">
-                                    <label className="block text-sm font-medium text-gray-300 mb-1">
-                                        Language Code (e.g., fr_FR, de_DE, es_ES)
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-                                        placeholder="fr_FR"
-                                        value={language}
-                                        onChange={(e) => setLanguage(e.target.value)}
-                                    />
-                                    <p className="mt-1 text-xs text-gray-400">
-                                        Leave empty to update all installed languages
-                                    </p>
+                                <div className="mb-4 space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-300 mb-1">
+                                            Language Code (e.g., fr_FR, de_DE, es_ES)
+                                        </label>
+                                        <input
+                                            type="text"
+                                            className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                            placeholder="fr_FR"
+                                            value={language}
+                                            onChange={(e) => setLanguage(e.target.value)}
+                                        />
+                                        <p className="mt-1 text-xs text-gray-400">
+                                            Leave empty to update all installed languages
+                                        </p>
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <label className="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={useDryRun}
+                                                onChange={(e) => setUseDryRun(e.target.checked)}
+                                                className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
+                                            />
+                                            <span className="text-sm text-gray-300">Dry Run (--dry-run)</span>
+                                        </label>
+                                        {useDryRun && (
+                                            <p className="text-yellow-400 text-sm p-2 bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded-md">
+                                                <span className="font-semibold">Note:</span> The command includes the <code className="bg-gray-800 px-1 py-0.5 rounded">--dry-run</code> flag. Uncheck to perform the actual update.
+                                            </p>
+                                        )}
+                                    </div>
                                 </div>
                             )}
 
-                            <button
-                                onClick={() => {
-                                    let command = 'wp language core';
-                                    if (translationAction === 'list') {
-                                        command += ' list --format=json';
-                                    } else {
-                                        command += language 
-                                            ? ` update ${language} --dry-run`
-                                            : ' update --all --dry-run';
-                                    }
-                                    executeCommand(command);
-                                }}
-                                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                            >
-                                {translationAction === 'list' ? 'List Translations' : 'Update Translations'}
-                            </button>
-
-                            {translationAction === 'update' && (
-                                <div className="mt-4 p-3 bg-yellow-900 bg-opacity-30 border border-yellow-700 rounded-md">
-                                    <p className="text-yellow-400 text-sm">
-                                        <span className="font-semibold">Note:</span> The command includes the <code className="bg-gray-800 px-1 py-0.5 rounded">--dry-run</code> flag by default.
-                                        Remove it from the generated command to perform the actual update.
-                                    </p>
-                                </div>
-                            )}
+                            <div className="flex items-center space-x-2">
+                                <input
+                                    type="checkbox"
+                                    id="jsonFormatTranslations"
+                                    checked={useJsonFormatTranslations}
+                                    onChange={(e) => setUseJsonFormatTranslations(e.target.checked)}
+                                    className="h-4 w-4 text-blue-600 border-gray-600 bg-gray-700 focus:ring-blue-500"
+                                />
+                                <label htmlFor="jsonFormatTranslations" className="text-sm text-gray-300">
+                                    Use JSON Format
+                                </label>
+                            </div>
                         </div>
                     </div>
                 )}

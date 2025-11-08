@@ -19,26 +19,32 @@ export default function CronManager() {
         args: []
     });
     const [output, setOutput] = useState('wp cron event list');
+    const [runArgs, setRunArgs] = useState('');
+    const [newCronArgs, setNewCronArgs] = useState('');
     const [view, setView] = useState('run'); // 'run', 'schedule', 'list'
     const [runHook, setRunHook] = useState('');
     
     const resetForm = () => {
-        setOutput('wp cron event list');
+        // Reset all form fields
         setView('run');
+        setRunHook('');
+        setRunArgs('');
         setNewCron({
             hook_name: '',
             schedule: 'daily',
             args: []
         });
-        setRunHook('');
+        setNewCronArgs('');
+        // Set output to default command
+        setOutput('wp cron event list');
     };
 
     const listCronEvents = () => {
         return 'wp cron event list --format=json';
     };
 
-    const runCronEvent = (hook, args = []) => {
-        const argsStr = args.length ? ` --args='${JSON.stringify(args)}'` : '';
+    const runCronEvent = (hook, args) => {
+        const argsStr = args ? ` --args='${JSON.stringify([args])}'` : '';
         return `wp cron event run "${hook}"${argsStr}`;
     };
 
@@ -47,8 +53,8 @@ export default function CronManager() {
         return `wp cron event delete "${hook}"${argsStr}`;
     };
 
-    const scheduleCronEvent = (hook, schedule, args = []) => {
-        const argsStr = args.length ? ` --args='${JSON.stringify(args)}'` : '';
+    const scheduleCronEvent = (hook, schedule, args) => {
+        const argsStr = args ? ` --args='${JSON.stringify([args])}'` : '';
         return `wp cron event schedule "${hook}" "${schedule}"${argsStr}`;
     };
 
@@ -69,7 +75,7 @@ export default function CronManager() {
         setOutput(scheduleCronEvent(
             newCron.hook_name,
             newCron.schedule,
-            newCron.args
+            newCronArgs
         ));
         // Reset form
         setNewCron({
@@ -77,6 +83,7 @@ export default function CronManager() {
             schedule: 'daily',
             args: []
         });
+        setNewCronArgs('');
     };
 
     const loadCronEvents = () => {
@@ -109,6 +116,32 @@ export default function CronManager() {
         // Set default output on initial load
         setOutput('wp cron event list');
     }, []);
+
+    // Update output when run hook or args change
+    useEffect(() => {
+        if (view === 'run') {
+            if (runHook) {
+                setOutput(runCronEvent(runHook, runArgs));
+            } else {
+                setOutput('wp cron event list');
+            }
+        }
+    }, [runHook, runArgs, view, runCronEvent]);
+
+    // Update output when new cron details change
+    useEffect(() => {
+        if (view === 'schedule') {
+            if (newCron.hook_name) {
+                setOutput(scheduleCronEvent(
+                    newCron.hook_name,
+                    newCron.schedule,
+                    newCronArgs
+                ));
+            } else {
+                setOutput('wp cron event list');
+            }
+        }
+    }, [newCron, view, scheduleCronEvent, newCronArgs]);
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-xl mb-8">
@@ -198,6 +231,37 @@ export default function CronManager() {
                     </div>
                 </div>
 
+                {/* Run Cron Event */}
+                <div className={`bg-gray-900 rounded-lg p-4 ${view !== 'run' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium text-gray-300 mb-4">Run Cron Event</h4>
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Hook Name
+                            </label>
+                            <input
+                                type="text"
+                                value={runHook}
+                                onChange={(e) => setRunHook(e.target.value)}
+                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                placeholder="my_custom_hook"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Arguments (optional)
+                            </label>
+                            <input
+                                type="text"
+                                value={runArgs}
+                                onChange={(e) => setRunArgs(e.target.value)}
+                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                placeholder="Enter arguments"
+                            />
+                        </div>
+                    </div>
+                </div>
+
                 {/* Schedule New Cron Event */}
                 <div className={`bg-gray-900 rounded-lg p-4 ${view !== 'schedule' ? 'hidden' : ''}`}>
                     <h4 className="text-lg font-medium text-gray-300 mb-4">Schedule New Cron Event</h4>
@@ -232,90 +296,22 @@ export default function CronManager() {
                         </div>
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Arguments (JSON array, optional)
+                                Arguments (optional)
                             </label>
                             <input
                                 type="text"
-                                value={JSON.stringify(newCron.args)}
-                                onChange={(e) => {
-                                    try {
-                                        const args = JSON.parse(e.target.value);
-                                        if (Array.isArray(args)) {
-                                            setNewCron({...newCron, args});
-                                        }
-                                    } catch (e) {
-                                        // Invalid JSON, ignore
-                                    }
-                                }}
-                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white font-mono text-sm"
-                                placeholder='["arg1", "arg2"]'
-                            />
-                        </div>
-                        <button
-                            onClick={handleScheduleEvent}
-                            className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-md"
-                            disabled={!newCron.hook_name}
-                        >
-                            Schedule Event
-                        </button>
-                    </div>
-                </div>
-
-                {/* Run Cron Event */}
-                <div className={`bg-gray-900 rounded-lg p-4 ${view !== 'run' ? 'hidden' : ''}`}>
-                    <h4 className="text-lg font-medium text-gray-300 mb-4">Run Cron Event</h4>
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Hook Name
-                            </label>
-                            <input
-                                type="text"
-                                value={runHook}
-                                onChange={(e) => setRunHook(e.target.value)}
+                                value={newCronArgs}
+                                onChange={(e) => setNewCronArgs(e.target.value)}
                                 className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
-                                placeholder="my_custom_hook"
+                                placeholder="Enter arguments"
                             />
                         </div>
-                        <div>
-                            <label className="block text-sm font-medium text-gray-300 mb-1">
-                                Arguments (JSON array, optional)
-                            </label>
-                            <input
-                                type="text"
-                                value={JSON.stringify(newCron.args)}
-                                onChange={(e) => {
-                                    try {
-                                        const args = JSON.parse(e.target.value);
-                                        if (Array.isArray(args)) {
-                                            setNewCron({...newCron, args});
-                                        }
-                                    } catch (e) {
-                                        // Invalid JSON, ignore
-                                    }
-                                }}
-                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white font-mono text-sm"
-                                placeholder='["arg1", "arg2"]'
-                            />
-                        </div>
-                        <button
-                            onClick={() => {
-                                if (runHook) {
-                                    setOutput(runCronEvent(runHook, newCron.args));
-                                    setView('list');
-                                }
-                            }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
-                            disabled={!runHook}
-                        >
-                            Run Now
-                        </button>
                     </div>
                 </div>
 
                 {/* Generated Command */}
                 {output && (
-                    <div>
+                    <div className="mt-6">
                         <h4 className="text-lg font-medium text-gray-300 mb-2">Generated Command</h4>
                         <CodeSnippet code={output} language="bash" />
                     </div>
