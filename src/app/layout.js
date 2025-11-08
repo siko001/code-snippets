@@ -11,12 +11,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="relative">
+      <body className="relative scroll-smooth">
         <NotificationProvider>
           <div className="min-h-screen">
             <Sidebar />
             <main className="p-4 sm:p-6 max-w-7xl mx-auto">
-              <div className="mt-4">
+              <div className="mt-4 pt-10 pb-16">
                 {children}
               </div>
             </main>

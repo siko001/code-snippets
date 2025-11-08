@@ -12,25 +12,152 @@ export default function Sidebar() {
         git: false,
         wordpress: false
     });
+    const [currentHash, setCurrentHash] = useState('');
+    const [activeItem, setActiveItem] = useState('');
     const menuRef = useRef(null);
+    const observerRef = useRef(null);
     const pathname = usePathname();
     
     const toggleSection = (section) => {
-        setExpandedSections(prev => ({
-            ...prev,
-            [section]: !prev[section]
-        }));
+        setExpandedSections(prev => {
+            // Close all sections first
+            const newState = Object.keys(prev).reduce((acc, key) => {
+                acc[key] = false;
+                return acc;
+            }, {});
+            
+            // Open the clicked section if it was closed
+            if (!prev[section]) {
+                newState[section] = true;
+            }
+            
+            return newState;
+        });
     };
 
+    // Set up intersection observer to track visible sections
     useEffect(() => {
-        // Set active section based on current path
+        // Only run on client side
+        if (typeof window === 'undefined') return;
+        
+        let lastScrollTop = 0;
+        
+        const handleIntersection = (entries, observer) => {
+            // Get scroll direction
+            const st = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDirection = st > lastScrollTop ? 'down' : 'up';
+            lastScrollTop = st <= 0 ? 0 : st;
+            
+            // Find the most relevant entry
+            let mostVisibleEntry = null;
+            let maxVisibility = 0;
+            
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Calculate visibility percentage
+                    const rect = entry.boundingClientRect;
+                    const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+                    const visibleHeight = Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0);
+                    const visibility = (visibleHeight / rect.height) * 100;
+                    
+                    if (visibility > maxVisibility) {
+                        maxVisibility = visibility;
+                        mostVisibleEntry = entry;
+                    } else if (visibility === maxVisibility && mostVisibleEntry) {
+                        // If visibility is the same, choose based on scroll direction
+                        const currentRect = entry.boundingClientRect;
+                        const mostVisibleRect = mostVisibleEntry.boundingClientRect;
+                        
+                        if ((scrollDirection === 'down' && currentRect.top > mostVisibleRect.top) ||
+                            (scrollDirection === 'up' && currentRect.top < mostVisibleRect.top)) {
+                            mostVisibleEntry = entry;
+                        }
+                    }
+                }
+            });
+            
+            // Update active item if we found a visible entry
+            if (mostVisibleEntry) {
+                const id = mostVisibleEntry.target.id;
+                if (id) {
+                    setActiveItem(id);
+                    setCurrentHash(`#${id}`);
+                }
+            }
+        };
+
+        // Create observer with more sensitive options
+        observerRef.current = new IntersectionObserver(handleIntersection, {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px', // Adjust these values to control when the callback is triggered
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+        });
+
+        // Observe all sections with IDs
+        document.querySelectorAll('section[id], h2[id], h3[id]').forEach((section) => {
+            observerRef.current.observe(section);
+        });
+
+        // Cleanup
+        return () => {
+            if (observerRef.current) {
+                observerRef.current.disconnect();
+            }
+        };
+    }, [pathname]); // Re-run when path changes
+    
+    // Handle initial hash and hash changes
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        
+        const handleHashChange = () => {
+            const hash = window.location.hash;
+            setCurrentHash(hash);
+            if (hash) {
+                setActiveItem(hash.substring(1)); // Remove the '#'
+                // Smooth scroll to the element
+                const element = document.getElementById(hash.substring(1));
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        };
+        
+        // Initial check
+        handleHashChange();
+        
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, [pathname]);
+    
+    useEffect(() => {
+        // Set active section based on current path and expand it
+        let section = 'server'; // default
+        
         if (pathname.includes('wordpress')) {
-            setActiveSection('wordpress');
+            section = 'wordpress';
         } else if (pathname.includes('git')) {
-            setActiveSection('git');
-        } else {
-            setActiveSection('server');
+            section = 'git';
+        } else if (pathname.includes('composer')) {
+            section = 'composer';
+        } else if (pathname.includes('sql')) {
+            section = 'sql';
+        } else if (pathname.includes('shell')) {
+            section = 'shell';
+        } else if (pathname.includes('lando')) {
+            section = 'lando';
         }
+        
+        setActiveSection(section);
+        
+        // Expand only the active section
+        setExpandedSections(prev => {
+            const newState = {};
+            Object.keys(prev).forEach(key => {
+                newState[key] = key === section;
+            });
+            return newState;
+        });
     }, [pathname]);
 
     // Close menu when clicking outside
@@ -53,8 +180,8 @@ export default function Sidebar() {
             items: [
                 { name: 'Server to Machine', href: '/server/#server-to-desktop' },
                 { name: 'Machine to Server', href: '/server/#machine-to-server' },
-                { name: 'File Operations', href: '/server/#file-operations' },
                 { name: 'Zip Operations', href: '/server/#zip-operations' },
+                { name: 'File Operations', href: '/server/#file-operations' },
                 { name: 'SSH Key Management', href: '/server/#ssh-key-management' },
                 { name: 'SSH Agent Management', href: '/server/#ssh-agent-management' },
             ]
@@ -120,32 +247,35 @@ export default function Sidebar() {
         }
     };
         const handleMenuClick = (e, href) => {
-            e.stopPropagation();
-            
-            const [path, hash] = href.split('#');
-            const currentPath = window.location.pathname.replace(/\/$/, '');
-            const targetPath = path.replace(/\/$/, '');
-            
-            // Close mobile menu
-            setIsOpen(false);
-            
-            if (currentPath.endsWith(targetPath) && hash) {
-                requestAnimationFrame(() => {
-                    const element = document.getElementById(hash);
-                    if (element) {
-                        // Get the exact position
-                        const headerOffset = 80;
-                        const elementPosition = element.getBoundingClientRect().top;
-                        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                        window.scrollTo({
-                            top: offsetPosition,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
+        e.stopPropagation();
+        
+        const [path, hash] = href.split('#');
+        const currentPath = window.location.pathname.replace(/\/$/, '');
+        const targetPath = path.replace(/\/$/, '');
+        
+        // Close mobile menu
+        setIsOpen(false);
+        
+        if (currentPath.endsWith(targetPath)) {
+            if (hash) {
+                // Update URL without page reload
+                window.history.pushState({}, '', `#${hash}`);
+                setCurrentHash(`#${hash}`);
+                setActiveItem(hash);
+                
+                const element = document.getElementById(hash);
+                if (element) {
+                    // Smooth scroll to the element
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
             } else {
-                window.location.href = href;
+                // Just close the menu if it's a same-page link without hash
+                setIsOpen(false);
             }
+        } else {
+            // Navigate to a different page
+            window.location.href = href;
+        }
     };
 
     return (
@@ -217,7 +347,12 @@ export default function Sidebar() {
                                                 {section.items.map((item) => (
                                                     <li key={item.href} className="mb-1">
                                                         <div 
-                                                            className="block px-3 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-md transition-colors cursor-pointer"
+                                                            className={`block px-3 py-2 text-sm rounded-md transition-colors cursor-pointer ${
+                                                                (item.href.includes('#') && item.href.split('#')[1] === activeItem) || 
+                                                                (!item.href.includes('#') && pathname === item.href)
+                                                                    ? 'bg-blue-900 text-white' 
+                                                                    : 'text-gray-300 hover:bg-gray-700'
+                                                            }`}
                                                             onClick={(e) => handleMenuClick(e, item.href)}
                                                         >
                                                             {item.name}
