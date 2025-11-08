@@ -21,7 +21,7 @@ const SSHAgentManagement = () => {
     return (
         <div className="space-y-4">
             <div className="space-y-4">
-                <h3 id='ssh-agent-management' className="text-lg font-semibold text-blue-400">Agent Management</h3>
+                <h3 id='ssh-agent-management' className="text-lg font-semibold !text-blue-400">Agent Management</h3>
                 
                 <div className="space-y-4">
                     <div className="flex items-center">
@@ -67,9 +67,9 @@ const SSHAgentManagement = () => {
                 </div>
             </div>
 
-            <div className="p-4 bg-gray-800 rounded-lg">
+            <div className="p-4 dark:bg-gray-800 bg-gray-100 rounded-lg">
                 <h4 className="text-blue-400 font-medium mb-2 text-sm">When to use this:</h4>
-                <ul className="list-disc pl-5 space-y-1 text-xs text-gray-300">
+                <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li>When you need to authenticate with a private key on a remote server</li>
                     <li>Before running Git operations that require SSH authentication</li>
                     <li>When working with deployment scripts that need SSH access</li>

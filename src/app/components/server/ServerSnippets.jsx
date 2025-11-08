@@ -49,7 +49,7 @@ export default function ServerSnippets() {
                             />
                         </div>
                         
-                        <div className="bg-gray-800 p-6 mt-10 rounded-lg shadow-lg">
+                        <div className="component-wrapper p-6 mt-10 rounded-lg shadow-lg">
                             <SSHAgentManagement />
                         </div>
                     </div>
