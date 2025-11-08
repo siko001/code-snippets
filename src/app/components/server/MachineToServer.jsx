@@ -34,8 +34,8 @@ export default function MachineToServer() {
     const snippet = generateSnippet();
 
     return (
-  <div className="w-full bg-gray-800 p-4 rounded-lg">
-            <h3 id="machine-to-server" className="text-xl font-semibold text-blue-400 mb-4">Machine to Server</h3>
+  <div className="w-full component-wrapper p-4 rounded-lg">
+            <h3 id="machine-to-server" className="text-xl font-semibold !text-blue-400 mb-4">Machine to Server</h3>
             
             {/* Display the generated snippet */}
             <CodeSnippet 
@@ -96,7 +96,7 @@ export default function MachineToServer() {
                         className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/local/folder/"
                     />
-                    <div className="text-xs mt-1 text-gray-400">Local directory path (e.g., Downloads/)</div>
+                    <div className="text-xs mt-1 description">Local directory path (e.g., Downloads/)</div>
                 </div>
 
                 <div>
@@ -110,7 +110,7 @@ export default function MachineToServer() {
                         className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="file.ext or folder/"
                     />
-                    <div className="text-xs mt-1 text-gray-400">File name or folder to upload</div>
+                    <div className="text-xs mt-1 description">File name or folder to upload</div>
                 </div>
 
                 <div>
@@ -124,7 +124,7 @@ export default function MachineToServer() {
                         className="w-full p-2 rounded-md bg-gray-700 text-white" 
                         placeholder="~/path/on/server/"
                     />
-                    <div className="text-xs mt-1 text-gray-400">Destination path on server</div>
+                    <div className="text-xs mt-1 description">Destination path on server</div>
                 </div>
             </div>
         </div>

@@ -93,7 +93,7 @@ export default function ServerToMachineDownload() {
                         className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/file/"
                     />
-                    <div className="text-xs mt-1 text-gray-400">Without prefixed ~/</div>
+                    <div className="text-xs mt-1 description">Without prefixed ~/</div>
                 </div>
 
                 <div>
@@ -107,7 +107,7 @@ export default function ServerToMachineDownload() {
                         className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="filename.ext"
                     />
-                    <div className="text-xs mt-1 text-gray-400">Include extension</div>
+                    <div className="text-xs mt-1 description">Include extension</div>
                 </div>
 
                 <div>
@@ -121,7 +121,7 @@ export default function ServerToMachineDownload() {
                         className="w-full p-2  rounded-md bg-gray-700 text-white" 
                         placeholder="path/to/save/"
                     />
-                    <div className="text-xs mt-1 text-gray-400">Without prefixed ~/</div>
+                    <div className="text-xs mt-1 description">Without prefixed ~/</div>
                 </div>
             </div>
         </div>
