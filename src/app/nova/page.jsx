@@ -22,22 +22,22 @@ export default function NovaPage() {
                 <div className="max-w-5xl mx-auto space-y-12">
                 
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700">Resource Management</h3>
-                    <section id="title-method" className="component-wrapper rounded-xl p-6 shadow-lg">
+                    <section id="title-method" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <TitleMethod />
                     </section>
                     
-                    <section id="searchable-columns" className="component-wrapper rounded-xl p-6 shadow-lg">
+                    <section id="searchable-columns" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <SearchableColumns />
                     </section>
-                        <section id="index-relations" className="component-wrapper rounded-xl p-6 shadow-lg">
+                        <section id="index-relations" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <IndexRelations />
                     </section>
-                    <section id="hide-from-index" className="component-wrapper rounded-xl p-6 shadow-lg">
+                    <section id="hide-from-index" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <HideFromIndex />
                     </section>
                     
-                    <h3 className="text-xl font-semibold text-white border-b border-gray-700">Resource Customization</h3>
-                    <section id="resource-methods" className="component-wrapper rounded-xl p-6 shadow-lg">
+
+                    <section id="resource-methods" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <ResourceMethods />
                     </section>
                 </div>
