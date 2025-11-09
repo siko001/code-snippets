@@ -27,8 +27,8 @@ public function title()
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-blue-400 mb-4">Title Method Generator</h3>
-                <p className="text-gray-300 text-sm">
+                <h3 className="text-xl font-semibold !text-blue-400 mb-4">Title Method Generator</h3>
+                <p className="description text-sm">
                     Generate a title method for your Nova resource that displays a relationship or field.
                 </p>
                 
@@ -42,7 +42,7 @@ public function title()
                             className="w-full p-2 rounded-md bg-gray-700 text-white"
                             placeholder="e.g., product, user, etc."
                         />
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs description mt-1">
                             The relationship name (camelCase)
                         </p>
                     </div>
@@ -56,7 +56,7 @@ public function title()
                             className="w-full p-2 rounded-md bg-gray-700 text-white"
                             placeholder="e.g., name, title, etc."
                         />
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs description mt-1">
                             Field or nested field (e.g., 'name' or 'category.name')
                         </p>
                     </div>
@@ -70,13 +70,13 @@ public function title()
                             onChange={(e) => setUseId(e.target.checked)}
                             className="rounded bg-gray-700 border-gray-600 text-blue-500"
                         />
-                        <span className="ml-2 text-sm text-gray-300">Fallback to ID if field is empty</span>
+                        <span className="ml-2 text-sm description font-saira">Fallback to ID if field is empty</span>
                     </label>
                 </div>
                 
                 <div className="mt-4">
                     <PhpSnippet code={generateCode()} />
-                    <p className="text-xs text-gray-400 mt-2">
+                    <p className="text-xs description mt-2">
                         Add this method to your Nova resource class.
                     </p>
                 </div>

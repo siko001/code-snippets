@@ -87,29 +87,29 @@ export default function HideFromIndex() {
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-blue-400 mb-4">Hide From Index</h3>
-                <p className="text-gray-300 text-sm">
+                <h3 className="text-xl font-semibold !text-blue-400 mb-4">Hide From Index</h3>
+                <p className="description text-sm">
                     Generate code to hide fields or relationships when viewed from a related resource's index.
                 </p>
                 
                 <div className="mt-4">
-                    <div className="flex space-x-2 mb-4">
+                    <div className="flex space-x-2 mb-4 tab-bg py-1.5 rounded-lg px-2 whitespace-nowrap overflow-x-auto">
                         <button
                             onClick={() => setActiveTab('field')}
-                            className={`px-4 py-2 rounded-t-md ${
+                            className={`px-4 py-2 rounded-md ${
                                 activeTab === 'field' 
-                                    ? 'bg-gray-700 text-blue-400 border-b-2 border-blue-400' 
-                                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                                    ? '!bg-blue-600 !text-white' 
+                                    : ''
                             }`}
                         >
                             Fields
                         </button>
                         <button
                             onClick={() => setActiveTab('relationship')}
-                            className={`px-4 py-2 rounded-t-md ${
+                            className={`px-4 py-2 rounded-md ${
                                 activeTab === 'relationship' 
-                                    ? 'bg-gray-700 text-blue-400 border-b-2 border-blue-400' 
-                                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+                                    ? '!bg-blue-600 !text-white' 
+                                    : ''
                             }`}
                         >
                             Relationships
@@ -119,8 +119,8 @@ export default function HideFromIndex() {
                     <div className="mb-6">
                         <div className="flex flex-wrap gap-2 mb-2">
                             {items.map((item, index) => (
-                                <div key={index} className={`px-3 py-1 rounded-full text-sm flex items-center ${
-                                    item.type === 'field' ? 'bg-blue-900/30 text-blue-200' : 'bg-purple-900/30 text-purple-200'
+                                <div key={index} className={`px-3 font-quicksand font-bold py-1 rounded-full text-sm flex items-center ${
+                                    item.type === 'field' ? 'bg-blue-500/30 dark:text-blue-200 text-blue-700' : 'bg-purple-900/30 text-purple-200'
                                 }`}>
                                     <span className="font-mono text-xs opacity-75 mr-1">
                                         {item.type === 'field' ? item.fieldType : item.relationType}
@@ -128,7 +128,7 @@ export default function HideFromIndex() {
                                     {item.name}
                                     <button 
                                         onClick={() => removeItem(index)}
-                                        className="ml-1.5 text-gray-400 hover:text-white transition-colors"
+                                        className="ml-0.5 hover:!text-white transition-colors focus:!ring-0 !shadow-none !text-red-500 !bg-transparent"
                                         title="Remove"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -187,7 +187,7 @@ export default function HideFromIndex() {
 
                     <div className="mt-6">
                         <PhpSnippet code={generateCode()} />
-                        <p className="text-xs text-gray-400 mt-2">
+                        <p className="text-xs description mt-2">
                             Use this code in your Nova resource's fields/relationships method.
                         </p>
                     </div>

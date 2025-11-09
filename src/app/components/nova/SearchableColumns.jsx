@@ -77,8 +77,8 @@ public static function searchableColumns(): array
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                  <h3 className="text-xl font-semibold text-blue-400 mb-4">Searchable Configuration</h3>
-                <p className="text-gray-300 text-sm">
+                  <h3 className="text-xl font-semibold !text-blue-400 mb-4">Searchable Configuration</h3>
+                <p className="description text-sm">
                     Configure searchable columns and relationships for your Nova resource.
                 </p>
                 
@@ -90,20 +90,20 @@ public static function searchableColumns(): array
                             onChange={(e) => setSearchable(e.target.checked)}
                             className="rounded bg-gray-700 border-gray-600 text-blue-500"
                         />
-                        <span className="ml-2 text-sm text-gray-300">Make resource searchable</span>
+                        <span className="ml-2 text-sm description">Make resource searchable</span>
                     </label>
                     
                     {searchable && (
                         <>
                             <div className="mb-6">
-                                <h5 className="text-md font-medium text-gray-300 mb-2">Searchable Fields</h5>
+                                <h5 className="text-md font-medium description mb-2">Searchable Fields</h5>
                                 <div className="flex flex-wrap gap-2 mb-2">
                                     {searchableFields.map((field, index) => (
-                                        <div key={index} className="bg-blue-900/30 text-blue-200 px-3 py-1 rounded-full text-sm flex items-center">
+                                        <div key={index} className="bg-blue-900/30 description !font-quicksand text-blue-200 px-3 py-1 rounded-full text-sm flex items-center">
                                             {field}
                                             <button 
                                                 onClick={() => removeSearchableField(field)}
-                                                className="ml-1.5 text-gray-400 hover:text-white transition-colors"
+                                                className="ml-1.5  hover:!text-white transition-colors focus:!ring-0 !shadow-none !text-red-500 !bg-transparent"
                                                 title="Remove field"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -133,7 +133,7 @@ public static function searchableColumns(): array
                             
                             <div className="mb-4">
                                 <div className="flex justify-between items-center mb-2">
-                                    <h5 className="text-md font-medium text-gray-300">Searchable Relations</h5>
+                                    <h5 className="text-md font-medium description">Searchable Relations</h5>
                                     <button
                                         onClick={addRelation}
                                         className="text-sm bg-gray-700 hover:bg-gray-600 text-white px-3 py-1 rounded"
@@ -167,7 +167,7 @@ public static function searchableColumns(): array
                                         <div>
                                             <button
                                                 onClick={() => removeRelation(index)}
-                                                className="p-2 text-red-400 hover:text-red-300 hover:bg-red-900/50 rounded-md transition-colors"
+                                                className="p-[0.70rem] text-red-400 hover:!text-white hover:!bg-red-500/80 rounded-md transition-colors"
                                                 title="Remove relation"
                                             >
                                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -183,7 +183,7 @@ public static function searchableColumns(): array
                     
                     <div className="mt-6">
                         <PhpSnippet code={generateCode()} />
-                        <p className="text-xs text-gray-400 mt-2">
+                        <p className="text-xs description mt-2">
                             Add this method to your Nova resource class.
                         </p>
                     </div>

@@ -13,19 +13,19 @@ export default function NovaPage() {
                 
                 
                 <div className="max-w-5xl mx-auto space-y-12">
-                    <section id="index-relations" className="bg-gray-800/50 rounded-xl p-6 shadow-lg">
-                        <IndexRelations />
-                    </section>
-                    
-                    <section id="title-method" className="bg-gray-800/50 rounded-xl p-6 shadow-lg">
+                
+                    <h3 className="text-xl font-semibold text-white border-b border-gray-700">Resource Management</h3>
+                    <section id="title-method" className="component-wrapper rounded-xl p-6 shadow-lg">
                         <TitleMethod />
                     </section>
                     
-                    <section id="searchable-columns" className="bg-gray-800/50 rounded-xl p-6 shadow-lg">
+                    <section id="searchable-columns" className="component-wrapper rounded-xl p-6 shadow-lg">
                         <SearchableColumns />
                     </section>
-                    
-                    <section id="hide-from-index" className="bg-gray-800/50 rounded-xl p-6 shadow-lg">
+                        <section id="index-relations" className="component-wrapper rounded-xl p-6 shadow-lg">
+                        <IndexRelations />
+                    </section>
+                    <section id="hide-from-index" className="component-wrapper rounded-xl p-6 shadow-lg">
                         <HideFromIndex />
                     </section>
                 </div>

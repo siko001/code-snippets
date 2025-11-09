@@ -30,10 +30,10 @@ export default function IndexRelations() {
     return (
         <div className="space-y-4">
             <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-blue-400 mb-4">
+                <h3 className="text-xl font-semibold !text-blue-400 mb-4">
                     Hide Relationship on Index
                 </h3>
-                <p className="text-gray-300 text-sm">
+                <p className="description text-sm">
                     Generate code to hide a relationship field when viewed from the index of a related resource.
                 </p>
                 
@@ -58,7 +58,7 @@ export default function IndexRelations() {
                             className="w-full p-2 rounded-md bg-gray-700 text-white"
                             placeholder="e.g., users, posts"
                         />
-                        <p className="text-xs text-gray-400 mt-1">
+                        <p className="text-xs description mt-1">
                             Leave empty to apply to all resources
                         </p>
                     </div>
@@ -67,8 +67,8 @@ export default function IndexRelations() {
                 {relationship && (
                     <div className="mt-4">
                         <PhpSnippet code={generateCode()} />
-                        <p className="text-xs text-gray-400 mt-2">
-                            Add this to your Nova resource's <code className="bg-gray-700 px-1 py-0.5 rounded">fields()</code> method.
+                        <p className="text-xs description mt-2">
+                            Add this to your Nova resource's <code className="dark:bg-gray-700 bg-gray-200 px-1 py-0.5 rounded">fields()</code> method.
                         </p>
                     </div>
                 )}

@@ -152,7 +152,7 @@ const TableCommands = () => {
                 </div>
 
                 {['drop', 'truncate'].includes(action) && (
-                    <div className="p-3 !font-saria bg-red-900/20 border border-red-800 rounded text-sm">
+                    <div className="p-3 font-saria bg-red-900/20 border border-red-800 rounded text-sm">
                         <p className="dark:text-red-300 text-red-500 font-medium mb-1">Warning:</p>
                         <p className="text-xs dark:text-red-300 text-red-500">
                             This action {action === 'drop' ? 'will permanently delete the table and all its data' : 'will remove all records from the table'}. 
