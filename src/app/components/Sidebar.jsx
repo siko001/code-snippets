@@ -244,6 +244,16 @@ export default function Sidebar() {
                 { name: 'Cron Manager', href: '/wordpress/#wp-cron-manager' },
                 { name: 'Developer Tools', href: '/wordpress/#wp-dev-tools' },
             ]
+        },
+        
+        
+            nova: {
+            title: 'Laravel Nova',
+            items: [
+                { name: 'Resource Title', href: '/nova/#nova-resource-title' },
+                { name: 'Search', href: '/nova/#nova-search' },
+                { name: 'Index Query', href: '/nova/#nova-index-query' },
+            ]
         }
     };
         const handleMenuClick = (e, href) => {

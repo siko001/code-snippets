@@ -99,7 +99,7 @@ public static function searchableColumns(): array
                                 <h5 className="text-md font-medium description mb-2">Searchable Fields</h5>
                                 <div className="flex flex-wrap gap-2 mb-2">
                                     {searchableFields.map((field, index) => (
-                                        <div key={index} className="bg-blue-900/30 description !font-quicksand text-blue-200 px-3 py-1 rounded-full text-sm flex items-center">
+                                        <div key={index} className="bg-blue-500/30 description font-semibold !font-quicksand !text-blue-500 px-3 py-1 rounded-full text-xs flex items-center">
                                             {field}
                                             <button 
                                                 onClick={() => removeSearchableField(field)}
