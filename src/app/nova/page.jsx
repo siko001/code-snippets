@@ -2,6 +2,7 @@ import IndexRelations from '../components/nova/IndexRelations';
 import TitleMethod from '../components/nova/TitleMethod';
 import SearchableColumns from '../components/nova/SearchableColumns';
 import HideFromIndex from '../components/nova/HideFromIndex';
+import ResourceMethods from '../components/nova/ResourceMethods';
 
 // This page is statically generated at build time and revalidated every hour
 export const revalidate = 3600; // Revalidate at most every hour
@@ -33,6 +34,11 @@ export default function NovaPage() {
                     </section>
                     <section id="hide-from-index" className="component-wrapper rounded-xl p-6 shadow-lg">
                         <HideFromIndex />
+                    </section>
+                    
+                    <h3 className="text-xl font-semibold text-white border-b border-gray-700">Resource Customization</h3>
+                    <section id="resource-methods" className="component-wrapper rounded-xl p-6 shadow-lg">
+                        <ResourceMethods />
                     </section>
                 </div>
             </div>
