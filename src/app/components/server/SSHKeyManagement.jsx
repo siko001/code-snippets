@@ -181,8 +181,8 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             </div>
 
             {/* Usage Tips */}
-            <div className="p-4 dark:bg-gray-900 bg-gray-100 rounded-lg">
-                <h4 className="text-blue-400 text-sm font-medium mb-2">When to use these commands:</h4>
+            <div className="p-4 font-saira dark:bg-gray-900 bg-gray-100 rounded-lg">
+                <h4 className="text-blue-400   text-sm font-medium mb-2">When to use these commands:</h4>
                 <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li><span className="font-medium">Remove Host Key:</span> When getting "Host key verification failed" errors</li>
                     <li><span className="font-medium">Generate SSH Key:</span> When setting up a new server or need new SSH keys</li>

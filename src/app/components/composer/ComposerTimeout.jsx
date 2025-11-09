@@ -21,7 +21,7 @@ const ComposerTimeout = () => {
                 </p>
             </div>
             
-            <div className="p-3  border border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700 rounded text-sm">
+            <div className="p-3 font-saira border border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700 rounded text-sm">
                 <p className="dark:text-blue-300 text-blue-400 font-medium mb-1">Note:</p>
                 <ul className="list-disc pl-5 space-y-1 text-gray-700 dark:text-gray-300">
                     <li><code className="bg-gray-200 dark:bg-gray-700 px-1 rounded">--no-dev</code> Skips development dependencies</li>

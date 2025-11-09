@@ -105,7 +105,7 @@ export default function ZipOperations() {
 
                 
                 <div className="text-sm text-gray-400 mt-2">
-                    <p className="font-semibold mb-2">Common Flags:</p>
+                    <p className="font-semibold font-quicksand mb-2">Common Flags:</p>
                     <div className="flex flex-wrap gap-2">
                         {!isUnzip && (
                             <button 

@@ -89,7 +89,7 @@ const DatabaseCommands = () => {
                 </div>
 
                 {action === 'drop' && (
-                    <div className="p-3 dark:bg-red-900/20 bg-red-900/30 border border-red-800 rounded text-sm">
+                    <div className="p-3 font-saria dark:bg-red-900/20 bg-red-900/30 border border-red-800 rounded text-sm">
                         <p className=" text-red-500 font-medium mb-1">Warning:</p>
                         <p className="text-xs text-red-500">
                             This will permanently delete the database and all its tables. This action cannot be undone.

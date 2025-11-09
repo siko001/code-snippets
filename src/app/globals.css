@@ -1,7 +1,10 @@
 @import "tailwindcss";
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #372525;
+  --font-quicksand: "Quicksand", sans-serif;
+  --font-saira: "Saira", sans-serif;
   
   /* Components */
   --component-bg: var(--color-gray-50);
@@ -40,6 +43,7 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --font-saira: "Saira", sans-serif;
     --component-bg: var(--color-gray-800);
     
   --component-text-color: var(--color-gray-100);
@@ -90,6 +94,7 @@ body {
 
 /* Components */
 .component-wrapper {
+  font-family: font-saira ;
   background: var(--component-bg);
   color: var(--component-text-color);
   @apply shadow-2xl shadow-gray-500 dark:shadow-gray-800;
@@ -102,6 +107,7 @@ body {
 
 h3{
   color: var(--component-text-color);
+  font-family: var(--font-saira);
 }
 
 /* Variants */
@@ -119,6 +125,8 @@ h3{
 button {
   background: var(--button-bg-color);
   color: var(--button-text-color);
+  font-family: var(--font-saira);
+  font-weight: 600;
   @apply  focus:ring-1 shadow-md  focus:ring-blue-500 focus:border-blue-500 focus:outline-none duration-200 transition-colors ease-in-out;
 }
 
@@ -136,14 +144,17 @@ button.bg-blue-600{
 /* Inputs */
 .description{
     color: var(--component-description-color);
+    font-family: var(--font-quicksand);
 }
 
 label{
     color: var(--component-input-label);
+    font-family: var(--font-quicksand);
 }
 
 input[type='text'],input[type='number'],select,input[type="date"],input[type="email"]{
     @apply bg-[var(--component-input-bg)] text-[var(--component-input-color)] placeholder-[var(--component-input-placeholder)];
+    font-family: var(--font-quicksand);
 }
 
 
@@ -212,7 +223,10 @@ input[type='text'],input[type='number'],select,input[type="date"],input[type="em
     background-color: transparent;
 }
 
+.font-saira {
+  font-family: var(--font-saira);
+}
 
-
-
-
+.font-quicksand {
+  font-family: var(--font-quicksand);
+}

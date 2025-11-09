@@ -1,6 +1,7 @@
 import './globals.css';
 import { NotificationProvider } from './contexts/NotificationContext';
 import Notification from './components/Notification';
+import {Quicksand, Saira} from "next/font/google";
 import Sidebar from './components/Sidebar';
 
 export const metadata = {
@@ -8,10 +9,27 @@ export const metadata = {
   description: "Handy code snippets for developers",
 };
 
+const saira = Saira({
+    subsets: ["latin"],
+    weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+    style: ["normal", "italic"],
+    display: "swap",
+    variable: "--font-saira",
+});
+
+
+
+const quicksand = Quicksand({
+    subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700"],
+    display: "swap",
+    variable: "--font-quicksand",
+});
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="relative scroll-smooth">
+      <body className={`relative scroll-smooth ${saira.variable} ${quicksand.variable}`}>
         <NotificationProvider>
           <div className="min-h-screen">
             <Sidebar />

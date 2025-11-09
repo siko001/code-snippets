@@ -98,7 +98,7 @@ const StashOperations = ({ handleInputChange, inputValues, setInputValues }) => 
                             placeholder="stash@{0}"
                             className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
                         />
-                        <p className="text-sm text-gray-400 mt-2">
+                        <p className="text-sm font-saria text-gray-400 mt-2">
                             {inputValues.stashOperation === 'drop' 
                                 ? 'Use with caution - this action cannot be undone!'
                                 : 'Leave empty for the most recent stash'}

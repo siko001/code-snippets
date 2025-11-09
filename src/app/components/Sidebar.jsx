@@ -340,7 +340,7 @@ export default function Sidebar() {
                                     </button>
                                     
                                     <div 
-                                        className={`overflow-hidden transition-all duration-200 ease-in-out ${expandedSections[key] ? 'max-h-96' : 'max-h-0'}`}
+                                        className={`overflow-hidden font-quicksand font-bold transition-all duration-200 ease-in-out ${expandedSections[key] ? 'max-h-96' : 'max-h-0'}`}
                                     >
                                         <nav className="py-2 pl-4">
                                             <ul>

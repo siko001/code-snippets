@@ -67,7 +67,7 @@ const SSHAgentManagement = () => {
                 </div>
             </div>
 
-            <div className="p-4 dark:bg-gray-900 bg-gray-100 rounded-lg">
+            <div className="p-4 font-saira dark:bg-gray-900 bg-gray-100 rounded-lg">
                 <h4 className="text-blue-400 font-medium mb-2 text-sm">When to use this:</h4>
                 <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li>When you need to authenticate with a private key on a remote server</li>
