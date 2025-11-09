@@ -272,7 +272,7 @@ ${config.customTooling}
                     className="w-full p-2 rounded-md bg-gray-700 text-white"
                     placeholder={currentRecipe.defaultWebroot}
                 />
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-xs description mt-1">
                     Relative path to your web root directory (e.g., '{currentRecipe.defaultWebroot}', 'web', 'public')
                 </p>
             </div>
@@ -285,7 +285,7 @@ ${config.customTooling}
                 <YamlSnippet code={generateConfig()} />
             </div>
 
-            <div className="bg-blue-900/20 border border-blue-800 rounded-lg p-4 mt-6">
+            <div className="bg-blue-900/20 font-quicksand border border-blue-800 rounded-lg p-4 mt-6">
                 <h4 className="text-md font-medium dark:text-blue-300 text-blue-500 mb-2">After saving the configuration:</h4>
                 <div className="space-y-2">
                     <p className="text-sm dark:text-blue-200 text-blue-500">1. Run <code className="dark:bg-blue-900/50 bg-blue-300 px-1.5 py-0.5 rounded">lando start</code> to start your environment</p>

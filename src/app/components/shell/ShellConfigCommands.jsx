@@ -93,15 +93,15 @@ export default function ShellConfigCommands() {
                 ))}
             </div>
 
-            <div className="p-4 component-bg rounded-lg">
-                <h4 className="text-lg font-medium  mb-2">{activeCommand.title}</h4>
+            <div className="p-1 component-bg rounded-lg">
+                <h4 className="text-lg font-quicksand font-medium  mb-2">{activeCommand.title}</h4>
                 <p className="description text-sm mb-3">{activeCommand.description}</p>
                 {activeCommand.input}
                 <div className="mt-4">
                     <CodeSnippet code={activeCommand.command} language="bash" />
                 </div>
                 {activeCommand.note && (
-                    <p className="text-yellow-400 text-xs mt-3 italic">{activeCommand.note}</p>
+                    <p className="text-yellow-400 font-medium font-quicksand text-xs mt-3 italic">{activeCommand.note}</p>
                 )}
             </div>
         </div>

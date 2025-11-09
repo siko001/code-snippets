@@ -120,7 +120,7 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                                 }}
                                 className={`px-3 py-1 rounded text-sm ${
                                     inputValues.force === '-D' 
-                                        ? 'bg-red-600 text-white' 
+                                        ? '!bg-red-600 !text-white' 
                                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                                 }`}
                             >
@@ -129,13 +129,13 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                         )}
                     </div>
                     {operation === 'branch -d' && inputValues.force === '-D' && (
-                        <p className="text-sm text-red-400 mt-1">Warning: Force deleting unmerged branch</p>
+                        <p className="text-sm description !text-red-400 mt-1">Warning: Force deleting unmerged branch</p>
                     )}
                 </div>
             )}
             
             {operation === 'list' && (
-                <div className="text-sm text-gray-400">
+                <div className="text-sm description">
                     <p>Lists all local branches. The current branch is highlighted with an asterisk (*).</p>
                 </div>
             )}

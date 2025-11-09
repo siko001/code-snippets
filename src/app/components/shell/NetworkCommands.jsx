@@ -85,8 +85,8 @@ export default function NetworkCommands() {
                 ))}
             </div>
 
-            <div className="p-4 component-bg rounded-lg">
-                <h4 className="text-lg font-medium  mb-2">{activeCommand.title}</h4>
+            <div className="p-1 component-bg rounded-lg">
+                <h4 className="text-lg font-quicksand font-medium  mb-2">{activeCommand.title}</h4>
                 <div className="text-sm  description mb-3">{activeCommand.description}</div>
                 {activeCommand.input}
                 <div className="mt-4">

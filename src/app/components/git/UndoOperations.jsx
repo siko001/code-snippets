@@ -67,7 +67,7 @@ const UndoOperations = ({ handleInputChange, inputValues, setInputValues }) => {
                             placeholder="path/to/file.txt"
                             className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
                         />
-                        <p className="text-sm text-gray-400 mt-2">
+                        <p className="text-sm description mt-2">
                             {inputValues.undoOperation === 'discard' 
                                 ? 'This will permanently discard changes. Use with caution!'
                                 : 'This will unstage the specified files'}

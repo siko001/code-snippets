@@ -162,7 +162,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                         className="mb-2"
                         copyButton={true}
                     />
-                    <p className="text-xs text-gray-400 mt-1">
+                    <p className="text-xs description mt-1">
                         {commands[activeTab].description}
                     </p>
                 </div>
@@ -170,7 +170,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                 {activeTab === TABS.INSTALL_SSH && (
                     <div className="mt-4 p-3 dark:bg-gray-700 bg-gray-100 rounded text-sm">
                         <p className="dark:text-yellow-300 text-yellow-500 font-medium mb-1">Note:</p>
-                        <p className="dark:text-gray-300 text-gray-500">
+                        <p className="dark:text-gray-300 font-quicksand text-gray-500">
                             For Debian/Ubuntu, use: 
                             <code className="dark:bg-gray-600 bg-gray-200 px-2 py-1 rounded ml-1">
                                 apt-get install -y openssh-client

@@ -379,7 +379,7 @@ export default function SearchReplace() {
                 </div>
             </div>
 
-            <div className="mt-4 p-3 dark:bg-gray-700 bg-gray-100 rounded-md">
+            <div className="mt-4 p-3 font-quicksand dark:bg-gray-700 bg-gray-100 rounded-md">
                 <h4 className="text-sm font-medium description mb-2">Usage Tips:</h4>
                 <ul className="text-xs dark:text-gray-400 text-gray-700 space-y-1 list-disc pl-5">
                     <li>Always run with <code className="dark:bg-gray-800 bg-gray-300 px-1 rounded">--dry-run</code> first to preview changes</li>

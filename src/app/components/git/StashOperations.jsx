@@ -77,8 +77,8 @@ const StashOperations = ({ handleInputChange, inputValues, setInputValues }) => 
                             placeholder="WIP: working on feature"
                             className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
                         />
-                        <p className="text-sm text-gray-400 mt-2">
-                            Use <code className="bg-gray-700 px-1 rounded">git stash</code> for a quick stash without a message
+                        <p className="text-sm description text-gray-400 mt-2">
+                            Use <code className="dark:bg-gray-700  bg-gray-200 px-1 rounded">git stash</code> for a quick stash without a message
                         </p>
                     </div>
                 )}
@@ -98,7 +98,7 @@ const StashOperations = ({ handleInputChange, inputValues, setInputValues }) => 
                             placeholder="stash@{0}"
                             className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
                         />
-                        <p className="text-sm font-saria text-gray-400 mt-2">
+                        <p className="text-sm font-quicksand text-gray-400 mt-2">
                             {inputValues.stashOperation === 'drop' 
                                 ? 'Use with caution - this action cannot be undone!'
                                 : 'Leave empty for the most recent stash'}
@@ -116,7 +116,7 @@ const StashOperations = ({ handleInputChange, inputValues, setInputValues }) => 
                                 onChange={(e) => handleInputChange('includeIndex', e.target.checked)}
                                 className="rounded border-gray-600 text-blue-500"
                             />
-                            <span className="text-gray-300">Include staged changes (--index)</span>
+                            <span className="description">Include staged changes (--index)</span>
                         </label>
                     </div>
                 )}

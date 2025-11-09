@@ -146,13 +146,13 @@ const TableCommands = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className={`text-xs font-saria ${['drop', 'truncate'].includes(action) ? 'text-red-400' : 'description'}`}>
+                    <p className={`text-xs font-quicksand ${['drop', 'truncate'].includes(action) ? 'text-red-400' : 'description'}`}>
                         {getDescription()}
                     </p>
                 </div>
 
                 {['drop', 'truncate'].includes(action) && (
-                    <div className="p-3 font-saria bg-red-900/20 border border-red-800 rounded text-sm">
+                    <div className="p-3 font-quicksand bg-red-900/20 border border-red-800 rounded text-sm">
                         <p className="dark:text-red-300 text-red-500 font-medium mb-1">Warning:</p>
                         <p className="text-xs dark:text-red-300 text-red-500">
                             This action {action === 'drop' ? 'will permanently delete the table and all its data' : 'will remove all records from the table'}. 
@@ -162,7 +162,7 @@ const TableCommands = () => {
                 )}
 
                 {action === 'create' && (
-                    <div className="p-3 bg-blue-900/20 border border-blue-800 rounded text-sm">
+                    <div className="p-3 font-quicksand bg-blue-900/20 border border-blue-800 rounded text-sm">
                         <p className="dark:text-blue-300 text-blue-500 font-medium mb-1">Common Column Types:</p>
                         <ul className="list-disc pl-5 space-y-1 text-xs dark:text-blue-300 text-blue-500 ">
                             <li><code>INT</code> - Integer</li>

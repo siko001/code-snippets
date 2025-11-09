@@ -1,9 +1,15 @@
-'use client';
-
 import IndexRelations from '../components/nova/IndexRelations';
 import TitleMethod from '../components/nova/TitleMethod';
 import SearchableColumns from '../components/nova/SearchableColumns';
 import HideFromIndex from '../components/nova/HideFromIndex';
+
+// This page is statically generated at build time and revalidated every hour
+export const revalidate = 3600; // Revalidate at most every hour
+
+// Generate static params for dynamic routes (if any)
+export async function generateStaticParams() {
+  return []; // Add any dynamic route params here if needed
+}
 
 export default function NovaPage() {
     return (

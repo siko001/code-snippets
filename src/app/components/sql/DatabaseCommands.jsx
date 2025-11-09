@@ -83,13 +83,13 @@ const DatabaseCommands = () => {
                         className="mb-1"
                         copyButton={true}
                     />
-                    <p className={`text-xs ${action === 'drop' ? 'text-red-400' : 'text-gray-400'}`}>
+                    <p className={`text-xs font-medium font-quicksand ${action === 'drop' ? 'text-red-400' : 'text-gray-400'}`}>
                         {getDescription()}
                     </p>
                 </div>
 
                 {action === 'drop' && (
-                    <div className="p-3 font-saria dark:bg-red-900/20 bg-red-900/30 border border-red-800 rounded text-sm">
+                    <div className="p-3 font-quicksand dark:bg-red-900/20 bg-red-900/30 border border-red-800 rounded text-sm">
                         <p className=" text-red-500 font-medium mb-1">Warning:</p>
                         <p className="text-xs text-red-500">
                             This will permanently delete the database and all its tables. This action cannot be undone.

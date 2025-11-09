@@ -43,7 +43,7 @@ const ComposerInstall = () => {
             ))}
             
             <div className="p-3 border border-gray-200 bg-gray-100 dark:bg-gray-800 dark:border-gray-700  rounded text-sm mt-6">
-                <p className="dark:text-blue-300 text-blue-400 font-medium mb-2">Verification:</p>
+                <p className="dark:text-blue-300 text-blue-400 font-quicksand font-medium mb-2">Verification:</p>
                 <CodeSnippet 
                     code="composer --version"
                     className="mb-2"
