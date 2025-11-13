@@ -52,7 +52,7 @@ const ComposerCommands = () => {
                 Managment
             </h3>
             {/* Command Selector */}
-            <div className="flex flex-wrap gap-2  tab-bg p-1.5 rounded-lg">
+            <div className="flex gap-2 overflow-x-auto  tab-bg py-1.5 px-2 rounded-lg">
                 {Object.entries(COMMAND_TYPES).map(([key, value]) => (
                     <button
                         key={key}

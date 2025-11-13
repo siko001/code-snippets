@@ -139,7 +139,7 @@ export default function HideFromIndex() {
                             ))}
                         </div>
                         <div className="flex flex-col space-y-2">
-                            <div className="flex">
+                            <div className="flex flex-col sm:flex-row gap-2 sm:gap-0">
                                 {activeTab === 'field' ? (
                                     <div className="relative flex-1">
                                         <input
@@ -147,7 +147,7 @@ export default function HideFromIndex() {
                                             value={selectedFieldType}
                                             onChange={(e) => setSelectedFieldType(e.target.value)}
                                             list="fieldTypes"
-                                            className="w-full p-2 bg-gray-700 text-white rounded-l-md border-r border-gray-600"
+                                            className="w-full p-2 bg-gray-700 text-white max-sm:rounded-md sm:rounded-l-md border-r border-gray-600"
                                             placeholder="Field type (e.g., Text, Number)"
                                         />
                                         <datalist id="fieldTypes">
@@ -160,7 +160,7 @@ export default function HideFromIndex() {
                                     <select
                                         value={selectedRelationType}
                                         onChange={(e) => setSelectedRelationType(e.target.value)}
-                                        className="bg-gray-700 text-white p-2 rounded-l-md border-r border-gray-600"
+                                        className="bg-gray-700 text-white p-2 max-sm:rounded-md sm:rounded-l-md border-r border-gray-600"
                                     >
                                         {RELATIONSHIP_TYPES.map(type => (
                                             <option key={type} value={type}>{type}</option>
@@ -172,12 +172,12 @@ export default function HideFromIndex() {
                                     value={newItem}
                                     onChange={(e) => setNewItem(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && addItem()}
-                                    className="flex-1 p-2 bg-gray-700 text-white"
+                                    className="flex-1 p-2 bg-gray-700 text-white max-sm:rounded-md"
                                     placeholder={`Enter ${activeTab === 'field' ? 'field' : 'relationship'} name`}
                                 />
                                 <button
                                     onClick={addItem}
-                                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 rounded-r-md"
+                                    className="bg-blue-600 hover:bg-blue-700 text-white max-sm:py-1 px-4 max-sm:rounded sm:rounded-r-md"
                                 >
                                     Add {activeTab === 'field' ? 'Field' : 'Relationship'}
                                 </button>

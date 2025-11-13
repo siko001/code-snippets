@@ -103,24 +103,14 @@ Nova.$emit('refresh-resource-fields')`,
                         { value: 'delete', label: 'DELETE' }
                     ]
                 },
-                {
-                    name: 'preserveScroll',
-                    label: 'Preserve Scroll',
-                    type: 'checkbox',
-                    default: true
-                },
-                {
-                    name: 'preserveState',
-                    label: 'Preserve State',
-                    type: 'checkbox',
-                    default: false
-                },
-                {
+              {
                     name: 'only',
                     label: 'Only (comma-separated)',
                     placeholder: 'e.g., resources,resource',
                     help: 'Only reload specific data'
                 },
+            
+            
                 {
                     name: 'except',
                     label: 'Except (comma-separated)',
@@ -133,7 +123,21 @@ Nova.$emit('refresh-resource-fields')`,
                     type: 'textarea',
                     placeholder: '{"key": "value"}',
                     help: 'Data to send with the request'
-                }
+                },
+                
+                {
+                    name: 'preserveState',
+                    label: 'Preserve State',
+                    type: 'checkbox',
+                    default: false
+                },
+                {
+                    name: 'preserveScroll',
+                    label: 'Preserve Scroll',
+                    type: 'checkbox',
+                    default: true
+                },
+              
             ]
         }
     ];
@@ -177,7 +181,7 @@ ${optionsString}
         if (field.type === 'select') {
             return (
                 <select
-                    className="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 flex-1 p-2 bg-gray-700 text-white block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     value={value}
                     onChange={(e) => updateCustomOption(field.name, e.target.value)}
                 >
@@ -204,7 +208,7 @@ ${optionsString}
         if (field.type === 'textarea') {
             return (
                 <textarea
-                    className="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 flex-1 p-2 bg-gray-700 text-white block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                     value={value}
                     onChange={(e) => updateCustomOption(field.name, e.target.value)}
                     rows={3}
@@ -216,7 +220,7 @@ ${optionsString}
         return (
             <input
                 type="text"
-                className="mt-1 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="mt-1 flex-1 p-2 bg-gray-700 text-white block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
                 value={value || ''}
                 onChange={(e) => updateCustomOption(field.name, e.target.value)}
                 placeholder={field.placeholder}
@@ -273,7 +277,7 @@ ${optionsString}
                                     <div className="mt-1">
                                         {renderField(field)}
                                         {field.help && (
-                                            <p className="mt-1 text-xs text-gray-500">
+                                            <p className="mt-1 text-xs description">
                                                 {field.help}
                                             </p>
                                         )}
@@ -282,7 +286,6 @@ ${optionsString}
                             ))}
                         </div>
                         <div className="mt-6">
-                            <h4 className="text-sm font-medium text-gray-700 mb-2">Generated Code:</h4>
                             <PhpSnippet code={generateCustomCode()} language="javascript" />
                         </div>
                     </div>
@@ -290,16 +293,16 @@ ${optionsString}
 
                 {activeTab === 'refresh' && (
                     <div className="space-y-4">
-                        <div className="border-b border-gray-200">
-                            <nav className="-mb-px flex space-x-8 overflow-x-auto">
+                        <div className=" tab-bg px-2 py-1.5 overflow-x-auto rounded-xl">
+                            <nav className="flex gap-3">
                                 {activeTabData.refreshOptions.map((option) => (
                                     <button
                                         key={option.id}
                                         type="button"
                                         onClick={() => setSelectedRefresh(option.id)}
-                                        className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                                        className={`whitespace-nowrap py-1 px-1.5 rounded-sm font-medium text-sm ${
                                             selectedRefresh === option.id
-                                                ? 'border-indigo-500 text-indigo-600'
+                                                ? '!bg-blue-600 text-indigo-600'
                                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover'
                                         }`}
                                     >
@@ -308,11 +311,9 @@ ${optionsString}
                                 ))}
                             </nav>
                         </div>
-                        <div className="border rounded-md p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-2">
-                                {activeTabData.refreshOptions.find(o => o.id === selectedRefresh)?.name}
-                            </h4>
-                            <p className="text-sm text-gray-500 mb-3">
+                        <div className=" rounded-md p-4">
+                    
+                            <p className="text-sm description mb-3">
                                 {activeTabData.refreshOptions.find(o => o.id === selectedRefresh)?.description}
                             </p>
                             <PhpSnippet 
@@ -324,15 +325,14 @@ ${optionsString}
                 )}
                 {activeTab === 'navigation' && (
                     <div className="space-y-4">
-                        <div className="border-b border-gray-200">
-                            <nav className="-mb-px flex space-x-8 overflow-x-auto">
+                            <nav className="flex gap-2 tab-bg rounded-xl py-1.5 px-2 overflow-x-auto">
                                 {activeTabData.navOptions.map((option) => (
                                     <button
                                         key={option.id}
                                         onClick={() => setSelectedNav(option.id)}
-                                        className={`whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm ${
+                                        className={`whitespace-nowrap py-1 px-1.5 rounded-sm font-medium text-sm ${
                                             selectedNav === option.id
-                                                ? 'border-indigo-500 text-indigo-600'
+                                                ? '!bg-blue-600 text-indigo-600'
                                                 : 'border-transparent text-gray-500 hover:text-gray-700 hover'
                                         }`}
                                     >
@@ -340,12 +340,10 @@ ${optionsString}
                                     </button>
                                 ))}
                             </nav>
-                        </div>
-                        <div className="border rounded-md p-4">
-                            <h4 className="text-sm font-medium text-gray-900 mb-2">
-                                {activeTabData.navOptions.find(o => o.id === selectedNav)?.name}
-                            </h4>
-                            <p className="text-sm text-gray-500 mb-3">
+        
+                        <div className=" rounded-md">
+                      
+                            <p className="text-sm description mb-3">
                                 {activeTabData.navOptions.find(o => o.id === selectedNav)?.description}
                             </p>
                             <PhpSnippet 

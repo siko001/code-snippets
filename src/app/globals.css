@@ -152,17 +152,17 @@ label{
     font-family: var(--font-quicksand);
 }
 
-input[type='text'],input[type='number'],select,input[type="date"],input[type="email"]{
+input[type='text'],input[type='number'],select,input[type="date"],input[type="email"],textarea{
     @apply bg-[var(--component-input-bg)] text-[var(--component-input-color)] placeholder-[var(--component-input-placeholder)];
     font-family: var(--font-quicksand);
 }
 
 
-input[type='checkbox'],button,select,input[type="email"] {
+input[type='checkbox'],button,select,input[type="email"],textarea {
     @apply cursor-pointer transition-colors duration-200 ease-in-out;
 }
 
-input[type='text'],input[type='number'],select,input[type="date"],input[type="email"]{
+input[type='text'],input[type='number'],select,input[type="date"],input[type="email"],textarea{
   @apply focus:ring-blue-500 focus:border-blue-500 focus:outline-none hover:border-blue-300 border  border-transparent duration-200 transition-colors ease-in-out;
 }
 
