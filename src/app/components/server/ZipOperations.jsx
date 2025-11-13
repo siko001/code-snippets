@@ -6,6 +6,7 @@ export default function ZipOperations() {
     const [folderName, setFolderName] = useState('');
     const [fileName, setFileName] = useState('');
     const [isUnzip, setIsUnzip] = useState(false);
+    const [isGzip, setIsGzip] = useState(false);
     const [command, setCommand] = useState('');
     const [flags, setFlags] = useState({
         maxCompression: false,
@@ -14,28 +15,39 @@ export default function ZipOperations() {
     });
 
     useEffect(() => {
-        let cmd = isUnzip ? 'unzip' : 'zip';
-        let flagsStr = '';
+        let cmd, flagsStr = '';
         
-        // Add flags based on state
-        if (!isUnzip) {
+        if (isGzip) {
+            cmd = 'gzip';
             if (flags.maxCompression) flagsStr += ' -9';
-            flagsStr += ' -r';  // Always include -r for zip
-            if (flags.encrypt) flagsStr += ' -e';
             if (flags.verbose) flagsStr += ' -v';
+            
+            const sourceFile = fileName || 'source.txt';
+            const outputFile = folderName ? ` ${folderName}` : '';
+            setCommand(`${cmd}${flagsStr} ${sourceFile}${outputFile}`);
         } else {
-            if (flags.verbose) flagsStr += ' -v';
-        }
-        
-        if (isUnzip) {
-            const fname = fileName || 'filename';
-            setCommand(`${cmd}${flagsStr} ${fname}.zip`);
-        } else {
-            const fname = fileName || 'archive';
-            const folder = folderName || 'folder';
-            // Only add -r if it's not already in flagsStr
-            const rFlag = flagsStr.includes(' -r') ? '' : ' -r';
-            setCommand(`${cmd}${flagsStr}${rFlag} ${fname}.zip ${folder}/`);
+            cmd = isUnzip ? 'unzip' : 'zip';
+            
+            // Add flags based on state
+            if (!isUnzip) {
+                if (flags.maxCompression) flagsStr += ' -9';
+                flagsStr += ' -r';  // Always include -r for zip
+                if (flags.encrypt) flagsStr += ' -e';
+                if (flags.verbose) flagsStr += ' -v';
+            } else {
+                if (flags.verbose) flagsStr += ' -v';
+            }
+            
+            if (isUnzip) {
+                const fname = fileName || 'filename';
+                setCommand(`${cmd}${flagsStr} ${fname}.zip`);
+            } else {
+                const fname = fileName || 'archive';
+                const folder = folderName || 'folder';
+                // Only add -r if it's not already in flagsStr
+                const rFlag = flagsStr.includes(' -r') ? '' : ' -r';
+                setCommand(`${cmd}${flagsStr}${rFlag} ${fname}.zip ${folder}/`);
+            }
         }
     }, [folderName, fileName, isUnzip, flags]);
 
@@ -55,23 +67,39 @@ export default function ZipOperations() {
                 <div className="flex space-x-2 mb-4">
                     <button
                         type="button"
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${!isUnzip ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
-                        onClick={() => setIsUnzip(false)}
+                        className={`px-3 py-1 rounded-l-md text-sm font-medium ${!isUnzip && !isGzip ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        onClick={() => {
+                            setIsUnzip(false);
+                            setIsGzip(false);
+                        }}
                     >
                         Zip
                     </button>
                     <button
                         type="button"
-                        className={`px-3 py-1 rounded-md text-sm font-medium ${isUnzip ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
-                        onClick={() => setIsUnzip(true)}
+                        className={`px-3 py-1 text-sm font-medium ${isGzip ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        onClick={() => {
+                            setIsGzip(true);
+                            setIsUnzip(false);
+                        }}
+                    >
+                        Gzip
+                    </button>
+                    <button
+                        type="button"
+                        className={`px-3 py-1 rounded-r-md text-sm font-medium ${isUnzip ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        onClick={() => {
+                            setIsUnzip(true);
+                            setIsGzip(false);
+                        }}
                     >
                         Unzip
                     </button>
                 </div>
 
-                {!isUnzip && (
+                {!isUnzip && !isGzip && (
                     <div>
-                        <label className="block text-gray-300 mb-2">Folder to Zip:</label>
+                        <label className="block text-gray-300 mb-2">Source Folder:</label>
                         <input
                             type="text"
                             value={folderName}
@@ -81,19 +109,45 @@ export default function ZipOperations() {
                         />
                     </div>
                 )}
+                {isGzip && (
+                    <div className="space-y-4">
+                        <div>
+                            <label className="block text-gray-300 mb-2">Source File:</label>
+                            <input
+                                type="text"
+                                value={fileName}
+                                onChange={(e) => setFileName(e.target.value)}
+                                placeholder="source.txt"
+                                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-gray-300 mb-2">Output File (optional):</label>
+                            <input
+                                type="text"
+                                value={folderName}
+                                onChange={(e) => setFolderName(e.target.value)}
+                                placeholder="output.txt.gz"
+                                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                            />
+                        </div>
+                    </div>
+                )}
                 
-                <div>
-                    <label className="block text-gray-300 mb-2">
-                        {isUnzip ? 'Zip File (without .zip):' : 'Output Filename (without .zip):'}
-                    </label>
-                    <input
-                        type="text"
-                        value={fileName}
-                        onChange={(e) => setFileName(e.target.value)}
-                        placeholder={isUnzip ? 'archive' : 'archive'}
-                        className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
-                    />
-                </div>
+                {!isGzip && (
+                    <div>
+                        <label className="block text-gray-300 mb-2">
+                            {isUnzip ? 'Zip File (without .zip):' : 'Output Filename (without .zip):'}
+                        </label>
+                        <input
+                            type="text"
+                            value={fileName}
+                            onChange={(e) => setFileName(e.target.value)}
+                            placeholder="archive"
+                            className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                        />
+                    </div>
+                )}
             
                           
                 {/* Display the generated snippet */}
@@ -107,7 +161,7 @@ export default function ZipOperations() {
                 <div className="text-sm text-gray-400 mt-2">
                     <p className="font-semibold font-quicksand mb-2">Common Flags:</p>
                     <div className="flex flex-wrap gap-2">
-                        {!isUnzip && (
+                        {(isGzip || !isUnzip) && (
                             <button 
                                 onClick={() => setFlags(f => ({ ...f, maxCompression: !f.maxCompression }))}
                                 className={`px-2 py-1 rounded text-xs font-mono ${flags.maxCompression ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
@@ -121,15 +175,13 @@ export default function ZipOperations() {
                         >
                             -v (verbose)
                         </button>
-                        {!isUnzip && (
-                            <>
-                                <button 
-                                    onClick={() => setFlags(f => ({ ...f, encrypt: !f.encrypt }))}
-                                    className={`px-2 py-1 rounded text-xs font-mono ${flags.encrypt ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
-                                >
-                                    -e (encrypt)
-                                </button>
-                            </>
+                        {!isUnzip && !isGzip && (
+                            <button 
+                                onClick={() => setFlags(f => ({ ...f, encrypt: !f.encrypt }))}
+                                className={`px-2 py-1 rounded text-xs font-mono ${flags.encrypt ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                            >
+                                -e (encrypt)
+                            </button>
                         )}
                     </div>
                 </div>

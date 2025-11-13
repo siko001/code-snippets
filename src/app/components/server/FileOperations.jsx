@@ -46,21 +46,21 @@ export default function FileOperations() {
                         className={`px-3 py-1 rounded-md text-sm font-medium ${operation === 'cp' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                         onClick={() => setOperation('cp')}
                     >
-                        Copy (cp)
+                        Copy
                     </button>
                     <button
                         type="button"
                         className={`px-3 py-1 rounded-md text-sm font-medium ${operation === 'mv' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                         onClick={() => setOperation('mv')}
                     >
-                        Move (mv)
+                        Move
                     </button>
                     <button
                         type="button"
                         className={`px-3 py-1 rounded-md text-sm font-medium ${isRecursive ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                         onClick={() => setIsRecursive(!isRecursive)}
                     >
-                        Recursive (-r)
+                        Recursive
                     </button>
                 </div>
 

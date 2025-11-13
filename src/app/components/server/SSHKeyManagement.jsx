@@ -51,12 +51,12 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             
             <h3 id='ssh-key-management' className="text-lg font-semibold !text-blue-400">Key Management</h3>
             {/* Tabs */}
-            <div className="flex space-x-2 p-1.5 tab-bg rounded-lg">
+            <div className="flex space-x-2 px-2 py-1.5 tab-bg overflow-x-auto rounded-lg">
                 {Object.entries(TABS).map(([key, value]) => (
                     <button
                         key={key}
                         onClick={() => setActiveTab(value)}
-                        className={`px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                        className={`px-3 py-2 text-sm whitespace-nowrap font-medium rounded-md transition-colors ${
                             activeTab === value 
                                 ? 'bg-blue-600 !cursor-default text-white' 
                                 : 'text-gray-300 bg-gray-600 hover:bg-gray-700'
@@ -169,7 +169,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
 
                 {activeTab === TABS.INSTALL_SSH && (
                     <div className="mt-4 p-3 dark:bg-gray-700 bg-gray-100 rounded text-sm">
-                        <p className="dark:text-yellow-300 text-yellow-500 font-medium mb-1">Note:</p>
+                        <p className="dark:text-yellow-300 text-yellow-500 font-saira font-medium mb-1">Note:</p>
                         <p className="dark:text-gray-300 font-quicksand text-gray-500">
                             For Debian/Ubuntu, use: 
                             <code className="dark:bg-gray-600 bg-gray-200 px-2 py-1 rounded ml-1">

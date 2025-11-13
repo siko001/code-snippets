@@ -3,6 +3,7 @@ import TitleMethod from '../components/nova/TitleMethod';
 import SearchableColumns from '../components/nova/SearchableColumns';
 import HideFromIndex from '../components/nova/HideFromIndex';
 import ResourceMethods from '../components/nova/ResourceMethods';
+import InertiaShortcuts from '../components/inertia/InertiaShortcuts';
 
 // This page is statically generated at build time and revalidated every hour
 export const revalidate = 3600; // Revalidate at most every hour
@@ -35,11 +36,15 @@ export default function NovaPage() {
                     <section id="hide-from-index" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <HideFromIndex />
                     </section>
-                    
 
                     <section id="resource-methods" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <ResourceMethods />
                     </section>
+                    
+                    <section id="inertia-shortcuts" className="component-wrapper rounded-lg p-6 shadow-lg">
+                        <InertiaShortcuts />
+                    </section>
+
                 </div>
             </div>
         </div>

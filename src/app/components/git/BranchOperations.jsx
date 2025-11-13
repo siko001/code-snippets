@@ -50,11 +50,11 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
 
     return (
         <div className="space-y-4">
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex tab-bg px-2 py-1.5 rounded overflow-auto gap-2 mb-4">
                 <button 
                     type="button"
                     onClick={() => handleOperationChange('list')}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-3 py-1 whitespace-nowrap rounded text-sm ${
                         operation === 'list' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -65,7 +65,7 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 <button 
                     type="button"
                     onClick={() => handleOperationChange('checkout')}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-3 py-1 whitespace-nowrap rounded text-sm ${
                         operation === 'checkout' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -76,7 +76,7 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 <button 
                     type="button"
                     onClick={() => handleOperationChange('checkout -b')}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-3 py-1 whitespace-nowrap rounded text-sm ${
                         operation === 'checkout -b' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -87,7 +87,7 @@ const BranchOperations = ({ handleInputChange, inputValues, setInputValues }) =>
                 <button 
                     type="button"
                     onClick={() => handleOperationChange('branch -d')}
-                    className={`px-3 py-1 rounded text-sm ${
+                    className={`px-3 py-1 whitespace-nowrap rounded text-sm ${
                         operation === 'branch -d' 
                             ? 'bg-blue-600 text-white' 
                             : 'bg-gray-700 text-gray-300 hover:bg-gray-600'

@@ -21,32 +21,32 @@ const UndoOperations = ({ handleInputChange, inputValues, setInputValues }) => {
             <div className="space-y-4">
                 
                 {/* Operation Selection */}
-                <div className="flex flex-wrap gap-2">
+                <div className="flex tab-bg px-2 py-1.5 rounded overflow-x-auto  gap-2">
                     <button
                         type="button"
                         onClick={() => handleUndoOperation('discard')}
-                        className={`px-3 py-1 rounded text-sm ${inputValues.undoOperation === 'discard' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        className={`px-3 py-1 whitespace-nowrap rounded text-sm ${inputValues.undoOperation === 'discard' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                     >
                         Discard Changes
                     </button>
                     <button
                         type="button"
                         onClick={() => handleUndoOperation('unstage')}
-                        className={`px-3 py-1 rounded text-sm ${inputValues.undoOperation === 'unstage' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        className={`px-3 py-1 whitespace-nowrap rounded text-sm ${inputValues.undoOperation === 'unstage' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                     >
                         Unstage Files
                     </button>
                     <button
                         type="button"
                         onClick={() => handleUndoOperation('reset')}
-                        className={`px-3 py-1 rounded text-sm ${inputValues.undoOperation === 'reset' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        className={`px-3 py-1 whitespace-nowrap rounded text-sm ${inputValues.undoOperation === 'reset' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                     >
                         Reset Commit
                     </button>
                     <button
                         type="button"
                         onClick={() => handleUndoOperation('revert')}
-                        className={`px-3 py-1 rounded text-sm ${inputValues.undoOperation === 'revert' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
+                        className={`px-3 py-1 whitespace-nowrap rounded text-sm ${inputValues.undoOperation === 'revert' ? 'bg-blue-600 text-white' : 'bg-gray-700 text-gray-300 hover:bg-gray-600'}`}
                     >
                         Revert Commit
                     </button>

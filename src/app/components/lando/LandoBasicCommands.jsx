@@ -67,7 +67,7 @@ export default function LandoBasicCommands() {
         <div className="space-y-4">
             <h3  className="text-xl font-semibold !text-blue-400 mb-4">Commands</h3>
             {/* Main Tabs */}
-            <div className="flex flex-wrap gap-1 p-1.5 tab-bg rounded-lg">
+            <div className="flex  gap-1 px-2 overflow-x-auto py-1.5 tab-bg rounded-lg">
                 {Object.entries(commandGroups).map(([id, group]) => (
                     <button
                         key={id}
@@ -75,7 +75,7 @@ export default function LandoBasicCommands() {
                             setActiveTab(id);
                             setSelectedCommand(0);
                         }}
-                        className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+                        className={`px-3 whitespace-nowrap py-1.5 text-sm font-medium rounded-md transition-colors ${
                             activeTab === id
                                 ? 'bg-blue-600 text-white shadow-md'
                                 : 'text-gray-300 hover:text-white hover:bg-gray-600'

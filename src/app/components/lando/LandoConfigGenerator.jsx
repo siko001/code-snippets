@@ -278,7 +278,7 @@ ${config.customTooling}
             </div>
 
             <div className="mt-6">
-                <h4 className="text-lg font-medium text-white mb-2">Lando Configuration</h4>
+                <h4 className="text-lg font-medium font-quicksand text-white mb-2">Lando Configuration</h4>
                 <p className="description text-sm mb-3">
                     Save this as <code className="dark:bg-gray-700 bg-gray-200 px-1 py-0.5 rounded">.lando.yml</code> in your project root
                 </p>

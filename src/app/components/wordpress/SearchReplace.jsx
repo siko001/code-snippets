@@ -93,7 +93,7 @@ export default function SearchReplace() {
         
         // Add flags
         if (previewMode) {
-            command += ' --dry-run --preview';
+            command += ' --dry-run';
             if (previewRows > 0) command += ' --precise';
         }
         if (allTables) command += ' --all-tables';
@@ -169,7 +169,7 @@ export default function SearchReplace() {
                             className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
                         />
                         <label htmlFor="previewMode" className="ml-2 text-sm text-gray-300">
-                            Preview Mode (Safe - No Changes)
+                            Preview (No Changes)
                         </label>
                     </div>
 
@@ -216,9 +216,15 @@ export default function SearchReplace() {
                                 >
                                     Exact Match
                                 </button>
-                                <button
+                            <button
                                     type="button"
-                                    onClick={() => setFormData(prev => ({ ...prev, searchMode: 'regex' }))}
+                                    onClick={() => {
+                                        setFormData(prev => ({ 
+                                            ...prev, 
+                                            searchMode: 'regex',
+                                            showAdvanced: true  // This will automatically expand the advanced options
+                                        }));
+                                    }}
                                     className={`px-3 py-1 text-sm font-medium rounded-r-md ${
                                         formData.searchMode === 'regex' 
                                             ? 'bg-blue-600 text-white' 
@@ -227,38 +233,9 @@ export default function SearchReplace() {
                                 >
                                     Regex
                                 </button>
+
                             </div>
                         </div>
-                        
-                        {formData.searchMode === 'regex' && (
-                            <div className="flex items-center">
-                                <input
-                                    type="checkbox"
-                                    id="regex"
-                                    name="regex"
-                                    checked={formData.regex}
-                                    onChange={handleChange}
-                                    className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
-                                />
-                                <label htmlFor="regex" className="ml-2 text-sm text-gray-300">
-                                    Enable Regex
-                                </label>
-                            </div>
-                        )}
-                    </div>
-
-                    <div className="flex items-center">
-                        <input
-                            type="checkbox"
-                            id="regex"
-                            name="regex"
-                            checked={formData.regex}
-                            onChange={handleChange}
-                            className="h-4 w-4 text-blue-600 rounded border-gray-600 focus:ring-blue-500"
-                        />
-                        <label htmlFor="regex" className="ml-2 text-sm text-gray-300">
-                            Use Regex
-                        </label>
                     </div>
                 </div>
 
@@ -285,28 +262,34 @@ export default function SearchReplace() {
                                         min="0"
                                         value={formData.previewRows}
                                         onChange={handleChange}
-                                        className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
+                                        className="w-full p-2 border !border-blue-300 rounded-md bg-gray-700 text-white"
                                     />
                                 </div>
 
-                                {formData.regex && (
+                                {formData.showAdvanced && (
+                                    <div className=" space-y-4">
+                                        {/* Other advanced options */}
+                                        
+                                        {/* This should be inside the advanced options section */}
+                                        {formData.searchMode === 'regex' && (
                                     <div>
-                                        <label htmlFor="regexFlags" className="block text-sm font-medium text-gray-300 mb-1">
-                                            Regex Flags
-                                        </label>
-                                        <input
-                                            type="text"
-                                            id="regexFlags"
-                                            name="regexFlags"
-                                            value={formData.regexFlags}
-                                            onChange={handleChange}
-                                            className="w-full p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
-                                            placeholder="e.g., i for case-insensitive"
-                                        />
+                                    <label htmlFor="regexFlags" className="block text-sm font-medium text-gray-300 mb-1">
+                                        Regex Flags
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="regexFlags"
+                                        name="regexFlags"
+                                        value={formData.regexFlags}
+                                        onChange={handleChange}
+                                        className="w-full p-2 border !border-blue-300 focus:!border-blue-500 rounded-md bg-gray-700 text-white"
+                                        placeholder="e.g., i for case-insensitive"
+                                    />
+                                </div>
+                                )}
                                     </div>
                                 )}
                             </div>
-
                             <div>
                                 <label className="block text-sm font-medium text-gray-300 mb-2">Skip Columns</label>
                                 <div className="flex gap-2 mb-2">
@@ -314,7 +297,7 @@ export default function SearchReplace() {
                                         type="text"
                                         value={formData.skipColumns}
                                         onChange={(e) => setFormData(prev => ({ ...prev, skipColumns: e.target.value }))}
-                                        className="flex-1 p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
+                                        className="flex-1 p-2 border !border-blue-300 focus:!border-blue-500 rounded-md bg-gray-700 text-white"
                                         placeholder="e.g., guid, user_pass"
                                     />
                                     <button
@@ -327,14 +310,14 @@ export default function SearchReplace() {
                                 </div>
                                 <div className="flex flex-wrap gap-2">
                                     {formData.skipColumnsList.map(column => (
-                                        <span key={column} className="inline-flex items-center items-center dark:bg-gray-600 bg-gray-50 dark:text-white text-gray-600 px-2 py-1 rounded text-sm">
+                                        <span key={column} className="inline-flex font-saira !border-blue-300 focus:!border-blue-500 items-center items-center dark:bg-gray-600 bg-gray-50 dark:text-white text-gray-600 px-2 py-1 rounded text-sm">
                                             {column}
                                             <button 
                                                 type="button" 
                                                 onClick={() => removeSkipColumn(column)}
-                                                className="ml-1 text-gray-300 !bg-red-500 grid place-items-center rounded-full h-4 w-4 hover:!text-white"
+                                                className="ml-1  text-gray-300 !bg-red-500 grid place-items-center rounded-full h-4 w-4 hover:!text-white"
                                             >
-                                               <span className="text-xs text-white relative -left-[0.5px] -top-[0.5px]"> × </span>
+                                               <span className="text-xs font-quicksand text-white relative -left-[0.5px] -top-[0.5px]"> × </span>
                                             </button>
                                         </span>
                                     ))}
@@ -348,7 +331,7 @@ export default function SearchReplace() {
                                         type="text"
                                         value={formData.includeColumns}
                                         onChange={(e) => setFormData(prev => ({ ...prev, includeColumns: e.target.value }))}
-                                        className="flex-1 p-2 border border-blue-300 rounded-md bg-gray-700 text-white"
+                                        className="flex-1 p-2 border !border-blue-300 focus:!border-blue-500 rounded-md bg-gray-700 text-white"
                                         placeholder="e.g., post_content, post_title"
                                     />
                                     <button
@@ -386,7 +369,6 @@ export default function SearchReplace() {
                     <li>For URLs, include the protocol (http:// or https://)</li>
                     <li>The <code className="dark:bg-gray-800  bg-gray-300 px-1 rounded">guid</code> column is skipped by default as it should not be modified in most cases</li>
                     <li>Use regex for complex search patterns (enable the regex option)</li>
-                    <li>For large databases, consider using <code className="dark:bg-gray-800  bg-gray-300 px-1 rounded">--preview</code> with a row limit</li>
                 </ul>
             </div>
         </div>

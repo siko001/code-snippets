@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import CodeSnippet from '../CodeSnippet';
 
 export default function DatabaseManager() {
@@ -57,69 +57,73 @@ export default function DatabaseManager() {
     const preventDefault = (e) => {
         e.preventDefault();
         e.stopPropagation();
-    };
+    };  
 
-    const generateExportCommand = () => {
-        let cmd = 'wp db export';
+const generateExportCommand = useCallback(() => {
+    let cmd = 'wp db export';
+    
+    let filename = formData.filename.endsWith('.sql') 
+        ? formData.filename 
+        : `${formData.filename}.sql`;
         
-        // Add filename
-        let filename = formData.filename.endsWith('.sql') 
-            ? formData.filename 
-            : `${formData.filename}.sql`;
-            
-        if (formData.gzip) {
-            filename += '.gz';
-            cmd += ' --add-drop-table --single-transaction --quick';
-        }
-        
-        cmd += ` ${filename}`;
-        
-        // Add excluded tables if any
-        if (formData.excludeTables.length > 0) {
-            cmd += ` --tables=$(wp db tables --all-tables-with-prefix | grep -v "${formData.excludeTables.join('\\|')}" | tr '\\n' ' ')`;
-        }
-        
-        return cmd;
-    };
+    if (formData.gzip) {
+        filename += '.gz';
+        cmd += ' --add-drop-table --single-transaction --quick';
+    }
+    
+    cmd += ` ${filename}`;
+    
+    if (formData.excludeTables.length > 0) {
+        cmd += ` --tables=$(wp db tables --all-tables-with-prefix | grep -v "${formData.excludeTables.join('\\|')}" | tr '\\n' ' ')`;
+    }
+    
+    return cmd;
+}, [formData.filename, formData.gzip, formData.excludeTables]);
 
-    const generateImportCommand = () => {
-        if (!formData.importFile) return '';
-        
-        let cmd = '';
-        
-        // Create backup if requested
-        if (formData.backupBeforeImport) {
-            const backupFile = `db-backup-${new Date().toISOString().replace(/[:.]/g, '-')}.sql`;
-            cmd += `wp db export ${backupFile} && echo "Backup created: ${backupFile}" && `;
-        }
-        
-        // Drop tables if requested
-        if (formData.dropTables) {
-            cmd += 'wp db reset --yes && ';
-        }
-        
-        // Add import command
-        cmd += `wp db import ${formData.importFile.name}`;
-        
-        return cmd;
-    };
+const generateImportCommand = useCallback(() => {
+    if (!formData.importFile) return '';
+    
+    let cmd = '';
+    
+    if (formData.backupBeforeImport) {
+        const backupFile = `db-backup-${new Date().toISOString().replace(/[:.]/g, '-')}.sql`;
+        cmd += `wp db export ${backupFile} && echo "Backup created: ${backupFile}" && `;
+    }
+    
+    if (formData.dropTables) {
+        cmd += 'wp db reset --yes && ';
+    }
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        
-        let generatedCommand = '';
-        
-        if (activeTab === 'export') {
-            generatedCommand = generateExportCommand();
-        } else if (activeTab === 'import' && formData.importFile) {
-            generatedCommand = generateImportCommand();
-        }
-        
-        setCommand(generatedCommand);
-        
-        // Clear any previous output
-        setOutput('');
-    };
+    cmd += `wp db import ${formData.importFile.name}`;
+    
+    return cmd;
+}, [formData.importFile, formData.backupBeforeImport, formData.dropTables]);
+
+// Then update your useEffect hook
+useEffect(() => {
+    let generatedCommand = '';
+    
+    if (activeTab === 'export') {
+        generatedCommand = generateExportCommand();
+    } else if (activeTab === 'import' && formData.importFile) {
+        generatedCommand = generateImportCommand();
+    }
+    
+    setCommand(generatedCommand);
+    setOutput(''); // Clear any previous output
+}, [activeTab, formData.importFile, generateExportCommand, generateImportCommand]);
+
+
+const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if (activeTab === 'export') {
+        generateExportCommand();
+    } else if (activeTab === 'import' && formData.importFile) {
+        generateImportCommand();
+    }
+};
+
 
     const commonTablesToExclude = [
         'commentmeta', 'comments', 'links', 'options', 'postmeta', 
@@ -248,14 +252,14 @@ export default function DatabaseManager() {
                                 className="hidden"
                             />
                             {formData.importFile ? (
-                                <div className="text-green-400">
+                                <div className="text-green-400 font-saira">
                                     <p>Selected file: {formData.importFile.name}</p>
                                     <p className="text-xs text-gray-400 mt-2">Click to change file</p>
                                 </div>
                             ) : (
                                 <div>
                                     <p className="description">Drag & drop your SQL file here</p>
-                                    <p className="text-sm text-gray-500 mt-2">or click to browse files</p>
+                                    <p className="text-sm text-gray-500 mt-2 font-saira">or click to browse files</p>
                                 </div>
                             )}
                         </div>
@@ -290,7 +294,7 @@ export default function DatabaseManager() {
                                     <label htmlFor="dropTables" className="text-sm font-medium text-red-500">
                                         Drop all tables before import
                                     </label>
-                                    <p className="text-xs text-red-400 mt-1">
+                                    <p className="-ml-7 text-xs font-quicksand text-red-400 mt-1">
                                         ⚠️ DANGEROUS: This will permanently delete all existing database tables!
                                     </p>
                                 </div>
@@ -299,20 +303,14 @@ export default function DatabaseManager() {
                     </div>
                 )}
 
-                <div className="mt-6">
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition-colors"
-                        disabled={isLoading || (activeTab === 'import' && !formData.importFile)}
-                    >
-                        {isLoading ? 'Processing...' : activeTab === 'export' ? 'Generate Export Command' : 'Generate Import Command'}
-                    </button>
+                <div className="mt-6 text-sm description text-gray-400">
+                    The command updates automatically as you make changes.
                 </div>
             </form>
 
-            {command && (
+                      {command ? (
                 <div className="mt-6">
-                    <h4 className="text-md font-medium text-gray-300 mb-2">
+                    <h4 className="text-md font-medium description text-sm mb-2">
                         {activeTab === 'export' ? 'Export' : 'Import'} Command:
                     </h4>
                     <CodeSnippet code={command} language="bash" />
@@ -320,9 +318,15 @@ export default function DatabaseManager() {
                     {output && (
                         <div className="mt-4 p-4 bg-gray-900 rounded-md">
                             <h4 className="text-md font-medium text-gray-300 mb-2">Output:</h4>
-                            <pre className="text-sm text-gray-300 whitespace-pre-wrap">{output}</pre>
+                            <pre className="text-sm  text-gray-300 whitespace-pre-wrap">{output}</pre>
                         </div>
                     )}
+                </div>
+            ) : (
+                <div className="mt-6 p-4 bg-gray-800 font-saira rounded-md text-gray-400 text-center">
+                    {activeTab === 'import' 
+                        ? 'Select a file to see the import command' 
+                        : 'Configure your export options to see the command'}
                 </div>
             )}
         </div>

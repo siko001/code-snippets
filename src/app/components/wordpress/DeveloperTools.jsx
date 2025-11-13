@@ -5,16 +5,11 @@ import CodeSnippet from '../CodeSnippet';
 
 export default function DeveloperTools() {
     const [activeTab, setActiveTab] = useState('theme');
-    const [themes, setThemes] = useState([]);
     const [selectedTheme, setSelectedTheme] = useState('list');
-    const [transients, setTransients] = useState([]);
     const [selectedTransient, setSelectedTransient] = useState('list');
-    const [rewriteRules, setRewriteRules] = useState('');
-    const [sites, setSites] = useState([]);
     const [selectedSite, setSelectedSite] = useState('list');
     const [maintenanceMode, setMaintenanceMode] = useState(false);
     const [output, setOutput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
     const [translationAction, setTranslationAction] = useState('list');
     const [language, setLanguage] = useState('');
 
@@ -169,7 +164,7 @@ export default function DeveloperTools() {
                     <div className="space-y-4">
                         <div className="space-y-2">
                             <h4 className="text-lg font-medium description">Rewrite Rules</h4>
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm description text-gray-400">
                                 Manage WordPress rewrite rules and permalinks
                             </p>
                         </div>
@@ -323,7 +318,7 @@ export default function DeveloperTools() {
                         <div className="flex items-center justify-between">
                             <div>
                                 <h4 className="text-lg font-medium description">Maintenance Mode</h4>
-                                <p className="text-sm text-gray-400">
+                                <p className="text-sm description text-gray-400">
                                     {maintenanceMode 
                                         ? 'Maintenance mode is currently ACTIVE' 
                                         : 'Maintenance mode is currently INACTIVE'}
@@ -339,7 +334,7 @@ export default function DeveloperTools() {
                             </button>
                         </div>
                         <div className="mt-4">
-                            <p className="text-sm text-gray-400 mb-2">
+                            <p className="text-sm description text-gray-400 mb-2">
                                 {maintenanceMode 
                                     ? 'Visitors will see a maintenance message.'
                                     : 'Site is currently live and accessible to visitors.'}

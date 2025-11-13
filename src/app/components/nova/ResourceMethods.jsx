@@ -30,7 +30,7 @@ const ResourceMethods = () => {
         perPageViaRelationship: 10,
         
         // Relationships
-        withRelations: ['author', 'category'],
+        withRelations: '',
         preventGates: false,
         
         // Authorization
@@ -42,8 +42,17 @@ const ResourceMethods = () => {
         restorePolicy: 'restore',
         forceDeletePolicy: 'forceDelete',
         
+        // Relationship Authorizations
+        canAddModel: true,
+        canAttachModel: true,
+        canAttachAnyModel: true,
+        canDetachModel: true,
+        canRunAction: true,
+        canRunDestructiveAction: false,
+        
         // Customization
         uriKey: 'custom-resource',
+        displayInNavigation: true,
         globallySearchable: true,
     });
 
@@ -126,6 +135,38 @@ const ResourceMethods = () => {
             ]
         },
         {
+            id: 'relationship-auth',
+            name: 'Relationship Auth',
+            description: 'Configure relationship authorizations',
+            fields: [
+                { 
+                    name: 'canAddModel', 
+                    label: 'Allow adding related models (add{Model})', 
+                    type: 'checkbox',
+                    help: 'Controls if users can add models to relationships'
+                },
+                { 
+                    name: 'canAttachModel', 
+                    label: 'Allow attaching models (attach{Model})', 
+                    type: 'checkbox',
+                    help: 'Controls if users can attach models to relationships'
+                },
+                { 
+                    name: 'canAttachAnyModel', 
+                    label: 'Allow attaching any model (attachAny{Model})', 
+                    type: 'checkbox',
+                    help: 'Controls if users can attach any model to relationships'
+                },
+                { 
+                    name: 'canDetachModel', 
+                    label: 'Allow detaching models (detach{Model})', 
+                    type: 'checkbox',
+                    help: 'Controls if users can detach models from relationships'
+                },
+    
+            ]
+        },
+        {
             id: 'advanced',
             name: 'Advanced',
             description: 'Advanced configuration options',
@@ -142,93 +183,44 @@ const ResourceMethods = () => {
 
         switch (activeTab) {
             case 'display':
-                return `/**
- * Get the displayable label of the resource.
- *
- * @return string
- */
+                return `
 public static function label()
 {
     return '${formData.label}';
 }
 
-/**
- * Get the displayable singular label of the resource.
- *
- * @return string
- */
 public static function singularLabel()
 {
     return '${formData.singularLabel}';
 }
 
-/**
- * The logical group associated with the resource.
- *
- * @var string
- */
 public static \$group = '${formData.group}';
 
-/**
- * The priority of the resource in the sidebar.
- *
- * @var int
- */
 public static \$priority = ${formData.priority};
 
-/**
- * The icon associated with the resource.
- *
- * @var string
- */
 public static \$icon = '${formData.icon}';`;
 
             case 'buttons':
-                return `/**
- * Get the text for the create resource button.
- *
- * @return string
- */
+                return `
 public static function createButtonLabel()
 {
     return '${formData.createButtonLabel}';
 }
-
-/**
- * Get the text for the update resource button.
- *
- * @return string
- */
 public static function updateButtonLabel()
 {
     return '${formData.updateButtonLabel}';
 }
 
-/**
- * Get the text for the delete resource button.
- *
- * @return string
- */
 public static function deleteButtonLabel()
 {
     return '${formData.deleteButtonLabel}';
 }
 
-/**
- * Get the text for the force delete resource button.
- *
- * @return string
- */
 public static function forceDeleteButtonLabel()
 {
     return '${formData.forceDeleteButtonLabel}';
 }
 
-/**
- * Get the text for the restore resource button.
- *
- * @return string
- */
 public static function restoreButtonLabel()
 {
     return '${formData.restoreButtonLabel}';
@@ -236,146 +228,91 @@ public static function restoreButtonLabel()
 
             case 'title':
                 return `
-/**
- * The column that should be used for sorting.
- *
- * @var string
- */
 public static \$defaultSort = '${formData.defaultSort}';
-
-/**
- * The direction that should be used for sorting.
- *
- * @var string
- */
 public static \$sort = ['${formData.defaultSort}' => '${formData.sortDirection}'];`;
             case 'pagination':
-                return `/**
- * The number of resources to show per page via relationships.
- *
- * @var int
- */
+                return `
 public static \$perPageViaRelationship = ${formData.perPageViaRelationship};
 
-/**
- * The pagination per-page options.
- *
- * @return array
- */
 public static function perPageOptions()
 {
     return [${formData.perPageOptions}];
 }`;
 
             case 'relationships':
-                return `/**
- * The relationships that should be eager loaded.
- *
- * @var array
- */
+                return `
 public static \$with = [${formData.withRelations}];
-
-/**
- * Indicates if the resource should prevent the user from using policy gates.
- *
- * @var bool
- */
 public static \$preventGates = ${formData.preventGates ? 'true' : 'false'};`;
 
-            case 'authorization':
-                return `/**
- * Determine if the resource should be available for the given request.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
+        case 'authorization':
+            return `
 public static function authorizable()
 {
     return ${formData.authorizable ? 'true' : 'false'};
 }
 
-/**
- * Determine if the current user can view the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
 public function authorizedToView(\$request)
 {
-    return \$request->user()->can('${formData.viewPolicy}', \$this);
+    return \$request->user()->can('${formData.viewPolicy || 'view'}', \$this);
 }
 
-/**
- * Determine if the current user can create new resources.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
 public static function authorizedToCreate(\$request)
 {
-    return \$request->user()->can('${formData.createPolicy}', static::class);
+    return \$request->user()->can('${formData.createPolicy || 'create'}', static::class);
 }
 
-/**
- * Determine if the current user can update the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
 public function authorizedToUpdate(\$request)
 {
-    return \$request->user()->can('${formData.updatePolicy}', \$this);
+    return \$request->user()->can('${formData.updatePolicy || 'update'}', \$this);
 }
 
-/**
- * Determine if the current user can delete the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
 public function authorizedToDelete(\$request)
 {
-    return \$request->user()->can('${formData.deletePolicy}', \$this);
+    return \$request->user()->can('${formData.deletePolicy || 'delete'}', \$this);
 }
 
-/**
- * Determine if the current user can restore the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
 public function authorizedToRestore(\$request)
 {
-    return \$request->user()->can('${formData.restorePolicy}', \$this);
+    return \$request->user()->can('${formData.restorePolicy || 'restore'}', \$this);
 }
-
-/**
- * Determine if the current user can force delete the given resource.
- *
- * @param  \Laravel\Nova\Http\Requests\NovaRequest  \$request
- * @return bool
- */
+    
 public function authorizedToForceDelete(\$request)
 {
-    return \$request->user()->can('${formData.forceDeletePolicy}', \$this);
+    return \$request->user()->can('${formData.forceDeletePolicy || 'forceDelete'}', \$this);
+}
+ `;
+
+            case 'relationship-auth':
+                return `
+
+public function authorizedToAdd(\$request, \$model)
+{
+    return ${formData.canAddModel !== undefined ? formData.canAddModel : 'true'};
+}
+
+public function authorizedToAttach(\$request, \$model)
+{
+    return ${formData.canAttachModel !== undefined ? formData.canAttachModel : 'true'};
+}
+    
+public function authorizedToAttachAny(\$request)
+{
+    return ${formData.canAttachAnyModel !== undefined ? formData.canAttachAnyModel : 'true'};
+}
+    
+public function authorizedToDetach(\$request)
+{
+    return ${formData.canDetachModel !== undefined ? formData.canDetachModel : 'true'};
 }`;
 
+
+
             case 'advanced':
-                return `/**
- * Get the URI key for the resource.
- *
- * @return string
- */
+                return `
 public static function uriKey()
 {
     return '${formData.uriKey}';
 }
-
-/**
- * Indicates if the resource should be globally searchable.
- *
- * @var bool
- */
 public static \$globallySearchable = ${formData.globallySearchable ? 'true' : 'false'};`;
 
             default:
@@ -482,7 +419,7 @@ public static \$globallySearchable = ${formData.globallySearchable ? 'true' : 'f
                             )}
                             {renderField(field)}
                             {field.help && (
-                                <p className="text-xs text-gray-400">{field.help}</p>
+                                <p className="text-xs description">{field.help}</p>
                             )}
                         </div>
                     ))}
