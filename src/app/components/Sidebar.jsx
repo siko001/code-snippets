@@ -89,8 +89,8 @@ export default function Sidebar() {
         // Create observer with more sensitive options
         observerRef.current = new IntersectionObserver(handleIntersection, {
             root: null,
-            rootMargin: '-20% 0px -70% 0px', // Adjust these values to control when the callback is triggered
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 0.7]
         });
 
         // Observe all sections with IDs
@@ -131,23 +131,8 @@ export default function Sidebar() {
     }, [pathname]);
     
     useEffect(() => {
-        // Set active section based on current path and expand it
-        let section = 'server'; // default
-        
-        if (pathname.includes('wordpress')) {
-            section = 'wordpress';
-        } else if (pathname.includes('git')) {
-            section = 'git';
-        } else if (pathname.includes('composer')) {
-            section = 'composer';
-        } else if (pathname.includes('sql')) {
-            section = 'sql';
-        } else if (pathname.includes('shell')) {
-            section = 'shell';
-        } else if (pathname.includes('lando')) {
-            section = 'lando';
-        }
-        
+        const sections = [ 'server', 'wordpress', 'git', 'composer', 'sql', 'shell', 'lando', 'nova'];
+        const section = sections.find(section => pathname.includes(section)) || null;
         setActiveSection(section);
         
         // Expand only the active section
@@ -250,9 +235,12 @@ export default function Sidebar() {
             nova: {
             title: 'Laravel Nova',
             items: [
-                { name: 'Resource Title', href: '/nova/#nova-resource-title' },
-                { name: 'Search', href: '/nova/#nova-search' },
-                { name: 'Index Query', href: '/nova/#nova-index-query' },
+                { name: 'Resource Title', href: '/nova/#resource-title-method' },
+                { name: 'Search', href: '/nova/#resource-searchable-columns' },
+                { name: 'Index Query', href: '/nova/#resource-index-query' },
+                { name: 'Resource Methods', href: '/nova/#resource-methods' },
+                { name: 'Inertia Methods', href: '/nova/#resource-inertia-methods' },
+                
             ]
         }
     };

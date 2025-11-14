@@ -23,17 +23,17 @@ export default function NovaPage() {
                 <div className="max-w-5xl mx-auto space-y-12">
                 
                     <h3 className="text-xl font-semibold text-white border-b border-gray-700">Resource Management</h3>
-                    <section id="title-method" className="component-wrapper rounded-lg p-6 shadow-lg">
+                    <section id="resource-title-method" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <TitleMethod />
                     </section>
                     
-                    <section id="searchable-columns" className="component-wrapper rounded-lg p-6 shadow-lg">
+                    <section id="resource-searchable-columns" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <SearchableColumns />
                     </section>
-                        <section id="index-relations" className="component-wrapper rounded-lg p-6 shadow-lg">
+                        {/* <section id="resource-index-query" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <IndexRelations />
-                    </section>
-                    <section id="hide-from-index" className="component-wrapper rounded-lg p-6 shadow-lg">
+                    </section> */}
+                    <section id="resource-index-query" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <HideFromIndex />
                     </section>
 
@@ -41,7 +41,7 @@ export default function NovaPage() {
                         <ResourceMethods />
                     </section>
                     
-                    <section id="inertia-shortcuts" className="component-wrapper rounded-lg p-6 shadow-lg">
+                    <section id="resource-inertia-methods" className="component-wrapper rounded-lg p-6 shadow-lg">
                         <InertiaShortcuts />
                     </section>
 
