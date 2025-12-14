@@ -131,7 +131,7 @@ export default function Sidebar() {
     }, [pathname]);
     
     useEffect(() => {
-        const sections = [ 'server', 'wordpress', 'git', 'composer', 'sql', 'shell', 'lando', 'nova'];
+        const sections = [ 'server', 'wordpress', 'git', 'composer', 'sql', 'shell', 'lando', 'nova', 'cloud'];
         const section = sections.find(section => pathname.includes(section)) || null;
         setActiveSection(section);
         
@@ -207,6 +207,7 @@ export default function Sidebar() {
             items: [
                 { name: 'Network', href: '/shell/#shell-network' },
                 { name: 'Shell Config', href: '/shell/#shell-config' },
+                { name: 'Tunneling', href: '/shell/#shell-tunneling' },
             ]
         },
         
@@ -241,6 +242,14 @@ export default function Sidebar() {
                 { name: 'Resource Methods', href: '/nova/#resource-methods' },
                 { name: 'Inertia Methods', href: '/nova/#resource-inertia-methods' },
                 
+            ]
+        },
+        
+        cloud: {
+            title: 'Cloud Services',
+            items: [
+                { name: 'Azure', href: '/cloud/#cloud-azure' },
+                { name: 'AWS', href: '/cloud/#cloud-aws' },
             ]
         }
     };
