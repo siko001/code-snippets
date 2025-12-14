@@ -1,5 +1,6 @@
 import NetworkCommands from '@/app/components/shell/NetworkCommands';
 import ShellConfigCommands from '@/app/components/shell/ShellConfigCommands';
+import TunnelingCommands from '@/app/components/shell/TunnelingCommands';
 
 // This page is statically generated at build time and revalidated every hour
 export const revalidate = 3600; // Revalidate at most every hour
@@ -27,6 +28,13 @@ export default function ShellPage() {
                     </h3>
                     <div className="component-wrapper p-6 rounded-lg shadow-lg">
                         <ShellConfigCommands />
+                    </div>
+
+                    <h3 id="shell-tunneling" className="text-xl font-semibold text-white border-b border-gray-700 pb-2 mb-4">
+                        Tunneling
+                    </h3>
+                    <div className="component-wrapper p-6 rounded-lg shadow-lg">
+                        <TunnelingCommands />
                     </div>
                 </div>
             </div>
