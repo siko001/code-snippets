@@ -55,6 +55,7 @@ export default function ServerSnippets() {
                     </div>
                 </div>
             </div>
+    
         </div>
     );
 }

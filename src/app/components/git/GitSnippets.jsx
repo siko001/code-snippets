@@ -8,6 +8,7 @@ import RemoteOperations from './RemoteOperations';
 import StashOperations from './StashOperations';
 import UndoOperations from './UndoOperations';
 import ViewHistoryOperations from './ViewHistoryOperations';
+import SSHAgentOperations from './SSHAgentOperations';
 
 export default function GitSnippets() {
     const [repoValues, setRepoValues] = useState({
@@ -365,6 +366,43 @@ export default function GitSnippets() {
                     >
                         {({ handleInputChange, inputValues, setInputValues }) => (
                             <UndoOperations 
+                                handleInputChange={handleInputChange}
+                                inputValues={inputValues}
+                                setInputValues={setInputValues}
+                            />
+                        )}
+                    </GitCommand>
+                </div>
+                
+                <div className="space-y-8">
+                    <h3 id="git-ssh" className="text-xl font-semibold text-white border-b border-gray-700 pb-2">SSH Agent</h3>
+                    
+                    <GitCommand 
+                        title="SSH Agent Management" 
+                        id="git-ssh"
+                        initialCommand={(values = {}) => {
+                            const { 
+                                sshDirectory = '~/.ssh',
+                                sshKeyName = ''
+                            } = values;
+
+                            if (!sshKeyName) {
+                                return 'eval `ssh-agent`\nssh-add {ssh-key-path}';
+                            }
+
+                            const sshPath = sshDirectory && sshDirectory !== '~/.ssh' 
+                                ? `${sshDirectory}/${sshKeyName}`
+                                : `~/.ssh/${sshKeyName}`;
+
+                            return `eval \`ssh-agent\`\nssh-add ${sshPath}`;
+                        }}
+                        initialValues={{
+                            sshDirectory: '~/.ssh',
+                            sshKeyName: ''
+                        }}
+                    >
+                        {({ handleInputChange, inputValues, setInputValues }) => (
+                            <SSHAgentOperations 
                                 handleInputChange={handleInputChange}
                                 inputValues={inputValues}
                                 setInputValues={setInputValues}

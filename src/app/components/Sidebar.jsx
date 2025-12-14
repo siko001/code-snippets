@@ -180,6 +180,7 @@ export default function Sidebar() {
                 { name: 'Push, Pull & Fetch', href: '/git/#git-remote' },
                 { name: 'Stashing', href: '/git/#git-stash' },
                 { name: 'Undo Changes', href: '/git/#git-undo' },
+                { name: 'SSH Agent', href: '/git/#git-ssh' },
                 { name: 'View History', href: '/git/#git-history' },
             ]
         },

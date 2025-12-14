@@ -16,11 +16,16 @@ export default function AzureCommands() {
     const [environment, setEnvironment] = useState('staging');
     const [siteName, setSiteName] = useState('{site-name}');
     const [hostsFilePath, setHostsFilePath] = useState('{hosts-file-path}');
+    
+    // SSH Agent state
+    const [sshDirectory, setSshDirectory] = useState('/home/site/.ssh');
+    const [sshKeyName, setSshKeyName] = useState('{ssh-key-name}');
 
     const tabs = [
         { id: 'login', label: 'Login & Setup' },
         { id: 'tunnel', label: 'Create Tunnel' },
-        { id: 'deploy', label: 'Deployment' }
+        { id: 'deploy', label: 'Deployment' },
+        { id: 'ssh', label: 'SSH Agent' }
     ];
 
     const deploySteps = [
@@ -124,6 +129,54 @@ export default function AzureCommands() {
         deploy: {
             title: 'Deployment Process',
             description: 'Complete deployment workflow for Azure Web Apps'
+        },
+        ssh: {
+            title: 'SSH Agent Management',
+            description: 'Manage SSH agent and keys for Git operations on Azure App Services',
+            command: `eval \`ssh-agent\`\nssh-add ${sshDirectory}/${sshKeyName}`,
+            additionalInfo: (
+                <div className="mt-4 p-3 rounded-lg bg-gray-800 border border-gray-700">
+                    <div className="text-sm font-medium description !text-blue-400 mb-2">When to use:</div>
+                    <div className="text-sm text-gray-300 font-quicksand space-y-2">
+                        <div>• Use these commands when you need to perform Git operations (pull, push, clone) on Azure App Services</div>
+                        <div>• Required when connecting to private Git repositories (GitHub, Bitbucket, GitLab, etc.)</div>
+                        <div>• The SSH agent must be running before executing Git commands that require authentication</div>
+                        <div>• These commands authenticate your SSH key with the Git provider for the current session</div>
+                        <div>• The SSH key must already be configured in your Azure App Service (typically in <code className="text-green-400">/home/site/.ssh/</code>)</div>
+                    </div>
+                    <div className="text-sm font-medium description !text-blue-400 mb-2 mt-4">Notes:</div>
+                    <div className="text-sm text-gray-300 font-quicksand space-y-2">
+                        <div>• <code className="text-green-400">eval \`ssh-agent\`</code> starts the SSH agent and sets environment variables</div>
+                        <div>• <code className="text-green-400">ssh-add</code> adds your private key to the SSH agent</div>
+                        <div>• You need to run these commands in each new SSH session to Azure App Service</div>
+                        <div>• Make sure your SSH public key is added to your Git provider (GitHub/Bitbucket) settings</div>
+                    </div>
+                </div>
+            ),
+            input: (
+                <div className="space-y-3 mt-2">
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">SSH Directory</label>
+                        <input
+                            type="text"
+                            value={sshDirectory}
+                            onChange={(e) => setSshDirectory(e.target.value)}
+                            className="w-full p-2 rounded-md bg-gray-700 text-white"
+                            placeholder="/home/site/.ssh"
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-gray-300 mb-1">SSH Key Name</label>
+                        <input
+                            type="text"
+                            value={sshKeyName}
+                            onChange={(e) => setSshKeyName(e.target.value)}
+                            className="w-full p-2 rounded-md bg-gray-700 text-white"
+                            placeholder="e.g., app-service-key"
+                        />
+                    </div>
+                </div>
+            )
         }
     };
 
