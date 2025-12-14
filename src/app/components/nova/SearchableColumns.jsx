@@ -38,9 +38,11 @@ export default function SearchableColumns() {
     
     const generateCode = () => {
         const fields = searchableFields.map(field => `'${field}'`);
-        const relationItems = relations
-            .filter(r => r.resource && r.field)
-            .map(r => `new SearchableRelation('${r.resource}', '${r.field}')`);
+        const validRelations = relations.filter(r => r.resource && r.field);
+        const relationItems = validRelations.map(r => `new SearchableRelation('${r.resource}', '${r.field}')`);
+        
+        // Get unique relation names for $with property
+        const relationNames = [...new Set(validRelations.map(r => r.resource))];
             
         const allItems = [...fields, ...relationItems];
         let code = '';
@@ -56,7 +58,22 @@ public static $globallySearchable = false;`;
         
         if (allItems.length > 0) {
             code += `use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Query\Search\SearchableRelation;
+use Laravel\Nova\Query\Search\SearchableRelation`;
+
+            // Add $with property if there are relations
+            if (relationNames.length > 0) {
+                code += `\n
+/**
+ * The relationships that should be eager loaded on index queries.
+ *
+ * @var array
+ */
+public static $with = [
+    ${relationNames.map(r => `'${r}'`).join(',\n    ')}
+];`;
+            }
+
+            code += `
 
 /**
  * Get the searchable columns for the resource.
