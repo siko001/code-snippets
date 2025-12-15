@@ -28,6 +28,7 @@ const ResourceMethods = () => {
         // Pagination
         perPageOptions: [10, 25, 50, 100],
         perPageViaRelationship: 10,
+        perPageViaRelationshipOptions: [25, 50, 100],
         
         // Relationships
         withRelations: '',
@@ -108,6 +109,7 @@ const ResourceMethods = () => {
             description: 'Configure pagination options',
             fields: [
                 { name: 'perPageOptions', label: 'Items Per Page Options', placeholder: 'e.g., 10,25,50,100' },
+                { name: 'perPageViaRelationshipOptions', label: 'Per Page Via Relationship Options', placeholder: 'e.g., 25,50,100' },
                 { name: 'perPageViaRelationship', label: 'Items Per Page (Relationships)', type: 'number', placeholder: '10' },
             ]
         },
@@ -232,7 +234,9 @@ public static \$defaultSort = '${formData.defaultSort}';
 public static \$sort = ['${formData.defaultSort}' => '${formData.sortDirection}'];`;
             case 'pagination':
                 return `
-public static \$perPageViaRelationship = ${formData.perPageViaRelationship};
+public static \$perPageViaRelationship = ${formData.perPageViaRelationship || 10};
+
+public static \$perPageViaRelationshipOptions = [${formData.perPageViaRelationshipOptions}];
 
 public static function perPageOptions()
 {
@@ -359,8 +363,11 @@ public static \$globallySearchable = ${formData.globallySearchable ? 'true' : 'f
                     <input
                         type="number"
                         id={field.name}
-                        value={formData[field.name]}
-                        onChange={(e) => updateField(field.name, parseInt(e.target.value))}
+                        value={formData[field.name] ?? ''}
+                        onChange={(e) => {
+                            const val = e.target.value;
+                            updateField(field.name, val === '' ? '' : Number(val));
+                        }}
                         className="w-full p-2 rounded-md bg-gray-700 text-white"
                         placeholder={field.placeholder}
                     />
