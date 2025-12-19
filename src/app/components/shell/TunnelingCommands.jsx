@@ -11,6 +11,10 @@ export default function TunnelingCommands() {
     const [tunnelName, setTunnelName] = useState('example-laravel');
     const [credentialsFile, setCredentialsFile] = useState('/Users/neilmallia/.cloudflared/0dbf19d1-e12b-41f3-b1bb-303c95630c9a.json');
     const [tunnelUuid, setTunnelUuid] = useState('0dbf19d1-e12b-41f3-b1bb-303c95630c9a');
+    // Tunnel run state
+    const [useConfigFile, setUseConfigFile] = useState(false);
+    const [tunnelToRun, setTunnelToRun] = useState('');
+    const [configFilePath, setConfigFilePath] = useState('~/.cloudflared/config.yml');
     const [hostname1, setHostname1] = useState('admin.example.com');
     const [port1, setPort1] = useState('8000');
     const [hostname2, setHostname2] = useState('api.example.com');
@@ -36,7 +40,8 @@ export default function TunnelingCommands() {
         { id: 'login', label: 'Login' },
         { id: 'single', label: 'Single Tunnel' },
         { id: 'multiple', label: 'Multiple Hostnames' },
-        { id: 'multitunnel', label: 'Multiple Tunnels' }
+        { id: 'multitunnel', label: 'Multiple Tunnels' },
+        { id: 'runtunnel', label: 'Run Tunnel' }
     ];
 
     const [activeCloudflaredTab, setActiveCloudflaredTab] = useState('login');
@@ -74,6 +79,12 @@ ingress:`;
             title: 'Cloudflared Login',
             description: 'Authenticate with Cloudflare to create and manage tunnels',
             command: 'cloudflared login',
+            input: null
+        },
+        runtunnel: {
+            title: 'Run Cloudflare Tunnel',
+            description: 'Start a Cloudflare tunnel using a tunnel name/UUID or config file',
+            command: 'cloudflared tunnel run <TUNNEL_NAME_OR_UUID>',
             input: null
         },
         single: {
@@ -407,9 +418,11 @@ ingress:
                         <h4 className="text-lg font-quicksand font-medium mb-2">{activeCloudflaredCommand.title}</h4>
                         <div className="text-sm description mb-3">{activeCloudflaredCommand.description}</div>
                         {activeCloudflaredCommand.input}
-                        <div className="mt-4">
-                            <CodeSnippet code={activeCloudflaredCommand.command} language="bash" />
-                        </div>
+                        {activeCloudflaredTab !== 'runtunnel' && (
+                            <div className="mt-4">
+                                <CodeSnippet code={activeCloudflaredCommand.command} language="bash" />
+                            </div>
+                        )}
                         {activeCloudflaredCommand.config && (
                             <div className="mt-4">
                                 <div className="text-sm font-medium font-quicksand text-gray-300 mb-2">Config File (~/.cloudflared/config.yml):</div>
@@ -429,6 +442,62 @@ ingress:
                                 <div className="mt-4">
                                     <div className="text-sm font-medium description text-gray-300 mb-2">Run Commands:</div>
                                     <CodeSnippet code={`cloudflared tunnel --config ${configFile1} run\ncloudflared tunnel --config ${configFile2} run`} language="bash" />
+                                </div>
+                            </div>
+                        )}
+                        {activeCloudflaredTab === 'runtunnel' && (
+                            <div className="space-y-4 mt-4">
+                                <div className="flex items-center space-x-2">
+                                    <input
+                                        type="checkbox"
+                                        id="useConfigFile"
+                                        checked={useConfigFile}
+                                        onChange={(e) => setUseConfigFile(e.target.checked)}
+                                        className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+                                    />
+                                    <label htmlFor="useConfigFile" className="text-sm font-medium text-gray-300">
+                                        Use config file
+                                    </label>
+                                </div>
+                                
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-300 mb-1">Tunnel Name or UUID</label>
+                                    <input
+                                        type="text"
+                                        value={tunnelToRun}
+                                        onChange={(e) => setTunnelToRun(e.target.value)}
+                                        className="w-full p-2 rounded-md bg-gray-700 text-white"
+                                        placeholder="tunnel-name or xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                                    />
+                                </div>
+                                
+                                {useConfigFile && (
+                                    <div className="mt-3">
+                                        <label className="block text-sm font-medium text-gray-300 mb-1">Config File Path</label>
+                                        <input
+                                            type="text"
+                                            value={configFilePath}
+                                            onChange={(e) => setConfigFilePath(e.target.value)}
+                                            className="w-full p-2 rounded-md bg-gray-700 text-white"
+                                            placeholder="~/.cloudflared/config.yml"
+                                        />
+                                    </div>
+                                )}
+                                
+                                <div className="mt-4">
+                                    <div className="text-sm font-medium description text-gray-300 mb-2">Run Command:</div>
+                                    <CodeSnippet 
+                                        code={useConfigFile 
+                                            ? `cloudflared tunnel --config ${configFilePath} run ${tunnelToRun || '<TUNNEL_NAME_OR_UUID>'} `
+                                            : `cloudflared tunnel run ${tunnelToRun || '<TUNNEL_NAME_OR_UILD>'}`}
+                                        language="bash" 
+                                    />
+                                    <div className="mt-2 text-xs text-gray-400">
+                                        {useConfigFile 
+                                            ? 'This will run the tunnel using the specified config file and tunnel name/UUID.'
+                                            : 'This will run the tunnel using the default config location (~/.cloudflared/config.yml) and the specified tunnel name/UUID.'
+                                        }
+                                    </div>
                                 </div>
                             </div>
                         )}
