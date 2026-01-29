@@ -553,6 +553,7 @@ ingress:
                         <div className="text-sm font-medium description !text-blue-400 mb-2">Useful ngrok Commands:</div>
                         <div className="space-y-2 text-sm text-gray-300">
                             <div><code className="text-green-400">ngrok http 3000</code> - <span className="description">Basic HTTP tunnel</span></div>
+                            <div><code className="text-green-400">ngrok http "URL" --host-header=rewrite</code> - <span className="description">Rewrite Host header - Herd/Nginx fix</span></div>
                             <div><code className="text-green-400">ngrok http 3000 --hostname=your-domain.com</code> - <span className="description">Custom domain</span></div>
                             <div><code className="text-green-400">ngrok http 3000 --region=eu</code> - <span className="description">Specify region</span></div>
                             <div><code className="text-green-400">ngrok http 3000 --basic-auth="user:pass"</code> - <span className="description">Add basic auth</span></div>
