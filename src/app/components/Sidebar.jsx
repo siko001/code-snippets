@@ -252,6 +252,13 @@ export default function Sidebar() {
                 { name: 'Azure', href: '/cloud/#cloud-azure' },
                 { name: 'AWS', href: '/cloud/#cloud-aws' },
             ]
+        },
+        
+        herd: {
+            title: 'Herd',
+            items: [
+                { name: 'Stop Services', href: '/herd/#stop-services' },
+            ]
         }
     };
         const handleMenuClick = (e, href) => {
