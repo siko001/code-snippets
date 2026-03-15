@@ -6,6 +6,7 @@ import CodeSnippet from '../CodeSnippet';
 const TABS = {
     REMOVE_KEY: 'remove_key',
     GENERATE_KEY: 'generate_key',
+    REGENERATE_KEY: 'regenerate_key',
     INSTALL_SSH: 'install_ssh'
 };
 
@@ -16,7 +17,9 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
         keyType: 'rsa',
         keyBits: '4096',
         keyFile: '/home/site/.ssh/id_rsa',
-        keyComment: ''
+        keyComment: '',
+        regenerateHost: '',
+        regeneratePort: ''
     });
 
     const handleKeyOptionChange = (option, value) => {
@@ -28,6 +31,10 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
 
     const generateKeyCommand = `ssh-keygen -t ${keyOptions.keyType} -b ${keyOptions.bits} -f ${keyOptions.keyFile}${keyOptions.keyComment ? ` -C "${keyOptions.keyComment}"` : ''}`;
 
+    const regenerateKeyCommand = keyOptions.regenerateHost 
+        ? `ssh-keygen -R "[${keyOptions.regenerateHost}${keyOptions.regeneratePort ? ':' + keyOptions.regeneratePort : ''}]"`
+        : '# Please specify a host to regenerate key';
+
     const commands = {
         [TABS.REMOVE_KEY]: {
             title: 'Remove Host Key',
@@ -38,6 +45,11 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
             title: 'Generate SSH Key',
             command: generateKeyCommand,
             description: 'Generates a new SSH key pair (public/private) with the specified options.'
+        },
+        [TABS.REGENERATE_KEY]: {
+            title: 'Regenerate Host Key',
+            command: regenerateKeyCommand,
+            description: 'Removes and regenerates SSH key for a specific host:port combination. Useful when host keys change.'
         },
         [TABS.INSTALL_SSH]: {
             title: 'Install OpenSSH',
@@ -124,6 +136,33 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                     </div>
                 )}
 
+                {activeTab === TABS.REGENERATE_KEY && (
+                    <div className="space-y-4">
+                        <div className="flex flex-wrap gap-4">
+                            <div className="flex-1 min-w-[200px]">
+                                <label className="block text-gray-300 mb-2">Host IP/Domain:</label>
+                                <input
+                                    type="text"
+                                    value={keyOptions.regenerateHost}
+                                    onChange={(e) => handleKeyOptionChange('regenerateHost', e.target.value)}
+                                    className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                                    placeholder="e.g., 123.45.67.89 or example.com"
+                                />
+                            </div>
+                            <div className="flex-1 min-w-[200px]">
+                                <label className="block text-gray-300 mb-2">Port (optional):</label>
+                                <input
+                                    type="text"
+                                    value={keyOptions.regeneratePort}
+                                    onChange={(e) => handleKeyOptionChange('regeneratePort', e.target.value)}
+                                    className="w-full p-2 rounded bg-gray-700 text-white border border-gray-600"
+                                    placeholder="e.g., 12345"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 {activeTab === TABS.REMOVE_KEY && (
                     <div className="space-y-4">
                         <div className="flex flex-wrap gap-4">
@@ -160,7 +199,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                     <CodeSnippet 
                         code={commands[activeTab].command} 
                         className="mb-2"
-                        copyButton={true}
+                        copyButton={activeTab === TABS.REGENERATE_KEY ? !!keyOptions.regenerateHost : true}
                     />
                     <p className="text-xs description mt-1">
                         {commands[activeTab].description}
@@ -186,6 +225,7 @@ const SSHKeyManagement = ({ handleInputChange, inputValues = {} }) => {
                 <ul className="list-disc pl-5 space-y-1 text-xs dark:text-gray-300 text-gray-700">
                     <li><span className="font-medium">Remove Host Key:</span> When getting "Host key verification failed" errors</li>
                     <li><span className="font-medium">Generate SSH Key:</span> When setting up a new server or need new SSH keys</li>
+                    <li><span className="font-medium">Regenerate Host Key:</span> When server host keys change and you need to remove old host:port entries</li>
                     <li><span className="font-medium">Install OpenSSH:</span> If you get "ssh: command not found" errors</li>
                 </ul>
             </div>

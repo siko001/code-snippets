@@ -5,7 +5,7 @@ import CodeSnippet from '../CodeSnippet';
 
 export default function PluginManager() {
     const [formData, setFormData] = useState({
-        view: 'list', // 'list', 'single', 'bulk'
+        view: 'list', // 'list', 'single', 'bulk', 'hide-updates'
         pluginAction: 'update', // 'update', 'activate', 'deactivate', 'toggle', 'delete'
         pluginName: '',
         bulkAction: 'none', // 'all-active', 'all-inactive', 'all-update', 'all-delete'
@@ -13,6 +13,10 @@ export default function PluginManager() {
         skipPlugins: [],
         skipPluginsInput: '',
         force: false,
+        hideUpdatesPath: '', // Path for hiding update notifications
+        hideUpdatesPaths: [], // Multiple paths for hiding update notifications
+        hideUpdatesInput: '', // Input for adding multiple paths
+        showDebugCode: false, // Toggle for debug code
     });
 
     const resetForm = () => {
@@ -25,53 +29,126 @@ export default function PluginManager() {
             skipPlugins: [],
             skipPluginsInput: '',
             force: false,
+            hideUpdatesPath: '',
+            hideUpdatesPaths: [],
+            hideUpdatesInput: '',
+            showDebugCode: false,
         });
     };
 
     const commonPlugins = [
-        'akismet/akismet',
-        'wordpress-seo/wp-seo',
-        'contact-form-7/wp-contact-form-7',
-        'woocommerce/woocommerce',
-        'elementor/elementor',
-        'jetpack/jetpack',
-        'wpforms-lite/wpforms',
-        'wordfence/wordfence',
-        'wp-rocket/wp-rocket',
-        'advanced-custom-fields-pro/acf',
-        'metabox-io/meta-box',
-        'gravityforms/gravityforms',
-        'js_composer/js_composer',
-        'js_composer_theme/js_composer',
-        'wp-bakery-page-builder/js_composer',
-        'better-wp-security/better-wp-security',
-        'ithemes-security-pro/ithemes-security-pro',
-        'classic-editor/classic-editor',
-        'wp-mail-smtp/wp_mail_smtp',
-        'litespeed-cache/litespeed-cache',
-        'autoptimize/autoptimize',
-        'redirection/redirection',
-        'duplicate-post/duplicate-post',
-        'wp-super-cache/wp-cache',
-        'wp-super-minify/wp-super-minify',
-        'wp-optimize/wp-optimize',
-        'wpforms-lite/wpforms',
-        'wpforms-pro/wpforms',
-        'all-in-one-seo-pack/all_in_one_seo_pack',
-        'seo-by-rank-math/rank-math',
-        'wp-fastest-cache/wpFastestCache',
-        'wp-file-manager/file_folder_manager',
-        'wp-super-cache/wp-cache',
-        'wp-super-minify/wp-super-minify',
-        'wp-optimize/wp-optimize',
-        'wpforms-lite/wpforms',
-        'wpforms-pro/wpforms',
+        'akismet/akismet.php',
+        'wordpress-seo/wp-seo.php',
+        'contact-form-7/wp-contact-form-7.php',
+        'woocommerce/woocommerce.php',
+        'elementor/elementor.php',
+        'jetpack/jetpack.php',
+        'wpforms-lite/wpforms.php',
+        'wordfence/wordfence.php',
+        'wp-rocket/wp-rocket.php',
+        'advanced-custom-fields-pro/acf.php',
+        'metabox-io/meta-box.php',
+        'gravityforms/gravityforms.php',
+        'js_composer/js_composer.php',
+        'js_composer_theme/js_composer.php',
+        'wp-bakery-page-builder/js_composer.php',
+        'better-wp-security/better-wp-security.php',
+        'ithemes-security-pro/ithemes-security-pro.php',
+        'classic-editor/classic-editor.php',
+        'wp-mail-smtp/wp_mail_smtp.php',
+        'litespeed-cache/litespeed-cache.php',
+        'autoptimize/autoptimize.php',
+        'redirection/redirection.php',
+        'duplicate-post/duplicate-post.php',
+        'wp-super-cache/wp-cache.php',
+        'wp-super-minify/wp-super-minify.php',
+        'wp-optimize/wp-optimize.php',
+        'wpforms-lite/wpforms.php',
+        'wpforms-pro/wpforms.php',
+        'all-in-one-seo-pack/all_in_one_seo_pack.php',
+        'seo-by-rank-math/rank-math.php',
+        'wp-fastest-cache/wpFastestCache.php',
+        'wp-file-manager/file_folder_manager.php',
+        'wp-super-cache/wp-cache.php',
+        'wp-super-minify/wp-super-minify.php',
+        'wp-optimize/wp-optimize.php',
+        'wpforms-lite/wpforms.php',
+        'wpforms-pro/wpforms.php',
     ];
 
     // Remove duplicates while preserving order
     const uniquePlugins = [...new Set(commonPlugins)];
 
+    const addHideUpdatesPath = (path) => {
+        if (path && !formData.hideUpdatesPaths.includes(path)) {
+            setFormData(prev => ({
+                ...prev,
+                hideUpdatesPaths: [...prev.hideUpdatesPaths, path],
+                hideUpdatesInput: ''
+            }));
+        }
+    };
+
+    const removeHideUpdatesPath = (path) => {
+        setFormData(prev => ({
+            ...prev,
+            hideUpdatesPaths: prev.hideUpdatesPaths.filter(p => p !== path)
+        }));
+    };
+
+    const generateHideUpdatesCode = () => {
+        // Show debug code if checkbox is checked
+        if (formData.showDebugCode) {
+            return `<?php
+
+/**
+ * Debug: Show all available plugin paths
+ * Use this to find the correct path for your plugins
+ */
+add_action('admin_init', function() {
+    if (!current_user_can('manage_options')) return;
+    
+    $all_plugins = get_plugins();
+    echo '<div style="background: #f1f1f1; padding: 10px; margin: 10px; border: 1px solid #ccc;">';
+    echo '<h3>Available Plugin Paths:</h3>';
+    echo '<pre>';
+    foreach ($all_plugins as $plugin_file => $plugin_data) {
+        echo $plugin_file . ' - ' . $plugin_data['Name'] . '\\n';
+    }
+    echo '</pre>';
+    echo '</div>';
+});`;
+        }
+        
+        const paths = formData.hideUpdatesPaths.length > 0 ? formData.hideUpdatesPaths : 
+                     (formData.hideUpdatesPath.trim() ? [formData.hideUpdatesPath] : []);
+        
+        if (paths.length === 0) {
+            return '// Please add plugins or enable debug mode to generate code';
+        }
+        
+        // Generate individual unset statements for each plugin
+        const unsetStatements = paths.map(path => 
+            `    if ( isset( $updates->response['${path}'] ) ) {\n        unset( $updates->response['${path}'] );\n    }`
+        ).join('\n');
+        
+        return `
+function hide_specific_plugin_updates( $updates ) {
+    if ( isset( $updates->response ) ) {
+${unsetStatements}
+    }
+    return $updates;
+}
+
+add_filter( 'site_transient_update_plugins', 'hide_specific_plugin_updates', 999 );`;
+    };
+
     const generateCommand = () => {
+        // Hide updates view
+        if (formData.view === 'hide-updates') {
+            return generateHideUpdatesCode();
+        }
+        
         let cmd = 'wp plugin';
         
         // Default list view
@@ -189,8 +266,131 @@ export default function PluginManager() {
                     >
                         Bulk Actions
                     </button>
+                    <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, view: 'hide-updates' }))}
+                        className={`px-4 py-2 rounded-md ${
+                            formData.view === 'hide-updates' 
+                                ? 'bg-blue-600 text-white' 
+                                : 'bg-gray-700 cursor-pointer text-gray-300 hover:bg-gray-600'
+                        }`}
+                    >
+                        Hide Updates
+                    </button>
                 </div>
-                {/* Single Plugin Actions */}
+                {/* Hide Updates */}
+                <div className={`space-y-4 ${formData.view !== 'hide-updates' ? 'hidden' : ''}`}>
+                    <h4 className="text-lg font-medium description">Hide Update Notifications</h4>
+                    <p className="text-sm text-gray-400 mb-4">
+                        Generate PHP code to hide update notifications for specific plugins. Add this code to your theme's functions.php or a custom plugin.
+                    </p>
+                    
+                    {/* Debug checkbox */}
+                    <div className="flex items-center space-x-2">
+                        <input
+                            type="checkbox"
+                            name="showDebugCode"
+                            checked={formData.showDebugCode}
+                            onChange={handleChange}
+                            className="rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500"
+                        />
+                        <label className="text-sm description text-gray-300">
+                            Show Debug Code (displays all plugin paths)
+                        </label>
+                    </div>
+                    
+                    <div className="flex flex-col space-y-4">
+                        {/* Single plugin input (for backward compatibility) */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Single Plugin Path
+                            </label>
+                            <input
+                                type="text"
+                                name="hideUpdatesPath"
+                                value={formData.hideUpdatesPath}
+                                onChange={handleChange}
+                                className="w-full p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                placeholder="plugin-folder/plugin-file.php"
+                            />
+                            <p className="text-xs text-gray-400 mt-1">
+                                Use this for a single plugin or add multiple plugins below
+                            </p>
+                        </div>
+                        
+                        {/* Multiple plugins section */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-1">
+                                Multiple Plugin Paths
+                            </label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    name="hideUpdatesInput"
+                                    value={formData.hideUpdatesInput}
+                                    onChange={handleChange}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter' && formData.hideUpdatesInput) {
+                                            e.preventDefault();
+                                            addHideUpdatesPath(formData.hideUpdatesInput);
+                                        }
+                                    }}
+                                    className="flex-1 p-2 border border-gray-600 rounded-md bg-gray-700 text-white"
+                                    placeholder="plugin-folder/plugin-file.php"
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => formData.hideUpdatesInput && addHideUpdatesPath(formData.hideUpdatesInput)}
+                                    className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded-md"
+                                >
+                                    Add
+                                </button>
+                            </div>
+                            
+                            {formData.hideUpdatesPaths.length > 0 && (
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {formData.hideUpdatesPaths.map(path => (
+                                        <span 
+                                            key={path} 
+                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-900 text-blue-100"
+                                        >
+                                            {path}
+                                            <button
+                                                type="button"
+                                                onClick={() => removeHideUpdatesPath(path)}
+                                                className="ml-1.5 inline-flex items-center justify-center h-4 w-4 rounded-full text-blue-400 hover:bg-blue-800 hover:text-blue-200"
+                                            >
+                                                ×
+                                            </button>
+                                        </span>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        
+                        {/* Quick selection buttons */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-300 mb-2">
+                                Quick Add Common Plugins:
+                            </label>
+                            <div className="flex flex-wrap gap-2">
+                                {uniquePlugins.slice(0, 12).map(plugin => {
+                                    return (
+                                        <button
+                                            key={plugin}
+                                            type="button"
+                                            onClick={() => addHideUpdatesPath(plugin)}
+                                            className="px-3 py-1.5 text-xs bg-gray-700 focus:!text-white focus:!bg-blue-600 dark:!text-gray-300 rounded-md whitespace-nowrap transition-colors"
+                                            title={plugin}
+                                        >
+                                            {plugin.split('/')[0].replace(/-/g, ' ').replace(/(?:^|\s)\S/g, a => a.toUpperCase())}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div className={`space-y-4 ${formData.view !== 'single' ? 'hidden' : ''}`}>
                     <h4 className="text-lg font-medium description">Single Plugin</h4>
                     
@@ -413,10 +613,12 @@ export default function PluginManager() {
 
                 {/* Generated Command */}
                 <div className="mt-6">
-                    <h4 className="text-md font-medium description mb-2">WP-CLI Command:</h4>
+                    <h4 className="text-md font-medium description mb-2">
+                        {formData.view === 'hide-updates' ? 'Generated PHP Code:' : 'WP-CLI Command:'}
+                    </h4>
                     <CodeSnippet 
                         code={command} 
-                        language="bash"
+                        language={formData.view === 'hide-updates' ? 'php' : 'bash'}
                         className="mt-2"
                     />
                 </div>
